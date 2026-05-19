@@ -550,3 +550,636 @@ Finalmente, la Figura~\ref{fig:seq_m6_aprobacion} detalla el flujo crítico de s
 
 \paragraph{Análisis del Comportamiento Dinámico (CU-39):}~\\
 Al activarse la opción de autorización en la consola maestra \texttt{UserManagementView}, el Administrador delega el control de seguridad al componente \texttt{AdminServiceImpl} mediante \texttt{approveTeacherRegistration()}. El servicio abre un bloque transaccional y altera el registro en la tabla de solicitudes de Supabase a estado ``APPROVED''. Tras validarse la mutación por el motor relacional, el servicio lanza una segunda instrucción al esquema central de autenticación para dar de alta el perfil docente e inyectar el rol RBAC verificado. Al completarse con éxito, la base de datos consolida los cambios de forma permanente y se refresca la vista de control reflejando el nuevo estatus.
+
+\section{Gestión de Riesgos y Plan de Mitigación}
+\label{sec:gestion_riesgos}
+
+La gestión de riesgos es un proceso sistémico y continuo que permite identificar, analizar y responder a los factores de incertidumbre que podrían comprometer la viabilidad técnica, operativa y financiera del proyecto AUTECH \cite{pressman2020}. El análisis presentado en esta sección sigue el proceso estándar definido por el \textit{Project Management Institute} en el PMBOK (7ma edición), que establece cinco etapas secuenciales: identificación, análisis cualitativo, análisis cuantitativo, planificación de respuestas y monitoreo continuo. Este marco se complementa con el estándar ISO/IEC 25010, que provee los atributos de calidad de software bajo los cuales se evalúa el impacto de cada riesgo en el producto final.
+
+Los riesgos identificados se clasifican según cinco categorías definidas en la Estructura de Desglose de Riesgos (RBS) del proyecto:
+\begin{itemize}
+    \item \textbf{RT (Riesgo Técnico):} Afecta la implementación, rendimiento o arquitectura del sistema.
+    \item \textbf{RS (Riesgo de Seguridad):} Compromete la integridad, confidencialidad o disponibilidad de los datos.
+    \item \textbf{RO (Riesgo Operativo):} Impacta la adopción, operación o integración con los procesos académicos de la ESCOM.
+    \item \textbf{RF (Riesgo Financiero):} Afecta la sostenibilidad económica del proyecto respecto a consumos de infraestructura.
+    \item \textbf{RL (Riesgo Legal/Institucional):} Involucra el cumplimiento normativo y los marcos regulatorios aplicables.
+\end{itemize}
+
+Cada riesgo se clasifica por su origen en Interno (dentro del equipo de desarrollo), Externo (fuera del control del equipo) o Interno/Externo (influenciado por ambos factores). La evaluación cualitativa utiliza una matriz de probabilidad e impacto para priorizar las amenazas mediante la ecuación:
+\begin{equation}
+    \text{Puntuación} = \text{Probabilidad} \times \text{Impacto}
+\end{equation}
+Donde la probabilidad y el impacto se evalúan de forma discreta en una escala del 1 al 5.
+
+\subsection{Identificación y Evaluación Cualitativa de Riesgos}
+\label{subsec:identificacion_riesgos}
+
+A continuación, se presenta en la Tabla~\ref{tab:matriz_riesgos_consolidada} el catálogo completo de los 13 riesgos identificados para el ecosistema AUTECH, ordenados de forma descendente según su puntuación final para establecer la prioridad de atención del equipo de desarrollo.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Matriz de Evaluación y Priorización de Riesgos de AUTECH.}
+    \label{tab:matriz_riesgos_consolidada}
+    \begin{tabular}{l l p{6.2cm} l c c c}
+        \toprule
+        \textbf{ID} & \textbf{Categoría} & \textbf{Riesgo Identificado} & \textbf{Origen} & \textbf{Prob.} & \textbf{Imp.} & \textbf{Punt.} \\
+        \midrule
+        RT-02 & Técnico & Fragmentación de hardware y fallos en Android & Interno & 2 & 4 & 8 \\
+        RT-03 & Técnico & Latencia en sincronización de base de datos & Externo & 2 & 4 & 8 \\
+        RO-03 & Operativo & Escalabilidad insuficiente en PostgreSQL & Externo & 2 & 4 & 8 \\
+        RO-04 & Operativo & Baja o deserción de un integrante del equipo & Interno & 2 & 4 & 8 \\
+        RF-01 & Financiero & Superar capa gratuita de BaaS (Costos Opex) & Externo & 2 & 4 & 8 \\
+        \addlinespace
+        RS-01 & Seguridad & Vulnerabilidad de datos (Incumplimiento LFPDPPP) & Int./Ext. & 2 & 3 & 6 \\
+        RO-01 & Operativo & Resistencia al cambio por el cuerpo docente & Externo & 2 & 3 & 6 \\
+        \addlinespace
+        RS-02 & Seguridad & Fallas de integridad referencial local (Hive) & Int./Ext. & 2 & 2 & 4 \\
+        RS-03 & Seguridad & Escalada de privilegios en Dashboard Desktop & Int./Ext. & 2 & 2 & 4 \\
+        \addlinespace
+        RO-02 & Operativo & Obsolescencia técnica de librerías (Flame/Flutter) & Externo & 1 & 3 & 3 \\
+        RL-01 & Legal & Incumplimiento del Documento Rector ESCOM & Interno & 1 & 3 & 3 \\
+        RL-02 & Legal & Fallos lógicos que afecten la calificación final & Interno & 1 & 3 & 3 \\
+        \addlinespace
+        RT-01 & Técnico & Bucles exponenciales en algoritmos de autómatas & Interno & 1 & 2 & 2 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Mapa de Calor y Criterios de Criticidad}
+\label{subsec:mapa_calor_riesgos}
+
+Para visualizar la distribución espacial de las amenazas y segmentar los esfuerzos de mitigación, se estructuró un Mapa de Calor basado en los cuadrantes de Probabilidad e Impacto. Las zonas de criticidad se definen cromáticamente en la Tabla~\ref{tab:mapa_calor}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Mapa de Calor y Distribución de Riesgos del Proyecto AUTECH.}
+    \label{tab:mapa_calor}
+    \begin{tabular}{l | c c c c c}
+        \toprule
+        \textbf{Probabilidad} & \multicolumn{5}{c}{\textbf{Impacto Potencial}} \\
+         & \textbf{Insignificante (1)} & \textbf{Menor (2)} & \textbf{Moderado (3)} & \textbf{Peligroso (4)} & \textbf{Catastrófico (5)} \\
+        \midrule
+        \textbf{Muy Alta (5)} &  &  &  &  &  \\
+        \textbf{Alta (4)}     &  &  &  &  &  \\
+        \textbf{Media (3)}    &  &  &  &  &  \\
+        \textbf{Media (2)}    &  & RS-02, RS-03 & RS-01 & \cellcolor{yellow!40} \begin{tabular}{@{}l@{}} RT-02, RT-03, \\ RO-03, RO-04, \\ RF-01 \end{tabular} &  \\
+        \textbf{Baja (1)}     &  & RT-01 & \cellcolor{green!20} \begin{tabular}{@{}l@{}} RO-02, RL-01, \\ RL-02 \end{tabular} &  &  \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Los umbrales operativos de respuesta se rigen bajo los siguientes criterios normativos de urgencia:
+\begin{itemize}
+    \item \textbf{Zona Verde (Criticidad Baja - Puntuación 1 a 3):} Riesgo controlado o tolerable. No requiere modificaciones inmediatas en la planeación; se gestiona mediante monitoreo programado periódico.
+    \item \textbf{Zona Blanca (Criticidad Normal - Puntuación 4 a 6):} Requiere atención e implementación de salvaguardas estándar en el código (como el cifrado de datos personales de RS-01 o asincronía básica para mitigar RS-02).
+    \item \textbf{Zona Amarilla (Criticidad Media/Alta - Puntuación 8):} Nivel prioritario. Engloba las principales amenazas técnicas y logísticas de AUTECH. Exige planes de mitigación arquitectónicos activos antes del despliegue en producción del Ciclo 0 para asegurar la estabilidad física del software.
+\end{itemize}
+
+\subsection{Análisis Cuantitativo para Riesgos Críticos}
+\label{subsec:analisis_cuantitativo}
+
+El Valor Monetario Esperado ($EMV$, por sus siglas en inglés) es una técnica de análisis cuantitativo recomendada por el PMI para estimar el impacto económico promedio de las amenazas prioritarias identificadas en la matriz de evaluación \cite{pressman2020}. Para el ecosistema AUTECH, este análisis se aplica estrictamente sobre los riesgos cuya puntuación cualitativa es igual o superior a 8 (Zona Amarilla), los cuales representan contingencias con potencial de comprometer el desarrollo del software.
+
+El impacto monetario de cada riesgo se calcula en función de las horas de ingeniería estimadas que el equipo de Trabajo Terminal tendría que desviar hacia la remediación del fallo, valuadas bajo un costo de oportunidad estándar de $\$250.00$ MXN por hora. Aunque AUTECH es un proyecto de carácter académico y sin fines de lucro, la cuantificación a través del $EMV$ permite dimensionar el costo real de la omisión de salvaguardas y justifica financieramente la prioridad de las acciones preventivas. La ecuación que rige el cálculo es:
+\begin{equation}
+    EMV = \text{Probabilidad (\%)} \times \text{Impacto Monetario (\$)}
+\end{equation}
+
+En la Tabla~\ref{tab:analisis_emv} se presenta el desglose cuantitativo de los riesgos críticos y la estimación del fondo de contingencia teórico requerido.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Análisis del Valor Monetario Esperado (EMV) de los Riesgos Críticos.}
+    \label{tab:analisis_emv}
+    \begin{tabular}{l l c c r r}
+        \toprule
+        \textbf{ID} & \textbf{Riesgo Crítico Evaluado} & \textbf{Prob.} & \textbf{Horas} & \textbf{Impacto Monetario} & \textbf{EMV Proyectado} \\
+        \midrule
+        RT-02 & Rediseño de capa gráfica por fragmentación & $40\%$ & 80 h & $\$20,000.00$ MXN & $\$8,000.00$ MXN \\
+        RT-03 & Rediseño por latencia en Supabase & $40\%$ & 60 h & $\$15,000.00$ MXN & $\$6,000.00$ MXN \\
+        RO-03 & Reconfiguración del modelo relacional & $40\%$ & 100 h & $\$25,000.00$ MXN & $\$10,000.00$ MXN \\
+        RF-01 & Superar capa gratuita de infraestructura BaaS & $40\%$ & 80 h & $\$20,000.00$ MXN & $\$8,000.00$ MXN \\
+        \midrule
+        \multicolumn{5}{l}{\textbf{EMV Total Estimado para Fondo de Contingencia Teórico:}} & \textbf{\$32,000.00 MXN} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Plan de Mitigación y Control}
+\label{subsec:plan_mitigacion}
+
+Siguiendo las directrices de respuesta al riesgo estipuladas por el PMI, se determinaron las acciones de control para las amenazas críticas. Las estrategias se clasifican en Mitigar (reducir probabilidad/impacto) o Transferir (trasladar el impacto a la infraestructura institucional) \cite{pressman2020}.
+
+\begin{description}
+    \item[\textbf{RT-02: Fragmentación de Hardware (Puntuación: 8 | Estrategia: Mitigar)}]~\\
+    La arquitectura de renderizado adoptada utiliza \textit{Impeller} como motor gráfico principal en Flutter con un mecanismo de \textit{fallback} automático hacia \textit{Skia} en dispositivos legados que carezcan de soporte nativo para la API de Vulkan. Esto mitiga el impacto cubriendo de forma óptima el espectro de hardware desde el nivel de API 28 en adelante. \\
+    \textit{Responsable:} Equipo de desarrollo (Integrantes de TT).
+
+    \item[\textbf{RT-03: Latencia en Sincronización Supabase (Puntuación: 8 | Estrategia: Mitigar)}]~\\
+    La arquitectura \textit{Offline-First} implementada mediante el gestor de cajas locales Hive garantiza que la experiencia interactiva del estudiante no dependa de la conectividad en tiempo real. La sincronización asíncrona en segundo plano incorpora una política de reintentos con resolución de conflictos basada en \textit{Last Write Wins} (LWW), reduciendo el impacto percibido de la latencia a un valor cercano a cero \cite{supabase2024}. \\
+    \textit{Responsable:} Arquitecto de software / Integrantes de TT.
+
+    \item[\textbf{RO-03: Escalabilidad Insuficiente en PostgreSQL (Puntuación: 8 | Estrategia: Mitigar)}]~\\
+    El modelo relacional de Supabase se ha optimizado mediante la indexación estratégica de llaves foráneas y el aprovisionamiento de vistas precalculadas para mitigar el costo de las consultas analíticas del docente. Ante un incremento exponencial de usuarios que sature el pool de conexiones, la naturaleza \textit{Open Source} de Supabase permite migrar el esquema hacia un entorno de auto-alojamiento (\textit{Self-Hosting}) dentro de los servidores institucionales del IPN sin alterar el código fuente del cliente.\\
+    \textit{Responsable:} Equipo de Trabajo Terminal / Infraestructura ESCOM.
+
+    \item[\textbf{RF-01: Superar Capa Gratita de Supabase (Puntuación: 8 | Estrategia: Transferir)}]~\\
+    Si las peticiones concurrentes y el almacenamiento en los \textit{buckets} de logs superan los límites del plan gratuito de la plataforma BaaS, la contingencia consiste en empaquetar la infraestructura mediante contenedores Docker y transferir el alojamiento hacia la infraestructura de servidores locales de la ESCOM. Esta transferencia es viable gracias a la licencia Apache 2.0 de la plataforma, eliminando restricciones comerciales de licenciamiento.\\
+    \textit{Responsable:} Integrantes de TT / Departamento de Computación de la ESCOM.
+\end{description}
+
+\subsection{Revisión y Monitoreo Continuo}
+\label{subsec:revision_monitoreo}
+
+El monitoreo de la estabilidad del sistema se ejecutará de forma continua mediante la integración planificada de la plataforma de telemetría de grado industrial \textit{Sentry}, permitiendo la captura asíncrona de excepciones, fugas de memoria y eventos de \textit{crash} en los entornos móviles de los usuarios. Para asegurar la adaptabilidad del software ante los riesgos identificados, se establecen tres niveles de revisión periódica alineados con el ciclo de prototipado evolutivo:
+
+\begin{enumerate}
+    \item \textbf{Revisiones Quincenales de Rendimiento:} Evaluaciones técnicas donde se analizan las métricas de latencia de la API, tasa de errores de las políticas RLS y cobertura de dispositivos Android, ajustando los parámetros de las capas de servicios según los logs reales recolectados.
+    \item \textbf{Revisión de Cierre por Ciclo:} Al concluir cada iteración de desarrollo, se documentará formalmente el estado de mitigación de las amenazas vigentes y se registrarán en la matriz los riesgos emergentes detectados durante las pruebas de estrés de la infraestructura.
+    \item \textbf{Auditoría Final Post-implementación:} Fase de cierre metodológico que consolidará un documento de lecciones aprendidas. Este reporte se entregará formalmente a las autoridades del IPN junto con el código fuente del sistema, garantizando que futuras líneas de investigación de la ESCOM cuenten con un mapa de riesgos actualizado para el mantenimiento evolutivo de AUTECH.
+\end{enumerate}
+
+\section{Análisis de Factibilidad}
+\label{sec:analisis_factibilidad}
+
+El análisis de factibilidad determina la viabilidad técnica, operativa, económica y jurídica del ecosistema AUTECH para su implantación en la Escuela Superior de Cómputo del Instituto Politécnico Nacional. Este estudio metodológico garantiza que el sistema no solo responde a una necesidad pedagógica real, sino que su desarrollo y despliegue se fundamentan en tecnologías estables y marcos regulatorios vigentes \cite{pressman2020}.
+
+\subsection{Factibilidad Técnica}
+\label{subsec:factibilidad_tecnica}
+
+La factibilidad técnica de AUTECH se sustenta en una arquitectura de software modular, diseñada específicamente para el procesamiento algorítmico eficiente en dispositivos móviles Android. El análisis presentado garantiza que la aplicación es escalable, mantenible y extensible mediante el uso de patrones de diseño de grado industrial, metodologías de integración continua y tecnologías de código abierto validadas en la industria.
+
+\subsubsection{Infraestructura de Desarrollo y Control de Calidad}
+
+El ciclo de vida del software se gestiona bajo un esquema de Integración Continua y Entrega Continua (CI/CD), asegurando la estabilidad del sistema en cada iteración del prototipo evolutivo y minimizando la acumulación de deuda técnica:
+\begin{itemize}
+    \item \textbf{Estrategia de Versionamiento (\textit{Feature Branching}):} Se implementa un flujo de trabajo basado en repositorios Git con un modelo de ramificación estructurado: una rama principal (\texttt{main}) que contiene únicamente versiones estables validadas, y una rama de integración (\texttt{develop}) para la consolidación de funcionalidades. El desarrollo de cada módulo funcional (AFD, Autómata de Pila y Máquina de Turing) se aísla en ramas de características independientes, habilitando pruebas de regresión automatizadas y revisiones de código previas a cada fusión (\textit{merge}).
+    \item \textbf{Pipeline de Automatización (GitHub Actions):} Se implementa un \textit{pipeline} CI/CD mediante GitHub Actions que automatiza: (1) la generación de paquetes instalables (\texttt{.apk}) para distribución, (2) la ejecución de análisis estático de código (\textit{Linter}) que garantiza el cumplimiento de las guías de estilo oficiales de Dart, (3) la ejecución de suites de pruebas unitarias y de integración, y (4) el reporte automático de cobertura de código.
+    \item \textbf{Rango de Dispositivos Objetivo:} El proyecto garantiza compatibilidad en un espectro amplio de hardware, desde dispositivos de gama baja (API 28 / Android 9.0 Pie, mínimo 2 GB de RAM) hasta terminales de última generación. La arquitectura del motor de simulación está optimizada para CPU genérica, eximiendo la necesidad de procesadores gráficos dedicados.
+\end{itemize}
+
+\subsubsection{Arquitectura Gráfica y Optimización de Renderizado}
+
+Para cumplir con la fluidez visual requerida en la simulación de autómatas con grafos complejos, se han tomado decisiones arquitectónicas de bajo nivel en la capa de renderizado:
+\begin{itemize}
+    \item \textbf{Renderizado Híbrido (Impeller / Skia):} El sistema adopta el motor \textit{Impeller} de Flutter como renderizador principal en dispositivos compatibles con la API gráfica Vulkan (Android 7.0+). Impeller ejecuta una pre-compilación de \textit{shaders} en tiempo de instalación, eliminando las caídas de cuadros (\textit{jank visual}). Para dispositivos con hardware heredado o sin soporte Vulkan, se mantiene un \textit{fallback} automático hacia el motor \textit{Skia} (OpenGL ES), garantizando operatividad funcional en el $95\%$ de la base instalada del alumnado.
+    \item \textbf{Gestión de Carga Gráfica (Flame Engine):} Se establece un límite técnico de renderizado de hasta 100 elementos activos (nodos de estados y arcos de transición) simultáneos por pantalla a 180°C o 60 FPS. Para optimizar la autonomía de la batería y el consumo térmico del dispositivo, se implementa un sistema de regulación de tasa de refresco (\textit{FPS Throttle}), reduciendo dinámicamente el renderizado a 30 FPS durante estados de inactividad del usuario (edición estática o pantalla de reposo).
+    \item \textbf{Pruebas de Rendimiento Visual:} Se contempla el uso de Flutter DevTools (\textit{Timeline View}) para identificar cuellos de botella de renderizado durante las sesiones de prueba con dispositivos de gama baja, garantizando que el percentil 95 de los cuadros se renderice dentro del presupuesto de 16.67 ms (60 FPS).
+\end{itemize}
+
+\subsubsection{Motor Algorítmico y Procesamiento de Teoría de Autómatas}
+
+El procesamiento computacional de la Jerarquía de Chomsky requiere una gestión de la concurrencia que no comprometa la interactividad de la interfaz de usuario. La estrategia adoptada desacopla el cómputo pesado del hilo de renderizado mediante paralelismo real:
+\begin{itemize}
+    \item \textbf{Validación Mediante Isolates de Dart:} Dado que los Autómatas Finitos No Deterministas (AFND) y los Autómatas de Pila pueden generar árboles de configuraciones de complejidad exponencial, toda validación de cadenas se ejecuta en un \textit{Isolate} secundario de Dart (hilo de procesamiento paralelo con memoria aislada). Esta arquitectura garantiza que algoritmos computacionalmente intensivos como la Búsqueda en Anchura (BFS) para la determinización o la clausura-épsilon nunca bloqueen el hilo principal de la interfaz (\textit{UI Thread}), manteniendo la experiencia de usuario fluida a 60 FPS.
+    \item \textbf{Simulación de la Cinta de la Máquina de Turing:} La cinta de la Máquina de Turing se implementa como una Lista Doblemente Ligada con asignación dinámica de memoria, modelando fielmente su naturaleza semi-infinita teórica. Para prevenir desbordamientos de memoria (\textit{OutOfMemory errors}), el sistema impone un límite de seguridad configurable de 10,000 celdas activas, mostrando una alerta pedagógica al usuario cuando se aproxima al umbral.
+    \item \textbf{Interoperabilidad con JFLAP (\texttt{.jff}):} La compatibilidad con el estándar de la industria académica se resuelve mediante un analizador sintáctico (\textit{parser}) XML desarrollado internamente, que traduce la estructura de archivos \texttt{.jff} de JFLAP a un esquema JSON interno de AUTECH. El \textit{parser} preserva la metadata topológica completa: coordenadas de estados, etiquetas de transiciones, estados iniciales y de aceptación.
+\end{itemize}
+
+\subsubsection{Ecosistema de Datos e Infraestructura Cloud}
+
+La persistencia de la información se gestiona bajo un modelo híbrido \textit{Offline-First}, que prioriza la disponibilidad local de los datos y sincroniza con la nube cuando la conectividad lo permite:
+\begin{itemize}
+    \item \textbf{Almacenamiento Local (Hive NoSQL):} Se emplea la base de datos NoSQL Hive como capa de persistencia local debido a su superioridad en velocidad de operaciones de lectura/escritura en entornos móviles respecto a SQLite para datos no relacionales, garantizando tiempos de respuesta inferiores a los 15 ms de forma local.
+    \item \textbf{Sincronización Cloud con Supabase (BaaS):} Se proyecta el uso de Supabase como infraestructura de sincronización y autenticación basada en PostgreSQL bajo su capa gratuita \cite{supabase2024}. Considerando grupos típicos de 200 alumnos, el volumen de transacciones proyectado se mantiene holgadamente dentro de los límites operativos del plan gratuito.
+    \item \textbf{Seguridad de Acceso (Row Level Security RLS):} El control de acceso a la base de datos PostgreSQL en Supabase se rige mediante Políticas de Seguridad a Nivel de Fila (RLS). Estas políticas, definidas directamente en el motor de base de datos, impiden criptográficamente la lectura cruzada del progreso entre alumnos.
+\end{itemize}
+
+\subsection{Factibilidad Operativa}
+\label{subsec:factibilidad_operativa}
+
+La factibilidad operativa evalúa la capacidad de integración de AUTECH en los procesos académicos vigentes de la Academia de Ciencias de la Computación de la ESCOM-IPN.
+
+\subsubsection{Perfiles de Usuario y Modelo de Interacción}
+\begin{itemize}
+    \item \textbf{Perfil Docente (Administrador Académico):} Diseñado bajo la premisa \textit{Zero Code Required}. El profesor interactúa con un Dashboard desktop intuitivo accesible desde cualquier navegador sin instalación adicional para gestionar grupos escolares, consultar métricas de aprovechamiento y exportar reportes de progreso en formato CSV para su integración con el sistema de calificaciones de la ESCOM.
+    \item \textbf{Perfil Estudiante (Usuario Final):} Accede a un ecosistema gamificado cuya curva de aprendizaje se mitiga mediante un flujo de incorporación interactivo (\textit{Onboarding} Guiado). La interfaz sigue los principios de diseño \textit{Material You}, familiares para cualquier usuario de Android.
+\end{itemize}
+
+\subsubsection{Integración en el Proceso de Enseñanza}
+\begin{itemize}
+    \item \textbf{Uso en Aula (Modalidad Síncrona):} AUTECH actúa como herramienta de validación formativa inmediata. El profesor puede proponer un autómata en el pizarrón, solicitar a los alumnos que lo implementen en la aplicación y verificar su corrección en tiempo real antes de avanzar en el temario, prescindiendo del acceso obligatorio a un laboratorio de cómputo.
+    \item \textbf{Estudio Independiente (Modalidad Asíncrona):} La arquitectura \textit{Offline-First} convierte a AUTECH en una plataforma de práctica autónoma permanentemente disponible. La descarga inicial de contenidos se capitaliza mediante la red Wi-Fi institucional de la ESCOM, permitiendo que los alumnos realicen simulaciones completas en trayectos de transporte o zonas sin conectividad.
+\end{itemize}
+
+\subsubsection{Lógica de Intervención Docente y Estrategia de Remediación}
+\begin{itemize}
+    \item \textbf{Detección Estadística de Áreas de Oportunidad:} El Dashboard Docente identifica automáticamente a los estudiantes con una tasa de asimilación inferior al $70\%$ en módulos específicos, generando alertas visuales que orientan la intervención pedagógica.
+    \item \textbf{Estrategia de Aprendizaje por Dominio (Intentos Ilimitados):} El sistema promueve el aprendizaje por descubrimiento al permitir iteraciones ilimitadas de depuración de cadenas sin penalización punitiva sobre la calificación, alineándose con la teoría del \textit{Mastery Learning} de Bloom.
+    \item \textbf{Retroalimentación Inmediata y Contextual:} Cada simulación fallida genera una retroalimentación visual detallada que resalta el estado en que la cadena fue rechazada o la transición inválida, sugiriendo al estudiante revisar la definición formal del autómata.
+\end{itemize}
+
+\subsubsection{Recursos Humanos y Mantenimiento}
+El equipo de desarrollo está integrado por tres desarrolladores con conocimientos distribuidos en Flutter, motores algorítmicos, diseño UX e integración cloud. La capacitación requerida para el cuerpo docente se limita a una sesión de inducción de 60 minutos para la interpretación de métricas, mientras que el mantenimiento correctivo se centraliza de manera automatizada a través de los reportes del pipeline CI/CD y telemetría de errores.
+
+\subsection{Factibilidad Económica}
+\label{subsec:factibilidad_economica}
+
+La factibilidad económica de AUTECH se analiza bajo un modelo de Inversión Tecnológica Institucional de alto retorno, absorbiendo internamente la valuación comercial estimada del software (valuada entre los $\$120,000.00$ y $\$180,000.00$ MXN para un equipo externo senior en la CDMX) mediante el modelo BYOD (\textit{Bring Your Own Device}) y el uso de tecnologías de código abierto.
+
+El desglose completo de los costos proyectados para el despliegue e infraestructura del primer año se presenta detalladamente en la Tabla~\ref{tab:costos_despliegue}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Desglose de Costos de Software, Infraestructura y Licencias de AUTECH.}
+    \label{tab:costos_despliegue}
+    \begin{tabular}{l l r}
+        \toprule
+        \textbf{Concepto del Recurso} & \textbf{Tipo de Gasto} & \textbf{Costo Estimado} \\
+        \midrule
+        Cuenta de desarrollador Google Play Console & CAPEX (Pago único) & $\$25.00$ USD ($\sim \$450$ MXN) \\
+        Infraestructura Cloud Supabase (Plan gratuito) & OPEX mensual & $\$0.00$ MXN \\
+        Dominio web institucional para Dashboard Docente & OPEX anual & $\sim \$200.00$ MXN / año \\
+        Herramientas de desarrollo (Flutter, Dart, GitHub) & CAPEX & $\$0.00$ MXN (Open Source) \\
+        Librerías Core (Flame Engine, Hive NoSQL, SDKs) & CAPEX & $\$0.00$ MXN (Open Source) \\
+        Dispositivos de prueba y compilación (BYOD) & CAPEX & $\$0.00$ MXN (Equipos propios) \\
+        \midrule
+        \textbf{TOTAL ESTIMADO (Año 1):} & & \textbf{$\sim$ \$650.00 MXN + \$25.00 USD} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Sustentabilidad y Proyección de Retorno}
+El uso de Supabase Open Source anula el pago de licencias de software propietario. Ante un escenario de hiper-escalabilidad en el IPN, la infraestructura habilita el \textit{Self-Hosting} en los servidores de la institución sin costos adicionales de licenciamiento. Considerando una adopción inicial estimada de 160 estudiantes por semestre, el costo operativo por usuario resulta inferior a los $\$5.00$ MXN, demostrando una alta rentabilidad institucional.
+
+\subsection{Factibilidad Legal}
+\label{subsec:factibilidad_legal}
+
+La factibilidad legal de AUTECH se fundamenta en el cumplimiento exhaustivo del marco normativo mexicano en protección de datos personales, propiedad intelectual y regulaciones institucionales del IPN bajo principios de \textit{Privacy by Design}.
+
+\subsubsection{Protección de Datos Personales (LFPDPPP)}
+El sistema cumple con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) mediante las siguientes salvaguardas:
+\begin{itemize}
+    \item \textbf{Cifrado en Reposo y en Tránsito:} Los identificadores se protegen en reposo mediante extensiones criptográficas de PostgreSQL (\texttt{pgcrypto}) en Supabase, mientras que los datos en tránsito se cifran de forma segura a través de HTTPS (TLS 1.3).
+    \item \textbf{Derechos ARCO Automatizados:} Se integra la función nativa 'Eliminar Cuenta y Datos' en el cliente móvil, ejecutando una eliminación en cascada en la base de datos cloud que revoca el consentimiento del usuario conforme al Artículo 29 de la LFPDPPP.
+    \item \textbf{Aviso de Privacidad y Minimización:} El usuario debe aceptar activamente un Aviso de Privacidad compliant con el Artículo 15 de la LFPDPPP previo al registro. El sistema recopila únicamente datos esenciales (correo institucional y métricas de progreso académico), omitiendo geolocalización o identificadores físicos de hardware.
+\end{itemize}
+
+\subsubsection{Propiedad Intelectual e Industrial (INDAUTOR e IMPI)}
+\begin{itemize}
+    \item \textbf{Derechos de Autor del Software:} Los desarrolladores conservan los derechos morales (reconocimiento de autoría) conforme a los Artículos 18 y 21 de la Ley Federal del Derecho de Autor, cediendo los derechos patrimoniales a la institución según el Reglamento de Titulación vigente del IPN para uso irrestricto de la ESCOM.
+    \item \textbf{Registro ante INDAUTOR e IMPI:} Se proyecta el registro formal del código fuente ante el Instituto Nacional del Derecho de Autor (INDAUTOR) en la rama de Programas de Computación. Adicionalmente, el logotipo y la denominación AUTECH se registrarán de forma preventiva ante el Instituto Mexicano de la Propiedad Industrial (IMPI) bajo las clases Niza 9 (software educativo) y 41 (servicios de formación).
+\end{itemize}
+
+\subsubsection{Licenciamiento de Terceros y Cumplimiento Open Source}
+El desarrollo respeta escrupulosamente los términos de uso y atribución de las licencias de software libre integradas, detalladas en la Tabla~\ref{tab:licencias_terceros}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Análisis de Licencias y Conformidad Open Source de los Componentes.}
+    \label{tab:licencias_terceros}
+    \begin{tabular}{l l p{8.5cm}}
+        \toprule
+        \textbf{Componente Utilizado} & \textbf{Tipo de Licencia} & \textbf{Implicaciones y Cumplimiento para AUTECH} \\
+        \midrule
+        Flutter Framework & BSD 3-Clause & Uso libre en software educativo y comercial. Requiere atribución de derechos en la documentación técnica. \\
+        \addlinespace
+        Flame Engine & MIT License & Distribución, modificación y copia libre sin copyleft. Totalmente compatible con la distribución gratuita en la tienda Google Play. \\
+        \addlinespace
+        Supabase Flutter SDK & Apache 2.0 & Permite la integración modular y el auto-alojamiento independiente sin regalías ni restricciones comerciales. \\
+        \addlinespace
+        Hive NoSQL Database & Apache 2.0 & Uso y modificación libre. Idóneo para el esquema híbrido de persistencia local offline del proyecto. \\
+        \addlinespace
+        Dart Language & BSD 3-Clause & Uso irrestricto de compilación. Lenguaje desarrollado por Google con soporte estable a largo plazo garantizado. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+El software incorpora una vista dedicada de 'Licencias de Terceros' en el menú de configuración de la interfaz móvil para cumplir formalmente con las obligaciones de atribución correspondientes de cada paquete integrado.
+
+\subsubsection{Cláusula de Exención Académica y Términos de Uso}
+Se define un candado legal explícito en los Términos y Condiciones aceptados obligatoriamente por el alumnado durante la fase de registro, estructurado bajo el siguiente aviso formal:
+
+\begin{quote}
+    \small \textit{\textbf{Aviso Legal y Deslinde de Responsabilidad:} AUTECH es una herramienta didáctica de uso estrictamente académico, desarrollada como proyecto de titulación en el Instituto Politécnico Nacional. La plataforma no garantiza ni sustituye la acreditación formal de la Unidad de Aprendizaje de Teoría de la Computación, la cual se rige exclusivamente por los criterios de evaluación establecidos por el docente titular y la normativa académica vigente de la ESCOM-IPN. El equipo de desarrollo se exime de cualquier responsabilidad derivada del uso de la plataforma fuera del contexto educativo para el que fue diseñada.}
+\end{quote}
+
+Adicionalmente, las cláusulas complementarias de los Términos de Uso estipulan de forma estricta: (1) la prohibición expresa del uso comercial o explotación lucrativa de la plataforma sin la debida autorización por escrito del IPN, (2) la limitación de responsabilidad del equipo de Trabajo Terminal ante pérdidas de datos locales o fallos de red fortuitos, y (3) una política de uso aceptable orientada exclusivamente al estudio formal de la Teoría de Autómatas.
+
+\section{Análisis de Costos}
+\label{sec:analisis_costos}
+
+El análisis de costos de AUTECH se estructura bajo un modelo de Inversión Tecnológica Institucional de bajo costo y alto retorno, en el que el principal activo es el capital humano especializado del equipo de desarrollo, aportado como contribución académica al IPN-ESCOM. Los costos desembolsables reales son mínimos gracias al uso estratégico de herramientas de código abierto, la infraestructura BYOD del alumnado y los planes gratuitos de las plataformas cloud empleadas \cite{pressman2020}.
+
+Los costos se clasifican en tres categorías: (1) Costos de Inversión Inicial (CAPEX), que incluyen hardware, software y licencias requeridas para el desarrollo y despliegue; (2) Costos de Capital Humano, correspondientes a la valoración de mercado del trabajo de ingeniería aportado; y (3) Costos Operativos (OPEX), que representan los gastos recurrentes de mantenimiento y operación de la plataforma en producción.
+
+\subsection{Costos de Hardware (CAPEX)}
+\label{subsec:costos_hardware}
+
+El proyecto opera bajo un modelo BYOD (\textit{Bring Your Own Device}), aprovechando los equipos de cómputo y dispositivos móviles propios del equipo de desarrollo para las fases de programación, diseño y pruebas. Esto elimina prácticamente la necesidad de inversión en hardware institucional, como se detalla en la Tabla~\ref{tab:costos_hardware}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Desglose de Costos de Hardware del Proyecto AUTECH.}
+    \label{tab:costos_hardware}
+    \begin{tabular}{l c r r}
+        \toprule
+        \textbf{Recurso Tecnológico} & \textbf{Cantidad} & \textbf{Costo Unitario} & \textbf{Costo Total} \\
+        \midrule
+        Computadora portátil (Desarrollo Core) & 3 & $\$0.00$ MXN (Propias) & $\$0.00$ MXN \\
+        Dispositivo Android gama media (Pruebas) & 3 & $\$0.00$ MXN (Propios) & $\$0.00$ MXN \\
+        Monitor externo adicional (Opcional) & 1 & $\sim \$1,500.00$ MXN & $\sim \$1,500.00$ MXN \\
+        Cables, adaptadores y accesorios de red & -- & $\sim \$300.00$ MXN & $\sim \$300.00$ MXN \\
+        \midrule
+        \textbf{SUBTOTAL HARDWARE} & & & \textbf{$\sim$ \$1,800.00 MXN} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Costos de Software y Licencias (CAPEX)}
+\label{subsec:costos_software}
+
+La arquitectura tecnológica de AUTECH fue seleccionada deliberadamente para maximizar el uso de herramientas \textit{Open Source} sin restricciones comerciales, eliminando el pago de licencias de software propietario en todas las capas del sistema, tal como se expone en la Tabla~\ref{tab:costos_software}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Desglose de Costos de Software y Licencias de AUTECH.}
+    \label{tab:costos_software}
+    \begin{tabular}{l l r}
+        \toprule
+        \textbf{Herramienta Integrada} & \textbf{Tipo de Licencia de Software} & \textbf{Costo de Adquisición} \\
+        \midrule
+        Flutter SDK + Dart Language & Open Source (BSD 3-Clause) & $\$0.00$ MXN \\
+        Flame Engine & Open Source (MIT License) & $\$0.00$ MXN \\
+        Hive Embedded Database & Open Source (Apache 2.0) & $\$0.00$ MXN \\
+        Supabase Cloud Infrastructure & Open Source / Plan Gratuito & $\$0.00$ MXN \\
+        GitHub Platform & Plan Gratuito (GitHub Student) & $\$0.00$ MXN \\
+        Visual Studio Code (IDE) & Open Source (MIT License) & $\$0.00$ MXN \\
+        Android Studio (Profiler \& Emulators) & Gratuito (Google Software) & $\$0.00$ MXN \\
+        Figma Design Tool & Plan Gratuito (Education License) & $\$0.00$ MXN \\
+        Google Play Console & Developer Account (Pago único) & $\$25.00$ USD ($\sim \$450$ MXN) \\
+        Dominio para Dashboard Docente & Anual (Opcional) & $\$0.00$ MXN \\
+        \midrule
+        \textbf{SUBTOTAL SOFTWARE Y LICENCIAS} & & \textbf{$\sim$ \$450.00 MXN (\$25.00 USD)} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Costos de Capital Humano}
+\label{subsec:costos_capital_humano}
+
+El componente de mayor valor en el proyecto es la aportación intelectual del equipo de desarrollo. A continuación, se presenta en la Tabla~\ref{tab:capital_humano} la valoración de mercado del trabajo de ingeniería dedicado al proyecto, el cual es aportado íntegramente por el equipo titular como parte de su proyecto de titulación institucional.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Valoración del Capital Humano del Proyecto AUTECH por Rol.}
+    \label{tab:capital_humano}
+    \begin{tabular}{l c c r}
+        \toprule
+        \textbf{Rol de Ingeniería} & \textbf{Horas/Semana} & \textbf{Duración} & \textbf{Valoración de Mercado*} \\
+        \midrule
+        Desarrollador Frontend (Flutter/Flame) & 20 h & 6 meses & $\sim \$36,000.00$ MXN \\
+        Desarrollador Backend (Supabase/API) & 15 h & 6 meses & $\sim \$27,000.00$ MXN \\
+        Desarrollador de Motor Algorítmico & 15 h & 6 meses & $\sim \$27,000.00$ MXN \\
+        Diseñador UX/UI & 10 h & 4 meses & $\sim \$12,000.00$ MXN \\
+        Tester / QA (Rol compartido) & 5 h & 3 meses & $\sim \$4,500.00$ MXN \\
+        \midrule
+        \textbf{SUBTOTAL CAPITAL HUMANO} & & & \textbf{$\sim$ \$106,500.00 MXN} \\
+        \bottomrule
+    \end{tabular}
+    \begin{flushleft}
+        \footnotesize *La valoración de mercado se basa en tarifas de ingeniería de software freelance senior en México (CDMX) para el periodo 2024--2025, estimadas en un promedio ponderado de $\$150.00$ MXN por hora. Esta aportación representa una donación de capital tecnológico al IPN y no implica desembolso institucional.
+    \end{flushleft}
+\end{table}
+
+\subsection{Costos Operativos Anuales (OPEX)}
+\label{subsec:costos_operativos}
+
+Una vez desplegado el sistema, los costos de operación y mantenimiento son mínimos gracias al modelo de arquitectura elegido. En la Tabla~\ref{tab:costos_opex} se presentan los costos recurrentes proyectados para el primer año de operación en producción.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Costos Operativos Anuales (OPEX) Proyectados para AUTECH.}
+    \label{tab:costos_opex}
+    \begin{tabular}{l l r}
+        \toprule
+        \textbf{Concepto Operativo} & \textbf{Periodicidad} & \textbf{Costo Estimado} \\
+        \midrule
+        Supabase Cloud (Plan Base hasta 500 MB DB) & Mensual & $\$0.00$ MXN \\
+        GitHub Actions (Plan Gratuito 2,000 min/mes) & Mensual & $\$0.00$ MXN \\
+        Mantenimiento correctivo y parches & Continuo & $\$0.00$ MXN (Aportado) \\
+        Renovación de dominio Dashboard Docente & Anual & $\sim \$200.00$ MXN \\
+        Actualizaciones de dependencias Core & Semestral & $\$0.00$ MXN \\
+        Supabase Pro Plan (Contingencia escalabilidad) & Mensual & $\$25.00$ USD ($\sim \$450$ MXN) \\
+        \midrule
+        \textbf{COSTO OPERATIVO ANUAL ESTIMADO} & & \textbf{\$0.00 -- \$200.00 MXN / año} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Resumen de Inversión Total y Valor Generado}
+\label{subsec:resumen_inversion}
+
+La Tabla~\ref{tab:resumen_costos} consolida todos los componentes de costo e ilustra la relación de alta eficiencia entre la inversión desembolsable real y el valor tecnológico neto generado para la institución.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Consolidado de Inversión Total del Proyecto AUTECH.}
+    \label{tab:resumen_costos}
+    \begin{tabular}{l r}
+        \toprule
+        \textbf{Categoría de Inversión Analizada} & \textbf{Monto Financiado / Valuado} \\
+        \midrule
+        Hardware (CAPEX mayormente absorbido por BYOD) & $\sim \$1,800.00$ MXN \\
+        Software y Licencias de Despliegue (CAPEX) & $\sim \$650.00$ MXN + $\$25.00$ USD \\
+        Capital Humano Especializado (Aportación donada al IPN) & $\sim \$106,500.00$ MXN \\
+        Operación anual base en producción (OPEX) & $\$0.00$ -- $\$200.00$ MXN / año \\
+        \midrule
+        \textbf{INVERSIÓN REAL DESEMBOLSABLE (Año 1):} & \textbf{$\sim$ \$2,450.00 MXN + \$25.00 USD} \\
+        \textbf{VALOR TECNOLÓGICO APORTADO AL IPN:} & \textbf{$\sim$ \$108,950.00 MXN} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+La inversión real desembolsable por parte del equipo de desarrollo asciende a aproximadamente $\$2,450.00$ MXN más el pago único de $\$25.00$ USD para la activación de la consola de Google Play. Este monto contrasta de forma drástica con el valor tecnológico de mercado de la solución, estimado en $\$108,950.00$ MXN, lo que representa un retorno de valor para la institución de aproximadamente 44 veces la inversión monetaria efectiva.
+
+\subsection{Escenarios de Escalabilidad y Contingencia de Costos}
+\label{subsec:escenarios_escalabilidad}
+
+Para garantizar la sustentabilidad a largo plazo del ecosistema sin generar dependencias presupuestarias, se definieron tres escenarios financieros evolutivos:
+\begin{itemize}
+    \item \textbf{Escenario Base (Hasta 500 usuarios concurrentes):} El plan gratuito de Supabase (500 MB de base de datos relacional, 2 GB de almacenamiento en \textit{buckets}, 50,000 peticiones mensuales) es suficiente para cubrir la adopción inicial por parte de los grupos de la materia en la ESCOM. El costo operativo mensual en este escenario es de $\$0.00$ MXN.
+    \item \textbf{Escenario de Crecimiento (500 a 2,000 usuarios):} Si la adopción se extiende a toda la academia de Ciencias de la Computación o a otras escuelas del IPN, la conmutación al plan Pro de Supabase ($\$25.00$ USD/mes) expande la capacidad a 8 GB de base de datos y 250 GB de almacenamiento, manteniendo el costo operativo por debajo de los $\$500.00$ MXN/mes para toda la institución.
+    \item \textbf{Escenario de Hiper-escalabilidad (\textit{Self-Hosting} IPN):} En caso de adopción masiva a nivel institucional en todo el IPN, la naturaleza \textit{Open Source} de Supabase permite su empaquetamiento y auto-alojamiento mediante contenedores Docker en los servidores locales existentes de la ESCOM, eliminando por completo la dependencia del proveedor cloud y reduciendo el OPEX a un valor cercano a cero a largo plazo \cite{supabase2024}.
+\end{itemize}
+
+\paragraph{Conclusión del Capítulo:}~\\
+El análisis de costos confirma que el proyecto AUTECH representa una inversión tecnológica de altísima eficiencia para el IPN-ESCOM. Con una erogación real desembolsable inferior a los $\$2,500.00$ MXN en el primer año de operación, la institución adquiere un activo de ingeniería especializado equivalente a soluciones comerciales licenciadas de alto costo. El modelo BYOD acoplado al ecosistema \textit{Open Source} garantiza un costo de mantenimiento mínimo y provee rutas claras de escalabilidad arquitectónica ante cualquier expansión académica futura.
+
+\section{Política de Privacidad de AUTECH}
+\label{sec:politica_privacidad}
+
+\paragraph{Última actualización:} Mayo de 2026.
+
+\subsection{Introducción y Delimitación de Alcance}
+\label{subsec:privacidad_introduccion}
+
+Bienvenido a AUTECH, el simulador interactivo de Teoría de Autómatas desarrollado como proyecto de titulación en el Instituto Politécnico Nacional (IPN), a través de la Escuela Superior de Cómputo (ESCOM). En adelante, el equipo de desarrollo será denominado ``nosotros'', ``nuestro'' o ``el Equipo AUTECH''.
+
+Esta Política de Privacidad describe de manera transparente cómo recopilamos, utilizamos, almacenamos, protegemos y compartimos la información personal de los usuarios cuando utilizan la aplicación móvil AUTECH para Android (en adelante, ``la Aplicación'') y el Panel de Control Docente Desktop asociado (en adelante, ``el Dashboard'').
+
+Nos comprometemos con el cumplimiento de la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) y su respectivo Reglamento. Al descargar, instalar o utilizar AUTECH, el usuario acepta de forma expresa los términos de esta Política de Privacidad. 
+
+\begin{quote}
+    \small \textit{\textbf{Declaración de Alcance Pedagógico Importante:} AUTECH no constituye una plataforma de enseñanza pura, autónoma o aislada, ni bajo ninguna circunstancia pretende sustituir las cátedras presenciales, el juicio didáctico del profesor o los contenidos programáticos formales de la Unidad de Aprendizaje de Teoría de la Computación de la ESCOM-IPN. El sistema ha sido concebido única y exclusivamente como un material didáctico interactivo de soporte, diseñado para complementar la dinámica del aula mediante telemetría y simulación visual gráfica.}
+\end{quote}
+
+Si el usuario no está de acuerdo con alguna de las disposiciones normativas o el alcance pedagógico establecido, deberá abstenerse de utilizar la Aplicación y el Dashboard de forma inmediata.
+
+\subsection{Responsable del Tratamiento de Datos}
+\label{subsec:privacidad_responsable}
+
+El responsable legal e institucional del tratamiento de los datos personales recopilados a través de las plataformas asociadas se identifica formalmente en la Tabla~\ref{tab:ficha_responsable}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Ficha de Identificación del Responsable del Tratamiento de Datos de AUTECH.}
+    \label{tab:ficha_responsable}
+    \begin{tabular}{l p{10.5cm}}
+        \toprule
+        \textbf{Atributo Institucional} & \textbf{Especificación de Cumplimiento} \\
+        \midrule
+        Institución de adscripción & Instituto Politécnico Nacional (IPN) \\
+        Escuela sede del proyecto & Escuela Superior de Cómputo (ESCOM) \\
+        Dirección física postal & Av. Juan de Dios Bátiz s/n esq. Miguel Othón de Mendizábal, Unidad Profesional Adolfo López Mateos, Col. Lindavista, Alcaldía Gustavo A. Madero, C.P. 07738, Ciudad de México, México. \\
+        Denominación del proyecto & AUTECH: Simulador Interactivo de Teoría de Autómatas \\
+        Correo electrónico de contacto & egarcial1900@alumno.ipn.mx \\
+        Uso normativo de los datos & Exclusivamente académico, de soporte didáctico y educativo \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Información que Recopilamos}
+\label{subsec:privacidad_recopilacion}
+
+\subsubsection{Información Proporcionada Voluntariamente por el Usuario}
+\begin{itemize}
+    \item \textbf{Datos de registro (Perfil Estudiante):} Correo electrónico institucional (\texttt{@alumno.ipn.mx}), nombre de usuario elegido (\textit{nickname}) y contraseña de acceso (almacenada únicamente en forma de \textit{hash} criptográfico seguro mediante el algoritmo \textit{bcrypt}, nunca en texto plano).
+    \item \textbf{Datos de registro (Perfil Docente):} Correo electrónico institucional (\texttt{@ipn.mx}), nombre completo del profesor titular y clave alfanumérica de vinculación del grupo académico.
+    \item \textbf{Comunicaciones de soporte técnico:} Información técnica y descriptiva que el usuario proporciona voluntariamente al reportar fallas lógicas o solicitar asistencia a través del formulario de contacto integrado.
+\end{itemize}
+
+\subsubsection{Información Recopilada Automáticamente durante el Uso}
+\begin{itemize}
+    \item \textbf{Datos de progreso académico:} Módulos completados (AFD, AFND, Autómata de Pila, Máquina de Turing), puntajes obtenidos por reactivo, número de intentos realizados por cadena evaluada y porcentaje estadístico de asimilación por tema.
+    \item \textbf{Datos de autómatas guardados:} Estructuras topológicas y coordenadas de los grafos diseñados y guardados localmente por el estudiante en las cajas binarias de Hive.
+    \item \textbf{Datos de telemetría de sesión:} Fecha y hora de inicio/cierre de sesión, versión activa de la Aplicación y versión del sistema operativo Android (recopilados sin extraer identificadores únicos físicos del hardware como el IMEI o el Android ID).
+\end{itemize}
+
+\subsubsection{Información que NO es Recopilada}
+En estricto apego al principio de Minimización de Datos, AUTECH no recopila ni solicita: datos de geolocalización en tiempo real, identificadores de hardware, acceso a contactos, galería de imágenes, micrófono, cámara, datos biométricos de ningún tipo ni información financiera o de medios de pago.
+
+\clearpage
+
+\subsection{Finalidad del Tratamiento y Base Legal}
+\label{subsec:privacidad_finalidades}
+
+AUTECH trata los datos personales recopilados únicamente para los fines académicos legítimos descritos detalladamente en la Tabla~\ref{tab:finalidades_datos}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Matriz de Finalidades del Tratamiento de Datos Personales en AUTECH.}
+    \label{tab:finalidades_datos}
+    \begin{tabular}{p{5.5cm} l p{5.5cm}}
+        \toprule
+        \textbf{Finalidad Académica} & \textbf{Base Legal (LFPDPPP)} & \textbf{Datos Involucrados} \\
+        \midrule
+        Autenticación y gestión de cuenta de usuario & Consentimiento expreso (Art. 8) & Correo, \textit{nickname}, contraseña (\textit{hash}). \\
+        \addlinespace
+        Personalización de la experiencia didáctica y seguimiento de progreso & Consentimiento expreso (Art. 8) & Datos de progreso por autómata. \\
+        \addlinespace
+        Generación de métricas de aprovechamiento agregadas para el Dashboard Docente & Interés legítimo institucional (Art. 37) & Progreso estadístico anonimizado por grupo. \\
+        \addlinespace
+        Detección de áreas de oportunidad colectivas & Consentimiento expreso (Art. 8) & Rendimiento por módulo temático. \\
+        \addlinespace
+        Soporte técnico y resolución de excepciones & Ejecución de servicio (Art. 36) & Logs de error y comunicación de soporte. \\
+        \addlinespace
+        Mejora continua de los algoritmos de simulación & Interés legítimo institucional (Art. 37) & Datos de sesión anonimizados. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+La plataforma prohíbe explícitamente el uso de los datos personales para fines de publicidad, mercadotecnia, perfilamiento comercial o transferencia a terceros ajenos a la institución.
+
+\subsection{Compartición de Datos con Terceros}
+\label{subsec:privacidad_transferencia}
+
+AUTECH no vende, alquila ni comercializa datos personales. Las transferencias de información se limitan estrictamente a los siguientes supuestos operativos:
+\begin{itemize}
+    \item \textbf{Proveedor de infraestructura de persistencia (Supabase):} Los datos sincronizados se almacenan en las bases de datos de Supabase Inc. Esta plataforma actúa como Encargado del Tratamiento bajo instrucciones estrictas del Equipo AUTECH sin derechos de acceso propio. Los servidores se ubican en regiones certificadas de AWS (región \texttt{us-east-1}). Para transferencias internacionales de datos fuera del territorio mexicano se aplica lo dispuesto en el Artículo 37 de la LFPDPPP \cite{supabase2024}.
+    \item \textbf{Investigación académica institucional:} Los datos de progreso académico podrán compartirse de forma estrictamente agregada y anonimizada con investigadores de la ESCOM-IPN para estudios científicos sobre efectividad en la enseñanza de la computación formal, sin posibilidad alguna de re-identificación individual.
+    \item \textbf{Cumplimiento de obligaciones legales:} Divulgaciones imperativas ordenadas por mandato judicial o resolución expresa de autoridades competentes conforme al marco jurídico mexicano.
+\end{itemize}
+
+\subsection{Almacenamiento, Medidas de Seguridad y Retención}
+\label{subsec:privacidad_seguridad}
+
+\subsubsection{Arquitectura Híbrida de Almacenamiento}
+La persistencia se rige bajo el patrón \textit{Offline-First}. En el dispositivo del usuario, los grafos y estados se almacenan en la base de datos NoSQL Hive dentro del directorio privado sandbox de Android, inaccesible para otras aplicaciones. En la nube, las cuentas se persisten en PostgreSQL sobre Supabase, aisladas criptográficamente mediante Políticas de Seguridad a Nivel de Fila (RLS) que bloquean accesos cruzados entre estudiantes.
+
+\subsubsection{Medidas de Seguridad Técnicas Implementadas}
+\begin{itemize}
+    \item \textbf{Cifrado en Tránsito y Reposo:} Comunicaciones forzadas mediante el protocolo HTTPS/TLS 1.3. Los datos sensibles en la base remota PostgreSQL se protegen en reposo mediante algoritmos de la extensión criptográfica \texttt{pgcrypto}.
+    \item \textbf{Hashing con Sal de Contraseñas:} Las credenciales de acceso se procesan mediante funciones de derivación de claves \textit{bcrypt} con un factor de trabajo elevado (\textit{salt rounds} $\ge 12$) previo a su inserción en los servidores, impidiendo su almacenamiento en texto plano.
+    \item \textbf{Privilegios RBAC y Aislamiento por Roles:} Las directivas RLS garantizan que el perfil de Alumno solo posea permisos de lectura y escritura sobre su propio identificador. El perfil Docente posee accesos restringidos exclusivamente a datos analíticos acumulados y agrupados, sin visibilidad individual de grafos ajenos. El acceso de administración técnica a producción exige Autenticación de Doble Factor (2FA) y auditoría mediante \textit{logs} de actividad.
+\end{itemize}
+
+\subsubsection{Periodos Normativos de Retención}
+Los datos de progreso se conservarán mientras el alumno mantenga una cuenta activa y durante un periodo máximo complementario de 12 meses (equivalente a 3 periodos escolares de contingencia) para permitir la reactivación académica. Tras una solicitud explícita de eliminación de cuenta por el usuario, los datos se purgan de forma irreversible de Supabase en un plazo máximo de 30 días naturales.
+
+\subsection{Derechos de los Titulares (Derechos ARCO)}
+\label{subsec:privacidad_arco}
+
+Conforme a los Artículos 22 al 32 de la LFPDPPP, los estudiantes y docentes de la comunidad politécnica pueden ejercer en cualquier momento sus derechos ARCO mediante los canales automatizados dispuestos en la Tabla~\ref{tab:derechos_arco}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Mecanismos de Ejercicio de Derechos ARCO en el Ecosistema AUTECH.}
+    \label{tab:derechos_arco}
+    \begin{tabular}{l p{5.5cm} p{6.0cm}}
+        \toprule
+        \textbf{Derecho} & \textbf{Definición Operativa} & \textbf{Implementación Técnica en AUTECH} \\
+        \midrule
+        \textbf{Acceso (A)} & Conocer qué datos personales residen en el sistema y el tratamiento aplicado. & Desde el cliente móvil: Perfil de usuario $\rightarrow$ `Mis datos' $\rightarrow$ `Solicitar reporte'. Se genera un volcado JSON en un plazo de 20 días hábiles. \\
+        \addlinespace
+        \textbf{Rectificación (R)} & Corregir información histórica inexacta, obsoleta o incompleta. & Desde el cliente móvil: Perfil de usuario $\rightarrow$ `Editar perfil'. Sincronización en tiempo real con Supabase. \\
+        \addlinespace
+        \textbf{Cancelación (C)} & Eliminar los datos personales cuando se consideren innecesarios. & Desde el cliente móvil: Perfil $\rightarrow$ `Eliminar cuenta'. Ejecuta borrado en cascada (30 días). Purga local inmediata. \\
+        \addlinespace
+        \textbf{Oposición (O)} & Oponerse al tratamiento de datos para finalidades analíticas específicas. & Envío de solicitud firmada al correo \texttt{egarcial1900@alumno.ipn.mx}, respondiendo en un plazo máximo de 20 días hábiles. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Para cualquier solicitud no parametrizada en la interfaz, el titular puede contactar al equipo de desarrollo adjuntando copia digitalizada de su identificación oficial o credencial institucional vigente del IPN para su debida validación legal.
+
+\subsection{Usuarios Menores de Edad, Cookies y Transferencias}
+\label{subsec:privacidad_clausulas_adicionales}
+
+AUTECH está estrictamente dirigido a estudiantes de nivel superior matriculados en la ESCOM-IPN, por lo que el sistema no recopila intencionalmente datos de menores de 18 años, requiriendo confirmación de mayoría de edad legal durante la fase de \textit{onboarding}. 
+
+Por su parte, la aplicación de escritorio y los módulos del Dashboard Docente se eximen del uso de \textit{cookies} o tecnologías de rastreo de navegación externa, limitando su funcionamiento estrictamente a los parámetros operativos internos necesarios para renderizar las métricas. Las transferencias internacionales hacia servidores de AWS mediante Supabase se ejecutan bajo amparo del Artículo 37 de la LFPDPPP, ruta técnica que se simplificaría a almacenamiento nacional en caso de transicionar hacia la modalidad de \textit{Self-Hosting} institucional en los servidores de la ESCOM.
+
+\subsection{Aviso de Privacidad Simplificado (Onboarding)}
+\label{subsec:privacidad_simplificado}
+
+El siguiente extracto normativo se presenta de forma obligatoria y condensada al estudiante previo al procesamiento de su registro en la interfaz móvil, conforme a los requisitos estipulados en el Artículo 16 de la LFPDPPP:
+
+\begin{quote}
+    \small \textit{\textbf{AVISO DE PRIVACIDAD SIMPLIFICADO AUTECH:} El Instituto Politécnico Nacional, a través del proyecto de titulación AUTECH (ESCOM), es responsable del tratamiento de sus datos de identidad y progreso didáctico. Se manifiesta explícitamente que \textbf{AUTECH no es una aplicación de enseñanza pura ni busca suplir las cátedras formales o la materia impartida en la institución, operando únicamente como un material didáctico y tecnológico de soporte para las clases}. Sus datos se procesan con fines exclusivos de: (1) gestionar su acceso al sistema, (2) personalizar las simulaciones del lienzo interactivo, y (3) proveer métricas de aprovechamiento agregadas a su docente titular. No compartimos información con terceros con fines lucrativos o comerciales. Puede ejercer sus derechos ARCO de forma directa desde el menú de Perfil en la Aplicación o mediante el correo egarcial1900@alumno.ipn.mx. El Aviso de Privacidad completo puede ser consultado en la sección de Configuración de este software.}
+\end{quote}
+
+Al utilizar la plataforma AUTECH, el usuario consiente de forma plena y consciente el tratamiento y la transferencia controlada de sus datos personales bajo las finalidades y restricciones académicas estrictamente delimitadas en este cuerpo normativo.
