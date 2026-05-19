@@ -1,41 +1,180 @@
-% === CODIFICACIÓN E IDIOMA ===
-\usepackage[T1]{fontenc} % <--- AGREGADO: Mejora la guionización y corte de palabras en español
+% ============================================================
+%  preambulo.tex  —  Trabajo Terminal AUTECH · ESCOM-IPN
+%  Diseño profesional de tesis académica
+% ============================================================
+
+% ── Codificación e idioma ─────────────────────────────────
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[spanish,es-tabla]{babel} % es-tabla cambia "Cuadro" por "Tabla"
+\usepackage[spanish,es-tabla]{babel}
 
-% === MÁRGENES Y GEOMETRÍA ===
-\usepackage[margin=2.5cm]{geometry}
+% ── Tipografía profesional ────────────────────────────────
+\usepackage{lmodern}           % Fuente Latin Modern (más nítida en PDF)
+\usepackage{microtype}         % Mejoras tipográficas automáticas
+\usepackage{setspace}
+\onehalfspacing                % Interlineado 1.5× (estándar tesis IPN)
 
-% === ALINEACIÓN Y TEXTO ===
-\usepackage{ragged2e} % <--- AGREGADO: Paquete necesario para el control de justificado profesional
+% ── Geometría de página ───────────────────────────────────
+\usepackage[
+    top    = 2.5cm,
+    bottom = 2.5cm,
+    left   = 3.0cm,   % margen izquierdo mayor para encuadernación
+    right  = 2.5cm,
+    headheight = 15pt
+]{geometry}
 
-% === GRÁFICOS Y FIGURAS ===
-\usepackage{graphicx}
-\graphicspath{{imagenes/}} % Define la carpeta raíz para las imágenes
-\usepackage{booktabs} % Para tablas con estilo profesional
-\usepackage{subcaption} % Para poner múltiples imágenes juntas
+% ── Colores ──────────────────────────────────────────────
+\usepackage[dvipsnames, svgnames, table]{xcolor}
 
-% === MATEMÁTICAS AVANZADAS ===
-\usepackage{amsmath,amsfonts,amssymb}
+% Paleta de la tesis
+\definecolor{azulTesis}  {RGB}{26,  54, 104}   % Azul marino oscuro
+\definecolor{azulHeader} {RGB}{31,  56, 100}   % Encabezados de tabla
+\definecolor{azulFila}   {RGB}{235, 241, 250}  % Fila alterna tabla
+\definecolor{azulLink}   {RGB}{10,  60, 130}   % Hipervínculos
+\definecolor{grisTitulo} {RGB}{80,  80,  80}   % Subtítulos grises
 
-% === HERRAMIENTAS ADICIONALES ===
-\usepackage{url} % Manejo correcto de direcciones web
-\usepackage{cite} % Agrupa citas consecutivas de forma limpia (ej: [1-3])
-\usepackage{hyperref} % Añade hipervínculos interactivos en el PDF (Índice, citas)
+% ── Hipervínculos ─────────────────────────────────────────
+\usepackage{hyperref}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,      
-    urlcolor=cyan,
-    citecolor=green
+    colorlinks   = true,
+    linkcolor    = azulTesis,
+    citecolor    = azulTesis,
+    urlcolor     = azulLink,
+    filecolor    = azulTesis,
+    pdftitle     = {AUTECH — Trabajo Terminal ESCOM-IPN},
+    pdfauthor    = {Trabajo Terminal},
+    pdfsubject   = {Ingeniería de Software},
+    pdfkeywords  = {Flutter, Supabase, Autómatas, AUTECH, ESCOM, IPN},
+    bookmarks    = true,
+    bookmarksnumbered = true
 }
 
-% === NOTAS DE SEGUIMIENTO (Opcional para el equipo) ===
-\usepackage{todonotes} % Permite usar \todo{Falta revisar esto} en el texto
+% ── Gráficos y figuras ────────────────────────────────────
+\usepackage{graphicx}
+\graphicspath{{imagenes/}}
+\usepackage{subcaption}
+\usepackage{float}             % Permite [H]
 
+% ── Tablas profesionales ──────────────────────────────────
+\usepackage{array}             % Tipos de columna extendidos
+\usepackage{booktabs}          % \toprule, \midrule, \bottomrule
+\usepackage{tabularx}          % Columna X con ancho automático
+\usepackage{longtable}         % Tablas multi-página
+\usepackage{multirow}          % Celdas fusionadas en filas
+\usepackage{makecell}          % Líneas en celdas
+
+% ── Tabla comparativa en horizontal ──────────────────────
+\usepackage{pdflscape}         % \begin{landscape} para páginas giradas
+\usepackage{rotating}          % \begin{sidewaystable}
+
+% ── Captions profesionales ────────────────────────────────
+\usepackage{caption}
+\captionsetup{
+    font       = {small},
+    labelfont  = {bf, color=azulTesis},
+    labelsep   = period,
+    width      = 0.95\textwidth,
+    justification = justified
+}
+\captionsetup[table]{position=above}
+\captionsetup[figure]{position=below}
+
+% ── Matemáticas ──────────────────────────────────────────
+\usepackage{amsmath, amssymb, amsfonts}
+
+% ── Listas ───────────────────────────────────────────────
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=2em, itemsep=2pt, topsep=4pt}
+\setlist[enumerate]{leftmargin=2em, itemsep=2pt, topsep=4pt}
+
+% ── URL y referencias ─────────────────────────────────────
+\usepackage{url}
+\usepackage{cite}              % Agrupa citas [1–3]
+
+% ── Encabezados y pies de página ─────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{%
+    \small\color{grisTitulo}\textit{AUTECH — Trabajo Terminal ESCOM-IPN}%
+}
+\fancyhead[R]{%
+    \small\color{grisTitulo}\textit{\nouppercase{\leftmark}}%
+}
+\fancyfoot[C]{%
+    \small\color{grisTitulo}\thepage%
+}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Páginas de capítulo (plain) también con número centrado
+\fancypagestyle{plain}{%
+    \fancyhf{}
+    \fancyfoot[C]{\small\color{grisTitulo}\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% ── Estilos de capítulo y sección ────────────────────────
 \usepackage{titlesec}
-\usepackage[table]{xcolor} % <--- ESTA ES LA LÍNEA CRÍTICA
 
-% Modifica el espaciado de \chapter
-% [izquierda] {espacio_superior} {espacio_entre_titulo_y_texto}
-\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+% Capítulo: número pequeño arriba, título grande con línea
+\titleformat{\chapter}[display]
+    {\normalfont\Large\bfseries\color{grisTitulo}}       % número
+    {\MakeUppercase{\chaptertitlename}\ \thechapter}
+    {8pt}
+    {\Huge\bfseries\color{azulTesis}}                    % título
+    [\vspace{6pt}{\color{azulTesis}\hrule height 2pt}\vspace{2pt}]
+
+\titlespacing*{\chapter}{0pt}{-10pt}{24pt}
+
+% Sección
+\titleformat{\section}
+    {\normalfont\Large\bfseries\color{azulTesis}}
+    {\thesection}{0.8em}{}
+    []
+
+\titlespacing*{\section}{0pt}{18pt}{8pt}
+
+% Subsección
+\titleformat{\subsection}
+    {\normalfont\large\bfseries\color{azulTesis}}
+    {\thesubsection}{0.8em}{}
+
+\titlespacing*{\subsection}{0pt}{14pt}{6pt}
+
+% Subsubsección
+\titleformat{\subsubsection}
+    {\normalfont\normalsize\bfseries\color{grisTitulo}}
+    {\thesubsubsection}{0.8em}{}
+
+\titlespacing*{\subsubsection}{0pt}{10pt}{4pt}
+
+% ── Comando para cabecera de tabla de color ───────────────
+% Uso: \thead{Columna} dentro del encabezado
+\newcommand{\thcol}[1]{%
+    \cellcolor{azulHeader}\textbf{\textcolor{white}{#1}}%
+}
+
+% Entorno para bloque informativo
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\newtcolorbox{infobox}[1][]{
+    enhanced,
+    colback   = azulFila,
+    colframe  = azulTesis,
+    boxrule   = 0.6pt,
+    arc       = 3pt,
+    left      = 6pt, right = 6pt,
+    top       = 4pt, bottom = 4pt,
+    #1
+}
+
+% ── Notas (solo durante redacción) ───────────────────────
+\usepackage{todonotes}
+\setlength{\marginparwidth}{2cm}   % evita warning de todonotes
+
+% ── Alineación ───────────────────────────────────────────
+\usepackage{ragged2e}
+
+\usepackage{afterpage}
+\usepackage{rotating}

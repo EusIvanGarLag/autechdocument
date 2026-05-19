@@ -1,4 +1,896 @@
-\chapter{Diseño e Arquitectura}
-\label{ch:diseno_arquitectura}
+% ============================================================
+%  cap4.tex  —  Capítulo 4: Diseño
+%  Proyecto: AUTECH – Trabajo Terminal ESCOM-IPN
+%  \include{capitulos/cap4} en main.tex
+%  Imágenes en carpeta: imagenes/
+% ============================================================
 
-Este espacio está reservado para la arquitectura de software, diagramas y diseño de la interfaz.
+\chapter{Diseño}
+\label{ch:diseno}
+
+% ============================================================
+\section{Fase de Empatizar}
+\label{sec:empatizar}
+% ============================================================
+
+En esta etapa inicial, se buscó comprender profundamente el ecosistema de la unidad académica,
+identificando los puntos de dolor y las limitantes del proceso de enseñanza-aprendizaje actual.
+
+\subsection{Mapa de Necesidades del Estudiante de la ESCOM}
+\label{subsec:mapa_necesidades}
+
+Mediante la observación directa y entrevistas informales, se categorizaron las necesidades del
+alumnado en cuatro pilares fundamentales:
+
+\begin{itemize}
+    \item \textbf{Necesidades Cognitivas:} Los estudiantes requieren puentes entre la abstracción
+    teórica (ecuaciones, arquitecturas de hardware) y la implementación práctica. Existe una demanda
+    insatisfecha de herramientas de simulación que permitan el ``ensayo y error''.
+
+    \item \textbf{Necesidades de Entorno (Conectividad):} El perfil del estudiante de ESCOM suele
+    implicar largos traslados en transporte público. La necesidad de una herramienta que funcione
+    sin datos móviles o Wi-Fi es crítica para aprovechar los ``tiempos muertos''.
+
+    \item \textbf{Necesidades Tecnológicas:} Se requiere una interfaz intuitiva con bajo consumo
+    de recursos (batería y memoria), dado que no todos los estudiantes cuentan con dispositivos de
+    gama alta.
+
+    \item \textbf{Necesidades de Feedback:} La incertidumbre en el aprendizaje se reduce mediante
+    la retroalimentación inmediata. El alumno necesita saber si su lógica es correcta en el
+    momento de la ejecución, no semanas después.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption[Matriz de necesidades del usuario de AUTECH]{Matriz de necesidades del usuario de
+        AUTECH con cuatro pilares: Cognitiva, Entorno, Tecnológica y Feedback.}
+    \label{tab:necesidades}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\bfseries\raggedright\arraybackslash}p{2.5cm}
+        >{\raggedright\arraybackslash}p{4.5cm}
+        >{\raggedright\arraybackslash}X}
+        \toprule
+        \thcol{Pilar de Necesidad} & \thcol{Descripción del Problema} &
+        \thcol{Requerimiento de Solución (AUTECH)} \\
+        \midrule
+        \rowcolor{azulFila}
+        Cognitiva &
+        Brecha entre la teoría abstracta (Jerarquía de Chomsky) y la implementación real. &
+        \textbf{Simulación Interactiva:} Herramientas de ``ensayo y error'' para visualizar la
+        ejecución de autómatas. \\[3pt]
+
+        Entorno &
+        Largos tiempos de traslado y conectividad intermitente en transporte público. &
+        \textbf{Arquitectura Offline-First:} Operatividad total sin consumo de datos móviles o
+        Wi-Fi. \\[3pt]
+
+        \rowcolor{azulFila}
+        Tecnológica &
+        Heterogeneidad en la gama de dispositivos (limitación de RAM y batería). &
+        \textbf{Optimización de Recursos:} Interfaz ligera, bajo consumo de energía y
+        compatibilidad con API~28+. \\[3pt]
+
+        Feedback &
+        Retraso en la validación de la lógica (dependencia de la revisión docente). &
+        \textbf{Retroalimentación Inmediata:} Validación algorítmica en tiempo real con depurador
+        visual. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{User Personas (Perfil Alumno y Perfil Docente)}
+\label{subsec:user_personas}
+
+\subsubsection*{Perfil A: El Alumno (Kevin)}
+
+\begin{itemize}
+    \item \textbf{Edad:} 19 años.
+    \item \textbf{Situación:} Estudiante de 4to semestre de Ingeniería en Sistemas Computacionales.
+    \item \textbf{Conducta:} Es autodidacta, pero se siente abrumado por la carga teórica. Utiliza
+    el Metro para trasladarse de Ecatepec a Zacatenco (1.5 horas).
+    \item \textbf{Objetivo:} Consolidar sus conocimientos en simulación de sistemas sin que la falta
+    de internet en el trayecto sea una barrera.
+    \item \textbf{Frustración:} Sentir que pierde horas productivas de estudio por no tener
+    herramientas portátiles adecuadas.
+\end{itemize}
+
+\subsubsection*{Perfil B: El Docente (Mtro.\ Hurtado)}
+
+\begin{itemize}
+    \item \textbf{Edad:} 29 años.
+    \item \textbf{Situación:} Profesor de carrera con 150 alumnos bajo su cargo.
+    \item \textbf{Conducta:} Busca innovar, pero las herramientas institucionales actuales son
+    rígidas y administrativas.
+    \item \textbf{Objetivo:} Monitorear el progreso real de sus grupos y automatizar la recepción
+    de evidencias de aprendizaje.
+    \item \textbf{Frustración:} Invertir demasiado tiempo en calificar ejercicios repetitivos en
+    lugar de enfocarse en resolver dudas complejas.
+\end{itemize}
+
+\subsection{Mapa de Empatía (Enfoque en el Estudiante)}
+\label{subsec:mapa_empatia}
+
+\begin{table}[H]
+    \centering
+    \caption[Mapa de empatía del estudiante de AUTECH]{Mapa de empatía del estudiante de AUTECH:
+        pensamientos, entorno, escucha y conducta.}
+    \label{tab:mapa_empatia}
+    \small
+    \begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{3.5cm} X}
+        \toprule
+        \thcol{Cuadrante} & \thcol{Descripción: Realidad del Estudiante} \\
+        \midrule
+        \rowcolor{azulFila}
+        ¿Qué piensa y siente? &
+        Siente que la teoría (autómatas, gramáticas) es un ``muro'' difícil de escalar sin práctica.
+        Le preocupa no estar preparado para los exámenes técnicos. \textbf{Frustración:} el acceso
+        limitado a laboratorios físicos restringe su tiempo de experimentación. \\[3pt]
+
+        ¿Qué ve? &
+        Un entorno académico de alta exigencia (IPN) donde el error suele ser punitivo. Compañeros
+        recurriendo a métodos ineficientes (libros densos, hojas de papel). Un mercado laboral de
+        software que valora la lógica algorítmica por encima de la memorización. \\[3pt]
+
+        \rowcolor{azulFila}
+        ¿Qué oye? &
+        Comentarios de pasillo: \textit{``Esa materia es de las que filtran alumnos''}, \textit{``El
+        examen no se parece a los ejemplos de clase''}. Recomendaciones de usar JFLAP, pero con la
+        queja de que no es portátil ni moderno. \\[3pt]
+
+        ¿Qué dice y hace? &
+        \textbf{Dice:} \textit{``Ojalá pudiera probar si esta cadena es aceptada por mi autómata
+        mientras voy al metro''}. \textbf{Hace:} Descarga PDFs pesados, intenta usar simuladores
+        web que no cargan sin datos y pierde tiempo en traslados sin poder avanzar. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Fase de Definir}
+\label{sec:definir}
+% ============================================================
+
+En esta fase, se sintetizó la información recolectada para cristalizar el problema central y
+diseñar la ruta de solución.
+
+\subsection{Diagnóstico de la Brecha de Aprendizaje}
+\label{subsec:diagnostico}
+
+Se identificó un \textbf{``Desfiladero de Aplicación''}: el momento en que el alumno sale del
+salón de clases con la teoría y llega a su casa a intentar resolver problemas solo.
+
+\begin{itemize}
+    \item \textbf{Deficiencia detectada:} La falta de una herramienta puente que proporcione un
+    entorno controlado de simulación móvil.
+    \item \textbf{Impacto:} El rezago académico y la pérdida de interés en materias de ciencias de
+    la computación.
+    \item \textbf{Definición del Problema (POV):} ``Los estudiantes de la ESCOM necesitan una
+    forma de resolver retos de simulación de manera \textit{offline} durante sus traslados, porque
+    las herramientas actuales dependen de una conexión constante y carecen de \textit{feedback}
+    inmediato, lo que fragmenta su proceso de aprendizaje''.
+\end{itemize}
+
+\subsection{Customer Journey Map (Trayecto del Usuario en AUTECH)}
+\label{subsec:journey_map}
+
+El trayecto se diseñó para optimizar la experiencia desde que el usuario interactúa con la
+aplicación por primera vez hasta la consolidación del aprendizaje.
+
+\begin{table}[H]
+    \centering
+    \caption[\textit{Customer Journey Map} del estudiante de AUTECH]{\textit{Customer Journey Map}
+        del estudiante de AUTECH: desde el \textit{Onboarding} hasta la Revisión del docente.}
+    \label{tab:journey_map}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\bfseries\raggedright\arraybackslash}p{2.8cm}
+        >{\raggedright\arraybackslash}p{3.5cm}
+        >{\raggedright\arraybackslash}p{3.8cm}
+        >{\raggedright\arraybackslash}X}
+        \toprule
+        \thcol{Etapa} & \thcol{Acción del Usuario} &
+        \thcol{Pensamiento / Sentimiento} & \thcol{Punto de Contacto} \\
+        \midrule
+        \rowcolor{azulFila}
+        Onboarding &
+        Registro e inicio de sesión en la ESCOM. &
+        ``Se ve profesional y fácil de usar''. &
+        Supabase Auth / UI \\[3pt]
+
+        Preparación &
+        Descarga de retos mientras hay Wi-Fi. &
+        ``Ya tengo todo listo para el camino''. &
+        Supabase / Hive \\[3pt]
+
+        \rowcolor{azulFila}
+        Uso Activo &
+        Resolución del reto en modo \textit{offline} (transporte). &
+        ``Puedo practicar sin gastar mis datos''. &
+        Módulo de Simulación \\[3pt]
+
+        Feedback &
+        Validación inmediata de la solución del reto. &
+        ``¡Entendí por qué me equivoqué!''. &
+        Motor de Lógica Local \\[3pt]
+
+        \rowcolor{azulFila}
+        Sincronización &
+        Los datos se suben al detectar conexión. &
+        ``Mi tarea ya está entregada''. &
+        Sincronización Hive-Cloud \\[3pt]
+
+        Revisión &
+        Visualización de nota y comentario del docente. &
+        ``Sé en qué debo mejorar''. &
+        Cloud Messaging / Supabase \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Fase de Idear (Propuesta de Puzzles y Ludificación)}
+\label{sec:idear}
+% ============================================================
+
+La conceptualización de la lógica interactiva de AUTECH se fundamenta en la ludificación educativa,
+definida en la literatura por Deterding et al.\ \cite{deterding2011} como la integración de
+elementos de diseño de videojuegos en entornos no lúdicos. El objetivo de esta fase fue traducir
+las complejas reglas de la Jerarquía de Chomsky en mecánicas de resolución de problemas
+(\textit{puzzles}) que reduzcan la carga cognitiva del estudiante \cite{sweller1988}.
+
+\subsection{Filosofía de Evaluación y Refuerzo}
+\label{subsec:filosofia_evaluacion}
+
+El sistema de evaluación de AUTECH no se limita a la acreditación estática, sino que funciona como
+una herramienta de aprendizaje adaptativo mediante dos estrategias algorítmicas:
+
+\begin{itemize}
+    \item \textbf{Repetición Espaciada:} El algoritmo de selección de reactivos inyecta preguntas
+    de conceptos previos (ej.\ expresiones regulares) durante la evaluación de temas avanzados
+    (ej.\ máquinas de Turing) para consolidar la retención a largo plazo.
+
+    \item \textbf{Andamiaje con Retroalimentación (\textit{Hints}):} Se abandona el modelo
+    punitivo tradicional. Ante un error lógico (como un bucle infinito en un AFND), el sistema
+    despliega una pista contextual guiada por el avatar asistente de la aplicación (mascota visual).
+    Esto permite la corrección del modelo mental del alumno antes de un segundo intento.
+\end{itemize}
+
+\subsection{Taxonomía Cognitiva de los Reactivos}
+\label{subsec:taxonomia}
+
+Para asegurar una evaluación integral que cubra desde la teoría matemática hasta la aplicación
+algorítmica, los retos del Producto Mínimo Viable (MVP) se estructuraron en tres niveles de
+profundidad cognitiva, como se detalla en la Tabla~\ref{tab:taxonomia}.
+
+\begin{table}[H]
+    \centering
+    \caption[Taxonomía de reactivos de evaluación de AUTECH]{Taxonomía de reactivos de evaluación
+        de AUTECH en tres categorías pedagógicas: Teóricos (N1), Visuales (N2) y Prácticos (N3).}
+    \label{tab:taxonomia}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\bfseries\centering\arraybackslash}p{2.0cm}
+        >{\centering\arraybackslash}p{2.5cm}
+        >{\raggedright\arraybackslash}p{5.0cm}
+        X}
+        \toprule
+        \thcol{Categoría} & \thcol{Nivel de Cognición} &
+        \thcol{Descripción de la Mecánica} & \thcol{Ejemplo (Mundo: AFD)} \\
+        \midrule
+        \rowcolor{azulFila}
+        Teóricos (N1) & Conocimiento &
+        Reactivos de opción múltiple o relación de columnas para validar la asimilación del rigor
+        matemático. &
+        \textit{``¿Qué elemento del quíntuplo $M = (Q, \Sigma, \delta, q_0, F)$ representa al
+        alfabeto?''} \\[3pt]
+
+        Visuales (N2) & Comprensión &
+        Retos de tipo \textit{Drag-and-Drop} (arrastrar y soltar) o identificación de grafos mal
+        formados. &
+        \textit{``Observa el diagrama y arrastra la etiqueta de `Estado Inicial' al nodo
+        correcto.''} \\[3pt]
+
+        \rowcolor{azulFila}
+        Prácticos (N3) & Análisis / Síntesis &
+        Interacción directa con el lienzo \textit{Canvas}. El usuario diseña o modifica
+        transiciones para alterar el lenguaje reconocido. &
+        \textit{``Modifica el AFND mostrado agregando una transición $\varepsilon$ para que
+        reconozca la cadena `101'.''} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Motor de Recompensas y Retención}
+\label{subsec:motor_recompensas}
+
+La progresión del usuario se gestiona mediante un ciclo de retroalimentación positiva fundamentado
+en variables de estado que el sistema almacena de forma local (\textit{Offline-First}). La
+estructura se divide en macro-categorías denominadas ``Mundos'' (que representan a cada máquina de
+la Jerarquía de Chomsky) y sub-niveles operativos.
+
+El ecosistema de retención se compone de:
+
+\begin{itemize}
+    \item \textbf{Rachas:} Se implementa un contador de racha que incentiva la práctica diaria
+    constante.
+
+    \item \textbf{Sistema de Insignias Institucionales:} Actúan como validadores de competencia.
+    En lugar de metales genéricos, la nomenclatura se adaptó a la progresión académica real:
+    \begin{itemize}
+        \item \textbf{Insignia de Sintaxis:} Al dominar Expresiones Regulares y Alfabetos.
+        \item \textbf{Insignia Determinista:} Al superar los retos prácticos de AFD y AFND.
+        \item \textbf{Insignia de Memoria:} Al estructurar correctamente Autómatas de Pila.
+        \item \textbf{Insignia de Turing:} Galardón máximo al simular la máquina universal.
+    \end{itemize}
+\end{itemize}
+
+Al vincular la abstracción matemática con un sistema de recompensas claro, AUTECH garantiza una
+experiencia de usuario (UX) inmersiva que combate la deserción en la materia de Teoría de la
+Computación \cite{munoz2012}\cite{deterding2011}.
+
+\subsection{Módulo de Teoría Previa y Temporizador de Retención}
+\label{subsec:teoria_previa}
+
+Para garantizar que el sistema funcione de manera autónoma y no dependa exclusivamente de los
+apuntes de clase del alumno, cada ``Nivel'' (lección) dentro de AUTECH inicia con una fase de
+inducción teórica. Esta fase despliega un componente multimedia (texto interactivo, diagramas de
+grafos). Para fomentar la lectura comprensiva y evitar que el usuario salte directamente a
+``adivinar'' los reactivos, la interfaz implementa un botón de omisión (\textit{Skip}) bloqueado
+por un temporizador dinámico (entre 5 y 10 segundos, dependiendo de la densidad del contenido).
+Una vez transcurrido el tiempo, el alumno puede acceder a la batería de ejercicios.
+
+\subsection{Diseño Detallado del Árbol de Aprendizaje: Catálogo Extendido}
+\label{subsec:arbol_aprendizaje}
+
+El diseño de estos niveles integra directamente el programa oficial de la unidad de aprendizaje
+``Teoría de la Computación''. Se estructuró una progresión de granularidad fina, donde la
+repetición y las variaciones sutiles en los ejercicios consolidan la curva de aprendizaje.
+
+A continuación se detalla un ejemplo de un mundo dentro de la sección de aprendizaje, sujeto a
+cambios y extensión según la retroalimentación de los directores y las pruebas realizadas durante
+el ciclo 1.
+
+\subsubsection*{MUNDO 1: Fundamentos y Lenguajes Regulares (Unidad 1)}
+
+\textbf{Objetivo Global:} Comprender el rigor matemático detrás de la teoría de la computabilidad,
+manipular alfabetos y dominar las máquinas de estado finito (AFD y AFN).
+
+\paragraph{Nivel 1.1: Orígenes de la Computación y Jerarquía de Chomsky}
+
+\textbf{Teoría Previa:} Infografía escalonada que muestra los 4 niveles de la Jerarquía de Chomsky
+(Tipo 0 a Tipo 3) y un texto breve sobre la máquina universal. Botón \textit{Skip} habilitado a
+los 8 segundos.
+
+\textbf{Reactivos (N1: Teórico / N2: Visual):}
+\begin{itemize}
+    \item \textbf{[N1]} ¿Qué matemático demostró los límites de la computabilidad formalizando el
+    ``Problema del Paro''? \textit{(R: Alan Turing).}
+    \item \textbf{[N1]} Según el Teorema de Incompletitud de Gödel, ¿qué ocurre en cualquier
+    sistema formal lo suficientemente complejo? \textit{(R: Existen proposiciones verdaderas que no
+    pueden ser demostradas dentro del sistema).}
+    \item \textbf{[N2]} Arrastra el nombre ``Lenguajes Regulares'' al nivel que le corresponde en
+    la pirámide de la Jerarquía de Chomsky. \textit{(R: Tipo 3 -- Base de la pirámide).}
+    \item \textbf{[N1]} ¿Qué tipo de máquina reconoce a los lenguajes de Tipo 2 (Independientes
+    del Contexto)? \textit{(R: Autómata de Pila).}
+    \item \textbf{[N1]} ¿A qué nivel de la jerarquía pertenecen las expresiones regulares
+    utilizadas en los lenguajes de programación modernos? \textit{(R: Tipo 3).}
+    \item \textbf{[N2]} Ordena de menor a mayor poder computacional: Máquina de Turing, AFD,
+    Autómata de Pila. \textit{(R: AFD $\rightarrow$ Autómata de Pila $\rightarrow$ Máquina de
+    Turing).}
+\end{itemize}
+
+\paragraph{Nivel 1.2: Alfabetos y Cadenas}
+
+\textbf{Teoría Previa:} Animación de una ``cinta'' donde se depositan símbolos individuales que se
+fusionan para formar una cadena plana. Definición de $\Sigma$ y $\varepsilon$.
+
+\textbf{Reactivos:}
+\begin{itemize}
+    \item \textbf{[N1]} ¿Cuál es la definición formal de un alfabeto ($\Sigma$)? \textit{(R: Un
+    conjunto finito y no vacío de símbolos).}
+    \item \textbf{[N1]} Identifica la aseveración correcta: \textit{(R: Un símbolo es la unidad
+    atómica; una cadena es una secuencia de símbolos).}
+    \item \textbf{[N2]} Dado $\Sigma = \{0, 1\}$, selecciona todos los elementos que NO sean
+    símbolos válidos. \textit{(Opciones: 0, 1, $\varepsilon$, 00). (R: $\varepsilon$ y 00).}
+    \item \textbf{[N1]} ¿Qué representa matemáticamente el símbolo $\varepsilon$ (Épsilon)?
+    \textit{(R: La cadena vacía, de longitud cero).}
+    \item \textbf{[N2]} Dada la cadena $w = 10110$, indica su longitud formal $|w|$.
+    \textit{(R: 5).}
+    \item \textbf{[N1]} Si la longitud $|w| = 0$, ¿qué podemos afirmar obligatoriamente sobre $w$?
+    \textit{(R: $w = \varepsilon$).}
+    \item \textbf{[N3]} Genera una cadena válida de longitud 4 utilizando estrictamente el alfabeto
+    binario. \textit{(R: Cualquier combinación como 0000, 1010, etc.).}
+    \item \textbf{[N1]} ¿Cuál es la diferencia entre el conjunto vacío $\emptyset$ y el conjunto
+    que contiene a la cadena vacía $\{\varepsilon\}$? \textit{(R: El primero no tiene elementos,
+    el segundo tiene un elemento de longitud cero).}
+\end{itemize}
+
+\paragraph{Nivel 1.3: Operaciones con Lenguajes}
+
+\textbf{Teoría Previa:} Diagramas de Venn interactivos mostrando Unión e Intersección, y bloques
+de encastre mostrando Concatenación.
+
+\textbf{Reactivos:}
+\begin{itemize}
+    \item \textbf{[N1]} ¿Cómo se define un lenguaje formal $L$? \textit{(R: Como cualquier
+    subconjunto de $\Sigma^*$).}
+    \item \textbf{[N2]} Dadas las cadenas $x = aba$ e $y = bb$, forma la concatenación $xy$.
+    \textit{(R: $ababb$).}
+    \item \textbf{[N1]} ¿Qué resultado se obtiene al concatenar $\varepsilon \cdot \varepsilon$?
+    \textit{(R: $\varepsilon$).}
+    \item \textbf{[N1]} ¿Qué resultado se obtiene al concatenar un lenguaje con el lenguaje vacío
+    $(L \cdot \emptyset)$? \textit{(R: $\emptyset$).}
+    \item \textbf{[N2]} Si $L_1 = \{a\}$ y $L_2 = \{b\}$, selecciona los elementos de
+    $L_1 \cup L_2$. \textit{(R: $\{a, b\}$).}
+    \item \textbf{[N1]} ¿Qué representa la Cerradura de Kleene ($\Sigma^*$)? \textit{(R: El
+    conjunto de todas las cadenas posibles sobre $\Sigma$, incluyendo $\varepsilon$).}
+    \item \textbf{[N1]} ¿En qué se diferencia la Cerradura Positiva ($\Sigma^+$) de la de Kleene?
+    \textit{(R: La cerradura positiva excluye a $\varepsilon$ por defecto).}
+\end{itemize}
+
+\paragraph{Nivel 1.4: Autómatas Finitos Deterministas (AFD)}
+
+\textbf{Teoría Previa:} Un diagrama de grafos animado procesando la cadena ``101''. El texto
+muestra el quíntuplo $M = (Q, \Sigma, \delta, q_0, F)$.
+
+\textbf{Reactivos:}
+\begin{itemize}
+    \item \textbf{[N1]} En el quíntuplo de un AFD, ¿qué representa el componente $Q$? \textit{(R:
+    Un conjunto finito de estados).}
+    \item \textbf{[N2]} Identifica visualmente la representación de un ``Estado de Aceptación'' en
+    el siguiente grafo. \textit{(R: El usuario toca el estado con doble círculo).}
+    \item \textbf{[N1]} ¿Por qué a este autómata se le denomina ``Determinista''? \textit{(R:
+    Porque para cada estado y cada símbolo, existe exactamente una transición de salida).}
+    \item \textbf{[N1]} ¿Qué función tiene el estado inicial $q_0$? \textit{(R: Es el único estado
+    donde comienza el procesamiento de cualquier cadena).}
+    \item \textbf{[N1]} ¿Cuándo decimos que una cadena $w$ pertenece al lenguaje $L(M)$?
+    \textit{(R: Cuando el procesamiento termina en un estado $q_i \in F$).}
+    \item \textbf{[N3]} Construcción: Agrega las transiciones faltantes al grafo para que reconozca
+    cadenas que terminen en ``0''. \textit{(R: Dibujar flecha al estado final).}
+\end{itemize}
+
+\paragraph{Nivel 1.5: Autómatas Finitos No Deterministas (AFN)}
+
+\textbf{Teoría Previa:} Texto comparativo que ilustra cómo un AFN ``clona'' universos de ejecución
+al encontrarse con una bifurcación o una transición espontánea.
+
+\textbf{Reactivos:}
+\begin{itemize}
+    \item \textbf{[N1]} ¿Cuál es la diferencia principal en la función de transición $\delta$ de un
+    AFN? \textit{(R: Puede devolver un conjunto de estados, en lugar de uno solo).}
+    \item \textbf{[N1]} ¿Qué permite una transición Épsilon ($\varepsilon$)? \textit{(R: Cambiar
+    de estado sin consumir ningún símbolo de entrada).}
+    \item \textbf{[N1]} En un AFN, ¿qué condición basta para que una cadena sea aceptada?
+    \textit{(R: Que al menos un camino de ejecución termine en un estado de aceptación).}
+    \item \textbf{[N2]} Calcula la ``Clausura Épsilon'' del estado $q_0$ en el diagrama. \textit{(R:
+    Seleccionar $q_0$ y todos los estados alcanzables solo con flechas $\varepsilon$).}
+    \item \textbf{[N1]} Si una rama de ejecución no tiene una transición definida para el símbolo
+    actual, ¿qué le ocurre a esa rama? \textit{(R: La rama ``muere'' o se descarta).}
+\end{itemize}
+
+\paragraph{Nivel 1.6: Equivalencias y Expresiones Regulares}
+
+\textbf{Teoría Previa:} Explicación del Teorema de Kleene. Muestra que las expresiones regulares,
+AFD y AFN tienen exactamente el mismo poder computacional.
+
+\textbf{Reactivos:}
+\begin{itemize}
+    \item \textbf{[N1]} ¿Tienen los AFN mayor poder para reconocer lenguajes que los AFD?
+    \textit{(R: Falso. Reconocen exactamente la misma familia de lenguajes regulares).}
+    \item \textbf{[N1]} ¿Qué técnica matemática permite convertir un AFN en un AFD equivalente?
+    \textit{(R: El método de construcción de subconjuntos).}
+    \item \textbf{[N2]} Dada la expresión regular \texttt{a*b}, ¿cuál de las siguientes cadenas es
+    válida? \textit{(R: aab, b, ab. Falsa: ba).}
+    \item \textbf{[N3]} Aplica las reglas del Algoritmo de Thompson para construir la unión
+    \texttt{a|b}. \textit{(R: Conectar nodo inicial con dos ramas $\varepsilon$ hacia a y b, y
+    unir al final).}
+    \item \textbf{[N1]} ¿Qué representa el operador $|$ en una expresión regular? \textit{(R: La
+    unión o disyunción de dos lenguajes).}
+    \item \textbf{[N1]} ¿Puede cualquier lenguaje descrito por una expresión regular ser procesado
+    por una Máquina de Turing? \textit{(R: Verdadero, ya que están contenidas en los niveles
+    inferiores de la jerarquía).}
+\end{itemize}
+
+% ============================================================
+\section{Fase de Prototipar (Arquitectura de Información)}
+\label{sec:prototipar}
+% ============================================================
+
+La fase de prototipado representa la transición de las ideas lógicas y mecánicas de ludificación
+hacia una estructura tangible y navegable. Siguiendo los principios de ingeniería de usabilidad de
+Nielsen \cite{nielsen1994}, se priorizó una arquitectura que minimice la carga cognitiva,
+permitiendo que el esfuerzo mental del estudiante se centre en la resolución de problemas
+matemáticos y no en la curva de aprendizaje de la herramienta.
+
+\subsection{Sistema de la Aplicación}
+\label{subsec:sistema_aplicacion}
+
+La arquitectura de información de AUTECH se diseñó bajo un esquema jerárquico-funcional. Se optó
+por una navegación de ``poca profundidad'', donde las funciones críticas del simulador y el acceso
+a los niveles de aprendizaje no superan los tres niveles de navegación desde el tablero principal.
+Esta decisión técnica se fundamenta en las directrices de diseño de interfaces móviles de
+Kukulska-Hulme \cite{kukulska2007}, asegurando eficiencia en dispositivos de pantalla reducida.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/image1.png}
+    \caption[Mapa de navegación de AUTECH -- Parte 1]{Diagrama 41 (parte 1). Mapa de navegación
+        completo del sistema AUTECH, mostrando el flujo desde Splash/Onboarding/Login hasta los
+        dashboards diferenciados por rol.}
+    \label{fig:nav_p1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/image2.png}
+    \caption[Flujo de navegación del rol Docente]{Diagrama 41 (parte 2). Detalle del flujo de
+        navegación del rol Docente en AUTECH, desde Login y enrutamiento hasta el Dashboard Docente
+        con acceso a Gestión de Grupos, Analíticas y Ajuste Manual de Evaluación.}
+    \label{fig:nav_docente}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/image3.png}
+    \caption[Flujo de navegación del rol Administrador]{Diagrama 41 (parte 3). Detalle del flujo
+        de navegación del rol Administrador en AUTECH, con acceso al Dashboard Admin para Gestión
+        Global de Usuarios y Auditoría del Sistema.}
+    \label{fig:nav_admin}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{imagenes/image4.png}
+    \caption[Flujo de navegación del rol Alumno]{Diagrama 41 (parte 4). Detalle del flujo de
+        navegación del rol Alumno en AUTECH.}
+    \label{fig:nav_alumno}
+\end{figure}
+
+La estructura se divide en tres ramas principales:
+
+\begin{itemize}
+    \item \textbf{Gestión de Usuario:} Acceso, recuperación de credenciales y personalización del
+    perfil del alumno.
+    \item \textbf{Núcleo de Aprendizaje (Core):} Acceso secuencial a los Mundos y niveles de la
+    Jerarquía de Chomsky.
+    \item \textbf{Herramientas de Simulación:} El lienzo dinámico (\textit{Canvas}) que integra el
+    motor de renderizado.
+\end{itemize}
+
+\subsection{Mockups de Alta Fidelidad y Especificación de Interfaz}
+\label{subsec:mockups}
+
+Para la construcción del prototipo visual, se implementó Material Design 3 con un toque al estilo
+Duolingo \cite{materialdesign2023}\cite{duolingo2024} y los heurísticos de usabilidad de Nielsen
+\cite{nielsen1994}, asegurando que la interfaz no sea un obstáculo, sino un facilitador del
+aprendizaje. El diseño contempla pantallas responsivas adaptables a múltiples resoluciones de
+dispositivos Android \cite{google2023}.
+
+\subsubsection*{A. Splash Screen y Flujo de Onboarding}
+
+La primera impresión del sistema. Consiste en una pantalla de carga ligera que muestra el
+imagotipo de AUTECH. El \textit{Onboarding} posterior guía al usuario de nuevo ingreso a través de
+3 pantallas deslizables (\textit{swipe}) que explican la mecánica de los mundos y el sistema de
+insignias.
+
+\textbf{Justificación UX:} Reduce la ansiedad del usuario nuevo informándole inmediatamente sobre
+el propósito y las herramientas de la aplicación.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image5.png}
+    \caption[Paletas de color para la pantalla de splash]{Propuestas de paletas de color para la
+        pantalla de splash de la aplicación AUTECH, presentando seis variantes de fondo (turquesa,
+        blanco, gris claro, gris oscuro, negro y oscuro con texto turquesa).}
+    \label{fig:splash_paletas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagenes/image6.png}
+    \caption[Pantalla de splash en modo claro y oscuro]{Pantalla de splash de la aplicación AUTECH
+        en modo claro y oscuro, con el logo de flecha circular y el nombre de la app centrado.}
+    \label{fig:splash}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image7.png}
+    \caption[Onboarding -- Bienvenida con personaje Byte]{Pantalla de \textit{onboarding} de la
+        aplicación AUTECH con el personaje guía ``Byte'' dando la bienvenida al usuario e
+        indicando el nivel actual con una tarjeta destacada.}
+    \label{fig:onboarding1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image8.png}
+    \caption[Onboarding -- Progreso dentro del nivel]{Pantalla de \textit{onboarding} de AUTECH
+        mostrando al personaje Byte señalando el ícono de lista para consultar el progreso dentro
+        del nivel actual.}
+    \label{fig:onboarding2}
+\end{figure}
+
+\subsubsection*{B. Módulo de Autenticación y Registro}
+
+Pantalla minimalista sin elementos distractores. Contiene los campos de entrada de texto para
+correo y contraseña.
+
+\textbf{Justificación UX:} Se implementan campos con validación visual en tiempo real (bordes rojos
+para errores, verdes para éxito) y un enlace claro para la recuperación de credenciales,
+minimizando la frustración en el acceso.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image9.png}
+    \caption[Pantalla de inicio de sesión -- modo claro y oscuro]{Pantalla de inicio de sesión de
+        la aplicación AUTECH en modo claro y oscuro, con opciones de iniciar sesión, registrarse y
+        omitir por ahora.}
+    \label{fig:login1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image10.png}
+    \caption[Pantalla de inicio de sesión con campos completos]{Pantalla de inicio de sesión de
+        AUTECH con campos para correo/teléfono/usuario y contraseña, en modo claro y oscuro, con
+        opciones de ingreso mediante Google y Facebook.}
+    \label{fig:login2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image11.png}
+    \caption[Pantalla de recuperación de contraseña]{Pantalla de recuperación de contraseña de
+        AUTECH, donde el usuario puede ingresar su correo para recibir un enlace de
+        restablecimiento o usar su número de teléfono.}
+    \label{fig:recuperacion}
+\end{figure}
+
+\newpage
+\subsubsection*{C. Dashboard Principal (Hub del Estudiante)}
+
+El centro de mando del usuario. Muestra un saludo personalizado, el nivel actual, la barra de
+experiencia (XP) y un contador de ``Racha'' de días consecutivos de estudio (ícono de fuego).
+
+\textbf{Justificación UX:} Al colocar las estadísticas en la pantalla principal, se activa el ciclo
+de retroalimentación psicológica de la ludificación \cite{deterding2011}, incentivando al usuario a
+mantener su racha antes de navegar a otras secciones.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image12.png}
+    \caption[Dashboard -- Perfil del alumno]{Pantalla de perfil del alumno Diego Sanchez Velasco
+        en AUTECH, mostrando datos generales, progreso (nivel 10, racha de 25 días, 320 XP) e
+        insignias obtenidas.}
+    \label{fig:dashboard}
+\end{figure}
+
+\newpage
+\subsubsection*{D. Mapa de Navegación de Mundos}
+
+En lugar de un menú de lista tradicional, el temario de ``Teoría de la Computación'' se representa
+como un mapa de niveles progresivos (estilo videojuego). Los mundos bloqueados se muestran en
+escala de grises o con un ícono de candado.
+
+\textbf{Justificación UX:} La metáfora visual del ``mapa'' proporciona un sentido claro de
+progresión y de cuánto falta para terminar el curso, ayudando a la estructuración mental del
+alumno.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image13.png}
+    \caption[Mapa de niveles de AUTECH]{Mapa de niveles de AUTECH mostrando el Nivel 1
+        ``Introducción teórica'' con actividades disponibles (libro, puzzle) y bloqueadas, junto
+        al personaje Byte.}
+    \label{fig:mapa_mundos}
+\end{figure}
+
+\newpage
+\subsubsection*{E. Pantalla de Inducción Teórica (Micro-learning)}
+
+La vista que antecede a los reactivos prácticos. Presenta tarjetas de texto y diagramas con la
+teoría de Chomsky. Incorpora un temporizador visual y el botón ``Omitir'' (\textit{Skip})
+deshabilitado temporalmente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image14.png}
+    \caption[Panel de resumen del Nivel 1]{Panel de resumen del Nivel 1 ``Introducción teórica''
+        en AUTECH, listando cuatro ejercicios: introducción a autómatas finitos, reforzamiento y
+        dos ejercicios no completados.}
+    \label{fig:induccion}
+\end{figure}
+
+\newpage
+\subsubsection*{F. Interfaz de Evaluación (Reactivos Visuales y Teóricos)}
+
+Vista diseñada para los niveles cognitivos N1 y N2. Muestra la pregunta en la parte superior y
+opciones interactivas en la zona central.
+
+\textbf{Justificación UX:} Los elementos interactivos están posicionados en la mitad inferior de la
+pantalla para respetar la ``zona de confort del pulgar'' (\textit{Thumb Zone}), facilitando su uso
+a una sola mano.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image15.jpeg}
+    \caption[Ejercicio de opción múltiple en AUTECH]{Ejercicio de opción múltiple en AUTECH
+        preguntando ``¿Qué es un estado inicial?'', mostrando las cuatro opciones y el estado
+        previo a seleccionar respuesta.}
+    \label{fig:evaluacion1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image16.png}
+    \caption[Retroalimentación de ejercicio de opción múltiple]{Retroalimentación del ejercicio
+        de opción múltiple de AUTECH: corrección del error con la respuesta correcta resaltada en
+        rojo, y mensaje de felicitación del personaje Byte ofreciendo un repaso.}
+    \label{fig:evaluacion2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image17.png}
+    \caption[Ejercicio de selección visual de estado inicial]{Ejercicio de selección visual en
+        AUTECH para identificar el estado inicial de un autómata, con cuatro opciones de estados
+        y retroalimentación de respuesta correcta.}
+    \label{fig:evaluacion3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image18.png}
+    \caption[Ejercicio interactivo: arrastrar símbolos al autómata]{Ejercicio interactivo en AUTECH
+        donde el usuario arrastra símbolos (\texttt{'h', 'o', 'l', 'a'}) para completar las
+        transiciones de un autómata que acepta la cadena ``hola''.}
+    \label{fig:drag_drop}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image19.png}
+    \caption[Resultado del ejercicio de completar el autómata]{Resultado del ejercicio de completar
+        el autómata en AUTECH, mostrando las transiciones correctamente asignadas y el mensaje de
+        confirmación ``Correcto, ¡Buen trabajo!''.}
+    \label{fig:drag_resultado}
+\end{figure}
+
+\subsubsection*{G. Lienzo de Simulación Interactivo (Canvas)}
+
+El núcleo algorítmico de AUTECH. Es una pantalla limpia que ocupa el 90\% del dispositivo. Cuenta
+con una barra de herramientas flotante (\textit{Floating Action Bar}) para agregar estados, trazar
+transiciones (aristas) e ingresar la cadena a evaluar.
+
+\textbf{Justificación UX:} La reducción del ``ruido visual'' maximiza el área de dibujo. Los
+colores de los nodos cambian dinámicamente (ej.\ verde para aceptación) para dar \textit{feedback}
+instantáneo de la topología del grafo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image20.png}
+    \caption[Pantalla de herramientas de simulación]{Pantalla de herramientas de AUTECH con
+        opciones para crear y simular AFN y AFDN, cada uno con botón ``Comenzar''.}
+    \label{fig:canvas1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image21.png}
+    \caption[Menú de opciones del constructor de autómatas]{Menú de opciones del constructor de
+        autómatas en AUTECH, con acciones de simulación paso a paso, test rápido, borrado y
+        exportación/importación en formatos FSAM y JFF.}
+    \label{fig:canvas2}
+\end{figure}
+
+\subsubsection*{H. Pantalla de Retroalimentación y Asistente Virtual}
+
+Al cometer un error o finalizar un nivel, esta pantalla emergente (\textit{Bottom Sheet} o
+\textit{Dialog}) aparece. Presenta a la mascota de la aplicación (avatar del Pug) entregando un
+mensaje de corrección, la puntuación obtenida y el botón de reintento.
+
+\textbf{Justificación UX:} El uso de un personaje amistoso mitiga la frustración ante el fracaso
+matemático. Transforma un error técnico en una oportunidad guiada, aplicando el principio
+pedagógico del ``andamiaje''.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{imagenes/image22.png}
+    \caption[Retroalimentación de error en AUTECH]{Ejercicio de opción múltiple con
+        retroalimentación de error resaltada en rojo, indicando la respuesta correcta.}
+    \label{fig:retroalimentacion}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image23.png}
+    \caption[Secuencia: mensaje de Byte y ejercicio correcto]{Secuencia de pantallas en AUTECH:
+        mensaje de felicitación del personaje Byte y ejercicio de selección de estado inicial con
+        la opción correcta seleccionada ($\rightarrow q_0$).}
+    \label{fig:byte_correcto}
+\end{figure}
+
+\newpage
+\subsubsection*{I. Perfil de Usuario y Colección de Insignias}
+
+El inventario personal. Muestra las insignias obtenidas a color y las pendientes en opacidad baja.
+
+\textbf{Justificación UX:} Actúa como el cierre del ciclo de ludificación. Ver los ``huecos''
+vacíos en el inventario genera un efecto psicológico de ``completitud'' (Efecto Zeigarnik),
+motivando al alumno a seguir practicando.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{imagenes/image24.png}
+    \caption[Perfil del alumno con insignias acumuladas]{Pantalla de perfil del alumno Diego
+        Sanchez Velasco con datos actualizados: nivel 10, racha de 25 días y 329 XP, mostrando
+        las insignias acumuladas.}
+    \label{fig:perfil_insignias}
+\end{figure}
+
+\newpage
+\subsection{Decisiones de Colorimetría}
+\label{subsec:colorimetria}
+
+\subsubsection*{1. Paleta fría como ancla cognitiva}
+
+La decisión de centrar toda la interfaz en tonos cian y azules (\texttt{\#00ADB5} como color
+primario) no fue estética sino fisiológica. La literatura consultada (Heller; Malamed)
+\cite{heller2004}\cite{malamed2015} documenta que estos tonos reducen la frecuencia cardíaca y
+favorecen la concentración sostenida, condición necesaria cuando el estudiante trabaja con
+notaciones formales densas como las 7-tuplas de las Máquinas de Turing. El cian además ocupa una
+posición psicológica intermedia entre la precisión del azul y la innovación del verde, lo que lo
+hace apropiado para una herramienta de ingeniería que debe transmitir rigor y apertura al
+aprendizaje simultáneamente.
+
+\subsubsection*{2. Eliminación del contraste extremo para reducir fatiga visual}
+
+En lugar de negro puro sobre blanco puro, AUTECH emplea \texttt{\#1A202C} sobre
+\texttt{\#F5F8FA}. Esto responde directamente al fenómeno de ``irradiación simultánea'' documentado
+por Heller y Holtzschue \cite{heller2004}\cite{holtzschue2017}: el contraste negro-blanco absoluto
+genera halos retinales que distorsionan la lectura de símbolos pequeños (como $\delta$, $\Sigma$,
+$q_0$) después de veinte minutos de exposición. El blanco roto con temperatura fría del fondo
+armoniza cromáticamente con el sistema cian, creando coherencia sin monotonía.
+
+\subsubsection*{3. Estratificación visual sin bordes explícitos}
+
+La interfaz opera en tres planos: fondo general (\texttt{\#F5F8FA}), tarjetas de contenido
+(\texttt{\#FFFFFF}) y elementos interactivos con saturación medida. Siguiendo la teoría de
+elevación visual de Lidwell \cite{lidwell2010}, estas diferencias sutiles de luminosidad comunican
+jerarquía funcional sin necesidad de separadores o bordes que aumentarían la densidad visual.
+
+\subsubsection*{4. Codificación semántica de los estados del autómata (núcleo pedagógico)}
+
+Esta es la decisión más crítica del sistema. Cada tipo de estado recibe un color con justificación
+semántica específica:
+
+\begin{itemize}
+    \item \textbf{Azul glacial (\texttt{\#EBF8FF})} para estados neutros: el azul claro está
+    universalmente asociado a la neutralidad y la espera pasiva.
+    \item \textbf{Verde menta (\texttt{\#E6FFFA})} para el estado inicial $q_0$: aprovecha la
+    convención cultural del verde como señal de arranque (semáforos, botones de encendido).
+    \item \textbf{Crema dorado (\texttt{\#FFFAF0})} para estados de aceptación $F$: la temperatura
+    cálida contrasta con los estados normales (fríos). El dorado connota culturalmente culminación
+    y logro.
+    \item \textbf{Amarillo (\texttt{\#FEFCBF})} para el estado activo en ejecución: el amarillo es
+    el color que el sistema visual humano localiza con mayor velocidad fisiológica, al estar más
+    cercano al pico de sensibilidad de los conos retinales.
+\end{itemize}
+
+\subsubsection*{5. Explotación de las leyes de la Gestalt}
+
+La ley de similitud de Koffka \cite{koffka2013} explica por qué la codificación funciona: el
+sistema perceptual agrupa por color antes de que intervenga el razonamiento consciente. Tras tres a
+cinco sesiones de uso, el reconocimiento de tipos de estado se vuelve automático. La ley de
+pregnancia respalda el uso de solo seis colores funcionales: paletas de más de siete colores
+superan la memoria de trabajo visual y anulan el beneficio de la codificación.
+
+\subsubsection*{6. Accesibilidad como redundancia de canales}
+
+Dado que el 8\% de la población masculina presenta alguna deficiencia en la visión del color, el
+sistema cromático se diseñó como canal redundante, no único. Los estados de aceptación también se
+distinguen por forma (doble círculo), el estado inicial por posición (flecha de entrada) y todos
+los estados por etiqueta textual. Esto beneficia tanto a usuarios con deficiencias visuales como al
+conjunto de usuarios, al activar múltiples vías de procesamiento perceptual simultáneamente.

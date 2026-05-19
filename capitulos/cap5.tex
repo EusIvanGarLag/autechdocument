@@ -1,4 +1,1256 @@
-\chapter{Pruebas y Resultados}
-\label{ch:pruebas_resultados}
+% ============================================================
+%  cap5.tex  —  Capítulo 5: Ciclo 0
+%  Proyecto: AUTECH – Trabajo Terminal ESCOM-IPN
+%  \include{capitulos/cap5} en main.tex
+%  Imágenes en carpeta: imagenes/
+% ============================================================
 
-Aquí se documentarán los casos de prueba, simulaciones y las conclusiones del proyecto.
+\chapter{Ciclo 0}
+\label{ch:ciclo0}
+
+% ============================================================
+\section{Arquitectura del Sistema}
+\label{sec:arquitectura}
+% ============================================================
+
+AUTECH es una aplicación móvil desarrollada con Flutter que sigue una separación de
+responsabilidades bastante clara, aunque sin aplicar textualmente un \textit{framework}
+arquitectónico de libro. La estructura surgió de la manera más natural, ya que, conforme el
+proyecto fue creciendo: primero había una sola pantalla de \textit{login}, después vinieron los
+módulos de simulación, y para cuando se integró Supabase la lógica de negocio ya vivía en su
+propio archivo. Eso, si lo vemos desde otro punto de vista, es exactamente lo que propone la
+\textit{Layered Architecture} \cite{martin2012}: separar el sistema en capas que apuntan a capas
+adyacentes, y dentro de las mismas se establecen las reglas del sistema y cómo conviven los
+componentes entre su misma capa y capas adyacentes.
+
+La arquitectura se divide en cinco capas principales que se corresponden con la presentación,
+el dominio y los datos. Su organización de directorios no es tan estricta como en proyectos
+empresariales, pero la intención es la misma. Se detalla la función de cada nivel arquitectónico,
+resaltando cómo la integración con Supabase y el enfoque \textit{offline-first} soportan las
+acciones que se hacen desde la aplicación AUTECH:
+
+\begin{itemize}
+    \item \textbf{Capa de Presentación (\textit{Presentation Layer}):} Contiene los componentes
+    visuales desarrollados en Flutter, organizados en módulos como autenticación (Auth~·~Splash),
+    paneles de usuario (Administrador, Profesor, Alumno) y simuladores. Esta capa sigue un enfoque
+    reactivo mediante el uso de \texttt{StreamBuilder} y \texttt{FutureBuilder}, lo que permite
+    actualizar la interfaz en tiempo real conforme cambian los datos. Su responsabilidad es
+    estrictamente visual, dejando toda la lógica de negocio a la capa de servicios, lo que
+    garantiza una clara separación de responsabilidades y facilita la mantenibilidad.
+
+    \item \textbf{Capa de Servicios (\textit{Service Layer}):} Actúa como intermediaria entre la
+    interfaz de usuario y las fuentes de datos, abarcando la lógica de aplicación mediante
+    servicios como \texttt{AuthService}, \texttt{UserService}, \texttt{GrupoService},
+    \texttt{EjercicioService} y \texttt{SupabaseService}. Además, integra componentes clave como
+    \texttt{OfflineSyncService}, que habilita el enfoque \textit{offline-first} al gestionar la
+    sincronización entre almacenamiento local y remoto, y \texttt{ApiService}, encargado de la
+    comunicación con el \textit{backend} externo. Esta capa implementa patrones como
+    \textit{Singleton} y \textit{Facade}, centralizando la lógica y evitando la duplicidad de
+    código.
+
+    \item \textbf{Capa de Datos (\textit{Data Layer}):} Gestiona la persistencia de la información
+    tanto en entornos locales como remotos. Incluye bases de datos locales (SQLite) y
+    almacenamiento de recursos (Assets JSON) para garantizar la disponibilidad sin conexión, así
+    como servicios remotos de Supabase (PostgreSQL, GoTrue Auth y Realtime). Esta capa abstrae el
+    acceso a los datos, permitiendo que la aplicación opere de manera eficiente y resiliente ante
+    fallos de conectividad, priorizando siempre el acceso local y sincronizando posteriormente con
+    la nube.
+
+    \item \textbf{Backend Externo (Infraestructura de Procesamiento):} Corresponde a una API REST
+    desplegada en Render, encargada de ejecutar procesos especializados relacionados con teoría de
+    la computación, como la simulación de autómatas (AFD, AFN, APD, MT) y operaciones como
+    conversión (AFN~$\rightarrow$~AFD), minimización (MIN) y otras operaciones (OPR). Esta capa
+    permite descargar el procesamiento intensivo del dispositivo cliente, manteniendo la aplicación
+    ligera y escalable.
+
+    \item \textbf{Gestión de Autenticación y Seguridad:} La autenticación se gestiona de forma
+    centralizada a través de Supabase Auth, accedida mediante el \texttt{AuthService}. Este
+    servicio valida credenciales, gestiona sesiones y controla el acceso a los diferentes módulos
+    según el rol del usuario (Administrador, Profesor o Alumno). Aunque la aplicación implementa
+    un enfoque \textit{offline-first} para los datos, la autenticación se realiza exclusivamente
+    en línea, garantizando la seguridad y consistencia del sistema.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/DA.jpeg}
+    \caption[Arquitectura del sistema AUTECH]{Arquitectura del sistema AUTECH organizada en cinco
+        capas: Presentación, Servicios, Datos, Backend Externo y Gestión de Autenticación.}
+    \label{fig:arquitectura}
+\end{figure}
+
+Como se muestra en la Figura~\ref{fig:arquitectura}, la organización en capas
+permite una separación clara de responsabilidades dentro de la aplicación.
+
+\subsubsection*{Flujo de Control General}
+
+El punto de entrada es \texttt{main.dart}, que inicializa Supabase y el \textit{factory} de SQLite
+(\texttt{sqflite\_common\_ffi} en \textit{desktop}) antes de lanzar la aplicación con
+\texttt{SplashScreen} como pantalla inicial. La \texttt{SplashScreen} verifica si hay sesión activa
+con Supabase Auth (GoTrue) y, en caso afirmativo, consulta el registro de usuario en PostgreSQL para
+obtener el rol. A partir de ahí, la navegación se bifurca según ese rol.
+
+Dentro de cada módulo de simulación (\texttt{RegexScreen}, \texttt{PdaScreen},
+\texttt{TuringScreen}) el flujo sigue siempre el mismo patrón: el usuario configura el autómata en
+un formulario o en el \textit{canvas} interactivo (esto depende de la opción que está siendo
+ocupada); al presionar el botón de simular, \texttt{ApiService} serializa la definición a JSON y
+hace el POST al \textit{endpoint} correspondiente, y el resultado se deserializa para actualizar la
+visualización en \texttt{AutomatonCanvas} paso a paso.
+
+% ============================================================
+\section{Diseño de Datos}
+\label{sec:diseno_datos}
+% ============================================================
+
+La base de datos del sistema es PostgreSQL gestionada a través de Supabase, una base de datos
+relacional con soporte completo de esquemas, llaves foráneas e integridad referencial. A diferencia
+del modelo NoSQL anterior (Cloud Firestore), aquí las relaciones entre entidades se expresan
+mediante \textit{Foreign Keys} explícitas y tablas de unión normalizadas. Supabase añade sobre
+PostgreSQL un sistema de \textit{Row Level Security} (RLS) que permite aplicar políticas de acceso
+directamente en la base de datos, sin depender únicamente de la lógica de la aplicación cliente
+\cite{google2024b}\cite{supabase2024}.
+
+Esta decisión de diseño tuvo consecuencias prácticas importantes durante el desarrollo. Por ejemplo,
+las preguntas de un ejercicio están embebidas en el documento del ejercicio como columnas JSONB en
+la tabla de \texttt{group\_members}, lo cual simplifica las lecturas de progreso (una sola consulta
+por alumno) pero requiere funciones RPC en el servidor para actualizaciones parciales seguras. Es el
+\textit{trade-off} clásico entre normalización y rendimiento de lectura: se prefirió JSONB para el
+progreso por nodo porque su estructura es semiestructurada y varía por unidad \cite{fowler2013}.
+
+\newpage
+\subsection{Modelo Entidad-Relación (PostgreSQL / Supabase)}
+\label{subsec:mer}
+
+El esquema lógico de PostgreSQL se organiza en seis tablas principales. A diferencia de Firestore,
+PostgreSQL impone tipos de columna y restricciones en tiempo de escritura \cite{google2024b}, por lo
+que el control de tipos se divide entre la base de datos (constraints, CHECK, NOT NULL) y la
+aplicación cliente a través de los métodos \texttt{fromMap()}/\texttt{toMap()} de cada modelo en
+Dart. \textit{Row Level Security} (RLS) refuerza el control de acceso a nivel de fila sin
+necesidad de lógica adicional en el cliente.
+
+En la Figura~\ref{fig:diagrama_er} se presenta el diagrama
+Entidad-Relación que rige el ecosistema de AUTECH.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.70\textwidth]{imagenes/DiagramaER.jpg}
+    \caption[Diagrama Entidad-Relación de AUTECH]{Diagrama Entidad-Relación
+        del esquema físico PostgreSQL de AUTECH, mostrando las entidades
+        \texttt{users}, \texttt{grupos}, \texttt{group\_members},
+        \texttt{ejercicios}, \texttt{role\_requests} y
+        \texttt{achievements} con sus relaciones y atributos principales.}
+    \label{fig:diagrama_erb}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption[Modelo de datos PostgreSQL/Supabase de AUTECH]{Modelo de datos PostgreSQL/Supabase de
+        AUTECH: relaciones entre entidades y su cardinalidad.}
+    \label{tab:modelo_datos}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\raggedright\arraybackslash}p{4.0cm}
+        >{\centering\arraybackslash}p{1.8cm}
+        X}
+        \toprule
+        \thcol{Tabla / Entidad} & \thcol{Cardinalidad} & \thcol{Descripción de la relación} \\
+        \midrule
+        \rowcolor{azulFila}
+        \texttt{Users} & 1 &
+            Fila por usuario. Contiene rol, datos académicos y estado de aprobación. Clave
+            primaria: \texttt{id}~(UUID). \\[3pt]
+
+        \texttt{group\_members}\newline(\texttt{users} $\leftrightarrow$ \texttt{grupos}) & N:M &
+            Un alumno puede pertenecer a varios grupos; un grupo puede tener múltiples alumnos.
+            La relación se materializa con la tabla de unión \texttt{group\_members}
+            (FK \texttt{student\_id}~$\rightarrow$~\texttt{users},
+            FK \texttt{group\_id}~$\rightarrow$~\texttt{grupos}). \\[3pt]
+
+        \rowcolor{azulFila}
+        \texttt{grupos}~$\rightarrow$~\texttt{users}\newline(\texttt{docente\_id}) & N:1 &
+            Cada grupo tiene una FK \texttt{docente\_id} que referencia a \texttt{users}. El
+            nombre del docente se desnormaliza en \texttt{docente\_name} para evitar JOINs
+            adicionales en las consultas frecuentes. \\[3pt]
+
+        \texttt{ejercicios}~$\rightarrow$~\texttt{grupos}\newline(\texttt{grupo\_id} FK) & 1:N &
+            Un grupo puede tener múltiples ejercicios. La relación está en la FK
+            \texttt{grupo\_id} de la tabla \texttt{ejercicios}. \\[3pt]
+
+        \rowcolor{azulFila}
+        \texttt{ejercicios.preguntas}\newline(JSONB embebido) & 1:N &
+            Las preguntas se almacenan como JSONB dentro del campo \texttt{preguntas} de la tabla
+            \texttt{ejercicios}. No tienen tabla propia. \\[3pt]
+
+        \texttt{role\_requests}~$\rightarrow$~\texttt{users} & N:1 &
+            Un usuario puede emitir múltiples solicitudes de cambio de rol. Cada solicitud
+            referencia mediante FK \texttt{user\_id}~$\rightarrow$~\texttt{users} al
+            solicitante. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\newpage
+\subsection{Diccionario de Datos (Tablas y Columnas)}
+\label{subsec:diccionario}
+
+\subsubsection*{Tabla \texttt{users} \textnormal{---} Esquema: \texttt{public} \textnormal{---}
+    Clave primaria: \texttt{id} (UUID)}
+
+\begin{table}[H]
+    \centering
+    \caption[Esquema de columnas de la tabla \texttt{users}]{Esquema de columnas de la tabla
+        \texttt{users} en PostgreSQL/Supabase de AUTECH.}
+    \label{tab:users}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\ttfamily\raggedright\arraybackslash}p{2.8cm}
+        >{\raggedright\arraybackslash}p{2.2cm}
+        >{\centering\arraybackslash}p{1.3cm}
+        X}
+        \toprule
+        \thcol{Columna} & \thcol{Tipo} & \thcol{Req.} & \thcol{Descripción} \\
+        \midrule
+        \rowcolor{azulFila}
+        name        & String      & Sí & Nombre completo del usuario. \\
+        email       & String      & Sí & Correo electrónico, coincide con Supabase Auth (GoTrue). \\
+        \rowcolor{azulFila}
+        role        & String      & Sí & Rol: \texttt{'admin'}, \texttt{'teacher'} o \texttt{'student'}. \\
+        boleta      & String?     & No & Número de boleta. Solo para alumnos del IPN. \\
+        \rowcolor{azulFila}
+        employeeId  & String?     & No & Clave de empleado. Solo para docentes. \\
+        carrera     & String?     & No & Carrera o programa académico. \\
+        \rowcolor{azulFila}
+        grupo       & String?     & No & Identificador textual del grupo actual (ej.\ \texttt{'5CM1'}). \\
+        gender      & String?     & No & Género declarado por el usuario. \\
+        \rowcolor{azulFila}
+        asignaciones & TEXT[]     & Sí & Lista de asignaciones del usuario. La membresía a grupos se gestiona en \texttt{group\_members}. \\
+        photoUrl    & String?     & No & URL de foto de perfil (almacenamiento externo). \\
+        \rowcolor{azulFila}
+        isApproved  & BOOLEAN     & Sí & Indica si la cuenta fue aprobada por un administrador. \\
+        createdAt   & TIMESTAMPTZ & Sí & Fecha y hora de creación. Valor por defecto: \texttt{now()}. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection*{Tabla \texttt{grupos} \textnormal{---} Esquema: \texttt{public} \textnormal{---}
+    Clave primaria: \texttt{id} (UUID)}
+
+\begin{table}[H]
+    \centering
+    \caption[Esquema de columnas de la tabla \texttt{grupos}]{Esquema de columnas de la tabla
+        \texttt{grupos} en PostgreSQL/Supabase de AUTECH.}
+    \label{tab:grupos}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\ttfamily\raggedright\arraybackslash}p{2.8cm}
+        >{\raggedright\arraybackslash}p{2.2cm}
+        >{\centering\arraybackslash}p{1.3cm}
+        X}
+        \toprule
+        \thcol{Columna} & \thcol{Tipo} & \thcol{Req.} & \thcol{Descripción} \\
+        \midrule
+        \rowcolor{azulFila}
+        nombre       & String      & Sí & Nombre descriptivo del grupo. \\
+        docenteId    & String?     & No & UID del profesor responsable. \\
+        \rowcolor{azulFila}
+        docenteName  & String?     & No & Nombre del docente (desnormalizado para evitar lecturas adicionales). \\
+        carrera      & String?     & No & Carrera asociada al grupo. \\
+        \rowcolor{azulFila}
+        capacidad    & INTEGER     & Sí & Número máximo de alumnos. Default: 40. \\
+        asignaciones & TEXT[]      & Sí & IDs de ejercicios asignados al grupo. \\
+        \rowcolor{azulFila}
+        periodo      & String?     & No & Período escolar (ej.\ \texttt{'2025-A'}). \\
+        logoUrl      & String?     & No & URL del logo personalizado del grupo. \\
+        \rowcolor{azulFila}
+        alumnosCount & INTEGER     & Sí & Contador de alumnos inscritos. Mantenido por \textit{triggers}. Default: 0. \\
+        createdAt    & TIMESTAMPTZ & Sí & Fecha de creación del grupo. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection*{Tabla \texttt{ejercicios} \textnormal{---} Esquema: \texttt{public} \textnormal{---}
+    Clave primaria: \texttt{id} (UUID)}
+
+\begin{table}[H]
+    \centering
+    \caption[Esquema de columnas de la tabla \texttt{ejercicios}]{Esquema de columnas de la tabla
+        \texttt{ejercicios} en PostgreSQL/Supabase de AUTECH.}
+    \label{tab:ejercicios}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\ttfamily\raggedright\arraybackslash}p{3.0cm}
+        >{\raggedright\arraybackslash}p{2.4cm}
+        >{\centering\arraybackslash}p{1.3cm}
+        X}
+        \toprule
+        \thcol{Columna} & \thcol{Tipo} & \thcol{Req.} & \thcol{Descripción} \\
+        \midrule
+        \rowcolor{azulFila}
+        titulo          & String       & Sí & Título del ejercicio. \\
+        descripcion     & String?      & No & Descripción o instrucciones del ejercicio. \\
+        \rowcolor{azulFila}
+        grupoId         & String?      & No & ID del grupo al que pertenece. \\
+        grupoNombre     & String?      & No & Nombre del grupo (desnormalizado). \\
+        \rowcolor{azulFila}
+        creadoPor       & String       & Sí & UID del docente que creó el ejercicio. \\
+        preguntas       & JSONB        & Sí & Subdocumentos embebidos de tipo \texttt{Pregunta}. \\
+        \rowcolor{azulFila}
+        fechaLimite     & TIMESTAMPTZ? & No & Fecha límite de entrega. \\
+        publicado       & BOOLEAN      & Sí & Indica si el ejercicio es visible para alumnos. \\
+        \rowcolor{azulFila}
+        tiempoLimiteMin & INTEGER      & Sí & Tiempo límite en minutos. 0~=~sin límite. \\
+        createdAt       & TIMESTAMPTZ  & Sí & Fecha de creación. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection*{JSONB embebido: \texttt{Pregunta} (campo \texttt{preguntas} de \texttt{ejercicios})}
+
+\begin{table}[H]
+    \centering
+    \caption[Esquema del subdocumento \texttt{Pregunta}]{Esquema del subdocumento
+        \texttt{Pregunta} embebido en \texttt{ejercicios} de AUTECH.}
+    \label{tab:pregunta}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\ttfamily\raggedright\arraybackslash}p{3.5cm}
+        >{\raggedright\arraybackslash}p{2.2cm}
+        >{\centering\arraybackslash}p{1.3cm}
+        X}
+        \toprule
+        \thcol{Columna} & \thcol{Tipo} & \thcol{Req.} & \thcol{Descripción} \\
+        \midrule
+        \rowcolor{azulFila}
+        id                   & String    & Sí & Identificador único dentro del ejercicio. \\
+        texto                & String    & Sí & Enunciado de la pregunta. \\
+        \rowcolor{azulFila}
+        tipo                 & String    & Sí & Tipo: \texttt{'opcionMultiple'}, \texttt{'casillasVerif'}, \texttt{'respuestaCorta'}, \texttt{'verdaderoFalso'}, \texttt{'respuestaLarga'}. \\
+        opciones             & TEXT[]    & No & Opciones para preguntas de selección múltiple. \\
+        \rowcolor{azulFila}
+        respuestasCorrectas  & INTEGER[] & No & Índices de las opciones correctas. \\
+        requerida            & BOOLEAN   & Sí & Si la pregunta es obligatoria. Default: \texttt{true}. \\
+        \rowcolor{azulFila}
+        puntos               & INTEGER   & Sí & Valor de la pregunta. Default: 1. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsubsection*{Tabla \texttt{role\_requests} \textnormal{---} Esquema: \texttt{public} \textnormal{---}
+    Clave primaria: \texttt{id} (UUID)}
+
+\begin{table}[H]
+    \centering
+    \caption[Columnas de la tabla \texttt{role\_requests}]{Columnas de la tabla
+        \texttt{role\_requests} en PostgreSQL/Supabase: solicitudes de cambio de rol docente.}
+    \label{tab:role_requests}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\ttfamily\raggedright\arraybackslash}p{2.8cm}
+        >{\raggedright\arraybackslash}p{2.2cm}
+        >{\centering\arraybackslash}p{1.3cm}
+        X}
+        \toprule
+        \thcol{Columna} & \thcol{Tipo} & \thcol{Req.} & \thcol{Descripción} \\
+        \midrule
+        \rowcolor{azulFila}
+        userId        & String      & Sí & UID del usuario que solicita el rol. \\
+        userName      & String      & Sí & Nombre del solicitante (desnormalizado). \\
+        \rowcolor{azulFila}
+        userEmail     & String      & Sí & Correo del solicitante. \\
+        requestedRole & String      & Sí & Rol solicitado. Actualmente siempre \texttt{'teacher'}. \\
+        \rowcolor{azulFila}
+        status        & String      & Sí & Estado: \texttt{'pending'}, \texttt{'approved'} o \texttt{'rejected'}. \\
+        reason        & String?     & No & Justificación o motivo de rechazo. \\
+        \rowcolor{azulFila}
+        createdAt     & TIMESTAMPTZ & Sí & Fecha de la solicitud. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\newpage
+% ============================================================
+\section{Ingeniería del Motor de Simulación}
+\label{sec:motor_simulacion}
+% ============================================================
+
+El motor de simulación es la parte técnicamente más interesante del proyecto. Está dividido en dos
+componentes que trabajan juntos: un \textit{widget} de \textit{canvas} interactivo que corre
+completamente en el cliente (\texttt{AutomatonCanvas}), y una API REST en Python que implementa los
+algoritmos de teoría de autómatas. Todo el procesamiento formal de cadenas, las transformaciones
+entre representaciones y la verificación de propiedades de los lenguajes se apoyan en resultados
+clásicos de la teoría de lenguajes formales y autómatas \cite{aho1995}.
+
+La decisión de separar así las responsabilidades tuvo que ver con el rendimiento y con la
+complejidad algorítmica. Implementar en Dart la conversión de NFA a DFA por subconjuntos, la
+minimización de Hopcroft o la eliminación de estados para obtener una expresión regular hubiera
+sido técnicamente posible, pero bastante más código a mantener. Sin embargo, algunos de esos
+algoritmos sí terminaron implementándose en el cliente para el modo \textit{offline} del módulo de
+Expresiones Regulares.
+
+\subsection{Diagrama de Clases del Motor de Grafos}
+\label{subsec:diagrama_clases}
+
+El motor de grafos del lado cliente se articula alrededor de cuatro clases principales. El
+renderizado del \textit{canvas} usa el mecanismo de \texttt{CustomPaint} de Flutter
+\cite{flutter2024b} para dibujar los nodos y las aristas directamente sobre un lienzo con
+transformaciones de zoom y paneo controladas mediante \texttt{TransformationController}.
+
+\begin{table}[H]
+    \centering
+    \caption[Clases principales del motor de grafos]{Clases principales del sistema:
+        \texttt{StateNode}, \texttt{TransitionEdge}, \texttt{AutomatonCanvas},
+        \texttt{AutomatonCanvasState}, \texttt{ApiService} y los controladores de pantalla.}
+    \label{tab:clases}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\raggedright\arraybackslash}p{3.8cm}
+        >{\raggedright\arraybackslash}p{2.8cm}
+        X}
+        \toprule
+        \thcol{Clase} & \thcol{Tipo} & \thcol{Rol en el sistema} \\
+        \midrule
+        \rowcolor{azulFila}
+        \texttt{StateNode} & Modelo (Data class) &
+            Representa un estado del autómata. Atributos: \texttt{id: String},
+            \texttt{isInitial: bool}, \texttt{isAccepting: bool}. Implementa
+            \texttt{toJson()}/\texttt{fromJson()} para serialización. \\[3pt]
+
+        \texttt{TransitionEdge} & Modelo (Data class) &
+            Representa una transición. Atributos: \texttt{from: String}, \texttt{to: String},
+            \texttt{label: String}. El \texttt{label} puede contener múltiples símbolos separados
+            por coma. \\[3pt]
+
+        \rowcolor{azulFila}
+        \texttt{AutomatonCanvas} & StatefulWidget &
+            Widget de presentación. Recibe listas de \texttt{StateNode} y
+            \texttt{TransitionEdge}, y expone \textit{callbacks} (\texttt{onStateAdded},
+            \texttt{onEdgeAdded}, etc.) para notificar cambios al \textit{widget} padre. \\[3pt]
+
+        \texttt{AutomatonCanvasState} & \texttt{State\textless AutomatonCanvas\textgreater} &
+            Contiene toda la lógica de interacción: mapa de posiciones \texttt{\_pos}, modo de
+            \textit{canvas} (select / addTransition), control de zoom y pan con
+            \texttt{TransformationController}, y renderizado con \texttt{CustomPaint}. \\[3pt]
+
+        \rowcolor{azulFila}
+        \texttt{ApiService} & Servicio (Plain class) &
+            \textit{Gateway} hacia la API REST. Métodos: \texttt{validatePda()},
+            \texttt{simulatePda()}, \texttt{pdaToCfg()}, \texttt{regexToAutomaton()},
+            \texttt{automatonToRegex()}, \texttt{turingGraph()}, \texttt{turingSimulate()}. \\[3pt]
+
+        \texttt{\_RegexScreenState} /\newline
+        \texttt{\_PdaScreenState} /\newline
+        \texttt{\_TuringScreenState} & State (Controller) &
+            Actúan como controladores de cada módulo. Coordinan \texttt{ApiService} con
+            \texttt{AutomatonCanvas} y gestionan la simulación paso a paso
+            (\texttt{\_simStep}, \texttt{\_simSteps}). \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+La relación entre \texttt{AutomatonCanvas} y los \textit{screens} que lo contienen sigue el patrón
+de \textit{widget} controlado: el \textit{canvas} no mantiene estado propio de los nodos, solo de
+sus posiciones y del modo de edición. Los datos reales están dentro del \texttt{State} del
+\textit{screen} padre y se pasan al \textit{canvas} mediante \textit{props}. Esto facilita mucho
+la sincronización cuando el \textit{backend} devuelve un autómata nuevo: simplemente se reemplaza
+la lista y Flutter reconstruye el \textit{canvas} \cite{flutter2024c}.
+\newpage
+% ============================================================
+\section{Pruebas y Validación del Sistema}
+\label{sec:pruebas}
+% ============================================================
+
+\subsection{Pruebas de Base de Datos (Supabase)}
+\label{subsec:pruebas_supabase}
+
+\subsubsection*{Prueba de Carga y Rendimiento en Lectura (SELECT)}
+
+Se realizó una prueba de carga sobre el clúster de base de datos en Supabase Cloud para determinar
+los límites de respuesta del sistema ante consultas concurrentes.
+
+\textbf{Metodología:}
+\begin{itemize}
+    \item \textbf{Acción:} Consulta de lectura (SELECT) sobre la tabla \texttt{users}.
+    \item \textbf{Volumen:} 100 peticiones totales en un lapso de 4.12 segundos.
+    \item \textbf{Concurrencia:} 10 peticiones simultáneas.
+\end{itemize}
+
+\textbf{Resultados:}
+\begin{itemize}
+    \item \textbf{Tasa de Éxito (83/100):} El 17\% de fallos restante es comportamiento esperado
+    en el \textit{Free Tier} de Supabase, el cual implementa \textit{Rate Limiting}.
+    \item \textbf{Latencia Media (0.450~s):} Por debajo del umbral de percepción de retraso
+    (1 segundo).
+    \item \textbf{Latencia P95 (0.725~s):} El 95\% de las peticiones se completaron en menos de
+    725~ms.
+    \item \textbf{Desviación Estándar (0.175~s):} Confirma la estabilidad de la conexión.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{imagenes/image26.png}
+    \caption[Benchmark Supabase -- 100 peticiones, concurrencia 10]{Resultado del benchmark de
+        infraestructura (Supabase) con 100 peticiones y concurrencia 10: tasa de éxito del 83\%,
+        latencia media de 0.450~s y desviación estándar de 0.175~s.}
+    \label{fig:benchmark_supabase}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{imagenes/image27.png}
+    \caption[Panel de monitoreo de Supabase]{Panel de monitoreo de Supabase mostrando 23
+        solicitudes totales en los últimos 60 minutos.}
+    \label{fig:monitoreo}
+\end{figure}
+
+\subsubsection*{Validación de Políticas de Seguridad a Nivel de Fila (RLS)}
+
+Se realizó una prueba de estrés de escritura con 50 peticiones concurrentes usando \texttt{anon\_key}
+(clave pública), simulando un intento de acceso externo sin sesión activa.
+
+\textbf{Resultados:} La prueba arrojó una tasa de éxito del \textbf{0\% (0/50)}, con tiempo total
+de 5.02 segundos. Todas las peticiones fueron rechazadas con el error de PostgreSQL:
+
+\begin{center}
+    \small\ttfamily\color{BrickRed}
+    Error 42501: new row violates row-level security policy for table `users'
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.40\textwidth]{imagenes/image28.png}
+    \caption[Test de escritura fallido -- Error RLS 42501]{Resultado fallido del test de escritura
+        en Supabase: 0 éxitos en 50 intentos en 5.02~s, con error de política de seguridad de
+        nivel de fila (RLS, código 42501).}
+    \label{fig:rls_falla}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image29.png}
+    \caption[Editor SQL de Supabase -- SELECT users]{Editor SQL de Supabase ejecutando
+        \texttt{SELECT * FROM users}, mostrando 5 registros con campos \texttt{id},
+        \texttt{name}, \texttt{email}, \texttt{role} y \texttt{boleta}.}
+    \label{fig:editor_sql}
+\end{figure}
+
+\subsubsection*{Validación de Integridad en Operaciones de Actualización (Update Test)}
+
+\begin{itemize}
+    \item \textbf{Tasa de Éxito:} 100\% en condiciones de conectividad estable.
+    \item \textbf{Persistencia de Cambios:} La consulta de verificación posterior confirmó que el
+    motor de base de datos de Supabase refleja los cambios de forma atómica y consistente,
+    cumpliendo con las propiedades \textbf{ACID}.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image30.png}
+    \caption[Segundo test de escritura -- violación RLS confirmada]{Segundo intento del test de
+        escritura real en Supabase con resultado 0/50 en 6.34~s, confirmando la política RLS.}
+    \label{fig:rls_falla2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image31.png}
+    \caption[SELECT users tras actualización de nombre]{Resultado de \texttt{SELECT * FROM users}
+        en Supabase tras modificar un usuario, mostrando el nombre actualizado a
+        ``Cambio De Nombre''.}
+    \label{fig:update_ok}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image32.png}
+    \caption[Consulta SQL con nombre actualizado]{Consulta SQL en Supabase mostrando 4 registros
+        con el campo \texttt{name} del usuario Ivan cambiado a ``Cambio De Nombre''.}
+    \label{fig:update_4reg}
+\end{figure}
+
+\subsubsection*{Validación de Eliminación de Registros (Delete Test)}
+
+Los intentos de borrado externos sin token JWT válido resultaron en un error \textbf{42501},
+validando la protección de los datos de los alumnos. Se confirmó que el sistema respeta las
+restricciones de llave foránea (FK), evitando la existencia de registros huérfanos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image33.png}
+    \caption[Tabla users -- 4 registros persistidos tras eliminación]{Vista actualizada de la tabla
+        \texttt{users} en Supabase con 4 registros, confirmando la persistencia del cambio.}
+    \label{fig:delete_ok}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image34.png}
+    \caption[Lista de alumnos en AUTECH -- estado final]{Estado final de la lista de alumnos en
+        AUTECH con un único usuario (Diego Velazco) y el botón para agregar un nuevo alumno.}
+    \label{fig:lista_alumnos}
+\end{figure}
+
+\subsection{Pruebas de Infraestructura del Backend (Render)}
+\label{subsec:pruebas_render}
+
+\subsubsection*{Prueba de Latencia: Cold Start vs. Warm State}
+
+Esta es la prueba más relevante para servicios en capas gratuitas. Mide el impacto del
+aprovisionamiento inicial de recursos.
+
+\begin{table}[H]
+    \centering
+    \caption[Tiempos de respuesta: Cold Start vs. Warm State]{Tiempos de respuesta del servicio
+        en Render: \textit{Cold Start} (1.07~s), \textit{Warm State} (0.79~s) y diferencia de
+        carga (0.28~s).}
+    \label{tab:cold_warm}
+    \small
+    \begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{3.5cm} X r}
+        \toprule
+        \thcol{Estado de la petición} & \thcol{Descripción} & \thcol{Tiempo} \\
+        \midrule
+        \rowcolor{azulFila}
+        \textit{Cold Start} &
+            Incluye el tiempo de ``despertar'' el contenedor y la carga inicial del motor de
+            Python. &
+            \textbf{1.07~s} \\[3pt]
+
+        \textit{Warm State} &
+            Tiempo de procesamiento puro de la lógica de conversión de expresiones regulares. &
+            \textbf{0.79~s} \\[3pt]
+
+        \rowcolor{azulFila}
+        Diferencia de Carga &
+            Sobrecarga de red y aprovisionamiento inicial. &
+            \textbf{0.28~s} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image35.png}
+    \caption[\textit{Cold Start} vs.\ \textit{Warm State} en Render]{Resultado de prueba de
+        \textit{cold start} vs.\ \textit{warm start}: primera petición (cold) en 1.07~s, segunda
+        (warm) en 0.79~s, con diferencia de carga de 0.28~s.}
+    \label{fig:cold_warm}
+\end{figure}
+
+\subsubsection*{Evaluación de Rendimiento Multimodal del Backend}
+
+\begin{table}[H]
+    \centering
+    \caption[Resultados de rendimiento por operación evaluada]{Resultados de rendimiento con 50
+        peticiones por \textit{endpoint} y concurrencia 10.}
+    \label{tab:rendimiento}
+    \small
+    \begin{tabularx}{\textwidth}{X c c r}
+        \toprule
+        \thcol{Operación evaluada} & \thcol{Éxitos} & \thcol{Prom.} & \thcol{req/s} \\
+        \midrule
+        \rowcolor{azulFila}
+        Regex $\rightarrow$ Automata \texttt{(a|b)abb} & 50/50 & 1.269~s & 7.5 \\
+        Regex $\rightarrow$ Automata \texttt{a(b|c)}   & 50/50 & 1.417~s & 6.9 \\
+        \rowcolor{azulFila}
+        Automata $\rightarrow$ Regex                    & 50/50 & 1.462~s & 6.7 \\
+        Operación: Union(\texttt{a,b})                  & 50/50 & 1.632~s & 6.0 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image36.png}
+    \caption[Pruebas de concurrencia -- API AUTECH]{Pruebas de concurrencia ejecutadas sobre la
+        API AUTECH con 50 peticiones y concurrencia 10.}
+    \label{fig:concurrencia}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image37.png}
+    \caption[Rendimiento API -- operaciones Regex y Automata]{Prueba de rendimiento de la API
+        AUTECH: tiempos promedio entre 1.27~s y 1.63~s para operaciones de Regex y Automata.}
+    \label{fig:rendimiento_api}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image38.png}
+    \caption[Rendimiento API -- PDA y Máquina de Turing]{Continuación de la prueba de rendimiento,
+        con resultados para operaciones de PDA y Máquina de Turing: tiempos de 2.0~s a 3.18~s.}
+    \label{fig:rendimiento_api2}
+\end{figure}
+
+\subsubsection*{Pruebas de Resiliencia y Casos Límite (\textit{Edge Cases})}
+
+\begin{table}[H]
+    \centering
+    \caption[Pruebas de errores HTTP -- casos límite]{Pruebas de errores HTTP: los cinco escenarios
+        críticos de fallo evaluados, todos con resultado PASS.}
+    \label{tab:edge_cases}
+    \small
+    \begin{tabularx}{\textwidth}{X c c >{\bfseries\centering\arraybackslash}p{1.8cm}}
+        \toprule
+        \thcol{Escenario de prueba} & \thcol{Esperado} & \thcol{Obtenido} & \thcol{Estatus} \\
+        \midrule
+        \rowcolor{azulFila}
+        Payload malformado            & HTTP 422 & HTTP 422 & PASS \\
+        Body nulo/vacío               & HTTP 422 & HTTP 422 & PASS \\
+        \rowcolor{azulFila}
+        Conflicto de tipos            & HTTP 422 & HTTP 422 & PASS \\
+        Parámetro requerido faltante  & HTTP 422 & HTTP 422 & PASS \\
+        \rowcolor{azulFila}
+        Endpoint inexistente          & HTTP 404 & HTTP 404 & PASS \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Total de pruebas ejecutadas:} 53 \quad \textbf{Tasa de éxito:} 100\% (53/53 PASSED)
+\quad \textbf{Fallos:} 0.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image39.png}
+    \caption[Resumen final del benchmark de la API AUTECH]{Resumen final del benchmark: todos los
+        \textit{endpoints} con 100\% de éxito, latencias P95 entre 1.238~s y 8.711~s.}
+    \label{fig:benchmark_api}
+\end{figure}
+
+\subsection{Pruebas del Motor de Lógica Formal}
+\label{subsec:pruebas_logica}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image40.png}
+    \caption[Reporte de pruebas -- 53 casos PASS]{Reporte de pruebas de casos límite de la API
+        AUTECH: 53 pruebas ejecutadas, 53 PASS, 0 advertencias y 0 fallos.}
+    \label{fig:reporte_pruebas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image41.png}
+    \caption[Suite de casos límite -- REGEX válidos]{Suite de casos límite, sección REGEX válidos:
+        todos respondieron HTTP~200.}
+    \label{fig:regex_validos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image42.png}
+    \caption[Suite de casos límite -- REGEX inválidos]{Suite de casos límite, sección REGEX
+        inválidos: todos devolvieron HTTP~400 o HTTP~422.}
+    \label{fig:regex_invalidos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image43.png}
+    \caption[Suite de casos límite -- Automata $\rightarrow$ Regex]{Pruebas de conversión
+        Automata$\rightarrow$Regex con casos borde (estados vacíos, aceptación vacía).}
+    \label{fig:automata_regex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagenes/image44.png}
+    \caption[Suite de casos límite -- PDA válidos]{Suite de casos límite, sección PDA válidos:
+        validación, simulación y conversión PDA$\rightarrow$CFG, todas con HTTP~200.}
+    \label{fig:pda_validos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.60\textwidth]{imagenes/image45.png}
+    \caption[Suite de casos límite -- PDA inválidos]{Suite de casos límite, sección PDA inválidos:
+        \texttt{start\_state} inexistente, campos vacíos y símbolo de pila desconocido,
+        todos manejados correctamente.}
+    \label{fig:pda_invalidos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/image46.png}
+    \caption[Suite de casos límite -- Turing válidos]{Suite de casos límite, sección Turing
+        válidos: simulación básica, cinta vacía (REJECTED sin crash), todos con HTTP~200.}
+    \label{fig:turing_validos}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption[Resultados de pruebas por módulo]{Resultados de pruebas por módulo: REGEX, PDA y
+        TURING, todos con estatus PASS.}
+    \label{tab:resultados_modulos}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\bfseries\raggedright\arraybackslash}p{2.0cm}
+        >{\raggedright\arraybackslash}p{4.0cm}
+        >{\centering\arraybackslash}p{1.5cm}
+        X}
+        \toprule
+        \thcol{Módulo} & \thcol{Tipo de prueba} & \thcol{Estatus} & \thcol{Observación técnica} \\
+        \midrule
+        \rowcolor{azulFila}
+        REGEX  & Casos límite e inválidos    & PASS & Validación robusta vía Pydantic y parsers personalizados. \\
+        PDA    & Simulación y conversión     & PASS & Manejo íntegro de la pila y estados de aceptación. \\
+        \rowcolor{azulFila}
+        TURING & Simulación y control pasos  & PASS & Prevención de bloqueos por recursión infinita. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.70\textwidth]{imagenes/image47.png}
+    \caption[Suite de casos límite -- Turing inválidos]{Suite de casos límite, sección Turing
+        inválidos: \textit{loop} infinito controlado, \texttt{head\_pos} negativo, estado inicial
+        inexistente y transiciones vacías, todas manejadas correctamente.}
+    \label{fig:turing_invalidos}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption[Resumen de pruebas por dimensión]{Resumen de pruebas por dimensión: Rendimiento,
+        Seguridad, Disponibilidad, Integridad, Resiliencia y Estabilidad.}
+    \label{tab:resumen_pruebas}
+    \small
+    \begin{tabularx}{\textwidth}{
+        >{\bfseries\raggedright\arraybackslash}p{2.5cm}
+        >{\raggedright\arraybackslash}p{4.0cm}
+        >{\raggedright\arraybackslash}p{2.0cm}
+        X}
+        \toprule
+        \thcol{Dimensión} & \thcol{Prueba específica} & \thcol{Infraestructura} &
+        \thcol{Resultado clave} \\
+        \midrule
+        \rowcolor{azulFila}
+        Rendimiento    & Lectura masiva (100 req.)    & Supabase & Latencia P95 de \textbf{0.725~s}. \\
+        Seguridad      & Inserción no autorizada      & Supabase & Bloqueo por RLS (\textbf{Error 42501}). \\
+        \rowcolor{azulFila}
+        Disponibilidad & Cold Start / Warm-up         & Render   & Diferencia de \textbf{0.28~s}. \\
+        Integridad     & Read-after-Write             & Supabase & Consistencia del \textbf{100\%}. \\
+        \rowcolor{azulFila}
+        Resiliencia    & Negative Testing / Fuzzing   & Render   & Manejo del \textbf{100\%} de errores. \\
+        Estabilidad    & Turing Loop Control          & Render   & Prevención vía \texttt{max\_steps} (\textbf{TIMEOUT}). \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Pruebas de Funcionalidad en la App}
+\label{subsec:pruebas_app}
+
+
+\subsubsection*{Pruebas de Autómatas Finitos (AFD)}
+
+\paragraph{1. Número par de 1s}
+
+\textbf{Estados:} $q_0 \rightarrow$ inicial y aceptación (par); $q_1 \rightarrow$ impar.
+Total: 2 estados.
+
+\textbf{Transiciones:}
+$q_0$: $0 \rightarrow q_0$, $1 \rightarrow q_1$;\quad
+$q_1$: $0 \rightarrow q_1$, $1 \rightarrow q_0$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.60\textwidth]{imagenes/image48.png}
+    \caption[Simulación en JFLAP -- AFD, número par de 1s]{Simulación en JFLAP de un AFD
+        mostrando la configuración aceptante para una cadena de entrada.}
+    \label{fig:jflap_afd1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.50\textwidth]{imagenes/image49.png}
+    \caption[Constructor AFD en AUTECH -- 2 estados]{Constructor de expresiones regulares en
+        AUTECH mostrando un AFD de dos estados ($q_0$, $q_1$), simulando la cadena \texttt{"1111"}
+        con resultado ACEPTADA.}
+    \label{fig:autech_afd1}
+\end{figure}
+
+\newpage
+\paragraph{2. Contiene la subcadena 101}
+
+\textbf{Estados:} $q_0 \rightarrow$ inicial; $q_1 \rightarrow$ vio 1; $q_2 \rightarrow$ vio 10;
+$q_3 \rightarrow$ aceptación. Total: 4 estados.
+
+\textbf{Transiciones:}
+$q_0$: $0 \rightarrow q_0$, $1 \rightarrow q_1$;\quad
+$q_1$: $0 \rightarrow q_2$, $1 \rightarrow q_1$;\quad
+$q_2$: $0 \rightarrow q_0$, $1 \rightarrow q_3$;\quad
+$q_3$: $0,1 \rightarrow q_3$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{imagenes/image50.png}
+    \caption[Simulación en JFLAP -- AFND, subcadena 101]{Simulación en JFLAP de un AFND con
+        cuatro estados, mostrando la configuración aceptante para la cadena \texttt{"001011"}.}
+    \label{fig:jflap_afnd}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.60\textwidth]{imagenes/image51.png}
+    \caption[Constructor AFD en AUTECH -- 4 estados]{Constructor de autómatas en AUTECH: AFD de
+        cuatro estados con 8 transiciones simulando \texttt{"1010101"} con resultado ACEPTADA.}
+    \label{fig:autech_afd4}
+\end{figure}
+
+\newpage
+\subsubsection*{Pruebas de Autómatas de Pila (PDA)}
+
+\paragraph{1. Paréntesis balanceados}
+
+\textbf{Estados:} $q_0 \rightarrow$ inicial; $q_1 \rightarrow$ aceptación. Total: 2 estados.
+
+\textbf{Transiciones:}
+\texttt{(, Z $\rightarrow$ (Z};\quad \texttt{(, ( $\rightarrow$ ((};\quad
+\texttt{), ( $\rightarrow$ $\varepsilon$};\quad $\varepsilon$\texttt{, Z $\rightarrow$ Z}
+$\rightarrow q_1$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{imagenes/image52.png}
+    \caption[Simulación en JFLAP -- APD, paréntesis balanceados]{Simulación en JFLAP de un APD
+        con dos estados, mostrando la configuración aceptante para paréntesis balanceados.}
+    \label{fig:jflap_pda1}
+\end{figure}
+
+\newpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{imagenes/image53.png}
+    \caption[Simulación PDA en AUTECH -- cadena \texttt{"()"}]{Módulo de simulación del PDA en
+        AUTECH procesando \texttt{"()"} con resultado CADENA ACEPTADA en el estado $q_1$,
+        mostrando el historial de 5 pasos de transición.}
+    \label{fig:autech_pda1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image54.png}
+    \caption[Constructor PDA en AUTECH -- vista Definir]{Constructor de Autómata de Pila (PDA)
+        en AUTECH, vista Definir, mostrando las transiciones del APD de paréntesis.}
+    \label{fig:autech_pda_def}
+\end{figure}
+
+\newpage
+\paragraph{2. Igual número de 0s y 1s (orden libre)}
+
+\textbf{Estados:} $q_0 \rightarrow$ inicial; $q_1 \rightarrow$ aceptación. Total: 2 estados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{imagenes/image55.png}
+    \caption[Simulación en JFLAP -- APD, igual número de 0s y 1s]{Simulación en JFLAP de un APD
+        de dos estados con transición $\varepsilon$, Z/Z mostrando la configuración aceptante
+        para la cadena \texttt{"0101"}.}
+    \label{fig:jflap_pda2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image56.png}
+    \caption[Constructor PDA en AUTECH -- 0s y 1s]{Constructor de PDA en AUTECH con un APD de
+        dos estados y múltiples transiciones de pila para cadenas de 0s y 1s.}
+    \label{fig:autech_pda2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.58\textwidth]{imagenes/image57.png}
+    \caption[Simulación PDA en AUTECH -- cadena \texttt{"0101"}]{Módulo de simulación del PDA en
+        AUTECH procesando \texttt{"0101"} con resultado CADENA ACEPTADA en $q_1$, con historial
+        completo de 7 transiciones.}
+    \label{fig:autech_pda2_sim}
+\end{figure}
+
+\newpage
+\subsubsection*{Pruebas de Máquinas de Turing (1 Cinta)}
+
+\paragraph{1. Incrementar binario}
+
+\textbf{Estados:} $q_0 \rightarrow$ inicial; $q_1 \rightarrow$ carry; $q_\text{accept}$.
+Total: 3 estados.
+
+\textbf{Transiciones:}
+$q_0$: $0 \rightarrow 0$, R, $q_0$;\; $1 \rightarrow 1$, R, $q_0$;\;
+$\sqcup \rightarrow \sqcup$, L, $q_1$.\quad
+$q_1$: $1 \rightarrow 0$, L, $q_1$;\; $0 \rightarrow 1$, R, $q_\text{accept}$;\;
+$\sqcup \rightarrow 1$, R, $q_\text{accept}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image58.png}
+    \caption[Simulación en JFLAP -- MT de 3 estados]{Simulación en JFLAP de una Máquina de Turing
+        con tres estados mostrando la configuración aceptante para una cadena binaria.}
+    \label{fig:jflap_mt1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image59.png}
+    \caption[MT en AUTECH -- procesando \texttt{"1011"}, 10 pasos]{Módulo de simulación de
+        Máquina de Turing en AUTECH procesando \texttt{"1011"} con resultado ¡Cadena aceptada!
+        en el estado $q_a$, tras 10 pasos de ejecución.}
+    \label{fig:autech_mt1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image60.png}
+    \caption[MT en AUTECH -- definición, 6 transiciones]{Módulo de definición de Máquina de Turing
+        en AUTECH con estados $q_0$, $q_1$ y $q_a$ (aceptación), mostrando 6 transiciones en modo
+        tabla.}
+    \label{fig:autech_mt1_def}
+\end{figure}
+
+\newpage
+\paragraph{2. Reemplazar \texttt{a} por \texttt{b}}
+
+\textbf{Estados:} $q_0 \rightarrow$ inicial; $q_\text{accept}$. Total: 2 estados.
+
+\textbf{Transiciones:}
+$q_0$: $a \rightarrow b$, R, $q_0$;\; $b \rightarrow b$, R, $q_0$;\;
+$\sqcup \rightarrow \sqcup$, R, $q_\text{accept}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{imagenes/image61.png}
+    \caption[Simulación en JFLAP -- MT de 2 estados]{Simulación en JFLAP de una Máquina de Turing
+        de dos estados mostrando la configuración aceptante para una cadena binaria.}
+    \label{fig:jflap_mt2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image62.png}
+    \caption[MT en AUTECH -- definición y simulación con cadena \texttt{"a"}]{Módulo de definición
+        de MT en AUTECH con dos estados, tres transiciones simples y cinta inicial \texttt{"a"}.
+        La simulación confirma la aceptación en 4 pasos.}
+    \label{fig:autech_mt2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{imagenes/image63.png}
+    \caption[Simulación MT en AUTECH -- cadena \texttt{"a"} aceptada]{Simulación de Máquina de
+        Turing en AUTECH procesando la cadena \texttt{"a"} con resultado ¡Cadena aceptada! en el
+        estado $q_a$, completada en 4 pasos con historial de transiciones.}
+    \label{fig:autech_mt2_sim}
+\end{figure}
+
+% ============================================================
+\section{Conclusiones del Capítulo: Ciclo 0}
+\label{sec:conclusiones_ciclo0}
+% ============================================================
+
+\subsection{Contexto del Análisis Comparativo}
+\label{subsec:contexto_comparativo}
+
+El desarrollo de AUTECH surge de una necesidad pedagógica identificada en el contexto de la materia
+de Teoría de la Computación de la Escuela Superior de Cómputo del IPN \cite{ipn2020}\cite{escom2016}.
+Para evaluar en qué medida AUTECH representa una aportación genuina, es necesario contrastarla con
+las herramientas existentes más relevantes: \textbf{JFLAP} \cite{rodger2006}\cite{sipser2012},
+\textbf{Automata Tutor v3} \cite{aichernig2022}, \textbf{Regex101} \cite{fycikas2021} y
+\textbf{RegExr} \cite{skinner2021}, y \textbf{FSAM}. El análisis cubre tres dimensiones:
+algoritmos implementados, experiencia pedagógica y accesibilidad técnica.
+
+\subsection{Diferencias y Mejoras Algorítmicas}
+\label{subsec:diferencias_algoritmicas}
+
+\subsubsection*{Expresión regular a AFN-$\varepsilon$ (Construcción de Thompson)}
+
+AUTECH implementa un \textbf{parser Shunting-Yard de Dijkstra} \cite{aho1995} para convertir la
+expresión regular a notación postfija, normalizando previamente los operadores $a+ \rightarrow aa^*$
+y $a? \rightarrow (a|\varepsilon)$, e insertando operadores de concatenación implícita. Sobre la
+forma postfija se construye el AFN-$\varepsilon$ mediante Thompson \cite{thompson1968}.
+
+\subsubsection*{$\varepsilon$-clausura y AFN-$\varepsilon$ a AFD}
+
+El cálculo de la $\varepsilon$-clausura usa un \textbf{algoritmo DFS iterativo con pila explícita}
+(no recursivo). La construcción de subconjuntos usa \textbf{BFS con poda integrada de estados
+inalcanzables}: solo se generan los subconjuntos accesibles desde el estado inicial
+\cite{hopcroft2007}.
+
+\subsubsection*{Minimización de AFD: Tabla de distinguibilidad + Union-Find}
+
+AUTECH añade una \textbf{estructura Union-Find con \textit{path compression}} para fusionar
+eficientemente los estados indistinguibles \cite{hopcroft2007}. Además, \textbf{elimina
+automáticamente el estado muerto resultante} si no tiene transiciones útiles,
+presentando solo los estados semánticamente significativos.
+
+\subsubsection*{AFD/AFN a Expresión Regular: GNFA con simplificación algebraica}
+
+AUTECH aplica el mismo esquema GNFA de JFLAP, pero añade una etapa de
+\textbf{post-procesamiento algebraico mediante un AST de expresión regular} que simplifica en hasta
+doce iteraciones, incluyendo \textbf{factorización de prefijos comunes
+($ab|ac \rightarrow a(b|c)$)} \cite{aho2006}.
+
+\subsubsection*{Simulación de APD: BFS con terminación garantizada}
+
+AUTECH implementa la simulación del APD mediante \textbf{BFS con conjunto de configuraciones
+visitadas}, garantizando terminación y completitud. Un límite de 200 símbolos en pila previene
+desbordamientos de memoria, protección ausente en JFLAP \cite{rodger2006}\cite{hopcroft2007}.
+
+\subsubsection*{Simulación de MT: Traza \textit{batch} completa}
+
+AUTECH \textbf{pre-computa la traza completa de hasta 1\,000 pasos en el servidor Python} y la
+entrega al cliente en una sola respuesta JSON \cite{fielding2000}. Cada paso registra la
+configuración completa en notación estándar $uqv$ \cite{sipser2012}.
+
+\subsection{Tabla Resumen Comparativa}
+
+\begin{landscape}
+\label{subsec:tabla_comparativa}
+
+\begin{table}[H]
+    \centering
+    \caption[Comparativa algorítmica y funcional: AUTECH vs.\ herramientas de referencia]{%
+        Comparativa algorítmica y funcional entre AUTECH y las principales herramientas de
+        referencia. $\checkmark$ = implementado,\; $\times$ = no disponible,\; $\sim$ = parcial.}
+    \label{tab:comparativa}
+    \setlength{\tabcolsep}{5pt}
+    \footnotesize
+    \begin{tabularx}{0.97\linewidth}{
+        >{\raggedright\arraybackslash}X
+        >{\raggedright\arraybackslash}p{3.0cm}
+        >{\centering\arraybackslash}p{1.8cm}
+        >{\centering\arraybackslash}p{1.8cm}
+        >{\centering\arraybackslash}p{1.8cm}
+        >{\bfseries\raggedright\arraybackslash}p{3.6cm}}
+        \toprule
+        \thcol{Algoritmo / Función} & \thcol{JFLAP} & \thcol{Aut. Tutor v3} &
+        \thcol{Regex101/RegExr} & \thcol{FSAM} & \thcol{AUTECH} \\
+        \midrule
+        \rowcolor{azulFila}
+        ER $\rightarrow$ AFN (Thompson) &
+        $\checkmark$ Estándar & $\times$ & $\times$ Solo texto &
+        $\checkmark$ Estándar &
+        $\checkmark$ Thompson + Shunting-Yard \\[2pt]
+
+        $\varepsilon$-clausura &
+        Recursivo & -- & -- & Iterativo &
+        DFS iterativo (pila expl.) \\[2pt]
+
+        \rowcolor{azulFila}
+        AFN $\rightarrow$ AFD (subconjuntos) &
+        $\checkmark$ Estándar & $\checkmark$ Básico & $\times$ &
+        $\checkmark$ Estándar &
+        BFS + poda integrada \\[2pt]
+
+        Minimización AFD &
+        Tabla $O(n^2)$ & $\times$ & $\times$ & $\times$ &
+        Tabla + Union-Find \\[2pt]
+
+        \rowcolor{azulFila}
+        AFD/AFN $\rightarrow$ ER &
+        GNFA sin simplificar & $\times$ & $\times$ & $\times$ &
+        GNFA + AST + factorización \\[2pt]
+
+        Simulación APD &
+        DFS (puede bucle) & Básico & $\times$ & $\times$ &
+        BFS + terminación garantizada \\[2pt]
+
+        \rowcolor{azulFila}
+        APD $\rightarrow$ GIC &
+        $[q,A,p]$ cruda & $\times$ & $\times$ & $\times$ &
+        $[q,A,p]$ + 4 etapas limpieza \\[2pt]
+
+        Simulación MT &
+        Paso a paso & $\times$ & $\times$ & $\times$ &
+        Traza \textit{batch} 1\,000 pasos \\[2pt]
+
+        \rowcolor{azulFila}
+        Operaciones de cerradura &
+        Parcial & $\times$ & $\times$ & $\checkmark$ Básicas &
+        Unión, $\cap$, comp., dif., rev. \\[2pt]
+
+        Feedback visual paso a paso &
+        Básico & $\checkmark$ & $\times$ & Básico &
+        Panel con código de color \\[2pt]
+
+        \rowcolor{azulFila}
+        App móvil nativa &
+        $\times$ & $\times$ & $\times$ & $\times$ &
+        $\checkmark$ Android / iOS / Desktop \\[2pt]
+
+        Modo \textit{offline} &
+        $\times$ & $\times$ & $\checkmark$ parcial & $\times$ &
+        $\checkmark$ SQLite + sincronización \\[2pt]
+
+        \rowcolor{azulFila}
+        Gamificación y progreso &
+        $\times$ & $\times$ & $\times$ & $\times$ &
+        $\checkmark$ Rachas, medallas, rutas \\[2pt]
+
+        Exportación de formatos &
+        $\checkmark$ JFF & $\times$ & $\times$ & $\checkmark$ JFLAP + web &
+        $\checkmark$ JFF + FSAM (JSON) \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+\end{landscape}
+
+\subsection{Ventajas Pedagógicas Respecto a las Herramientas Existentes}
+\label{subsec:ventajas_pedagogicas}
+
+\begin{itemize}
+    \item \textbf{Frente a JFLAP \cite{rodger2006}:} AUTECH presenta cada operación con
+    visualización dinámica paso a paso y código de color por componente, reduciendo la carga
+    cognitiva \cite{sweller1988} asociada a seguir manualmente la tabla de transiciones de JFLAP.
+
+    \item \textbf{Frente a Automata Tutor v3 \cite{aichernig2022}:} mientras Automata Tutor evalúa
+    si el autómata del estudiante es correcto, AUTECH enseña el proceso de construcción paso a
+    paso, combinando evaluación con retroalimentación inmediata.
+
+    \item \textbf{Frente a FSAM:} AUTECH integra todos los modelos (AFD, AFN, APD, MT) en un
+    sistema unificado con soporte \textit{offline} \cite{supabase2024}, funcionalidad sin
+    equivalente en FSAM.
+
+    \item \textbf{Frente a Regex101 y RegExr \cite{fycikas2021}\cite{skinner2021}:} AUTECH
+    construye el AFN-$\varepsilon$ correspondiente y lo simula, conectando la expresión regular con
+    la teoría formal \cite{hopcroft2007}\cite{thompson1968}.
+
+    \item \textbf{Ruta de aprendizaje estructurada:} AUTECH integra la simulación dentro de una
+    ruta de contenido con ocho unidades progresivas, ejercicios de teoría, práctica y
+    miniexámenes, racha de actividad, medallas de logro y seguimiento por grupo escolar, aplicando
+    los principios de gamificación educativa \cite{deterding2011} y aprendizaje activo
+    \cite{felder2016}.
+\end{itemize}
+
+\subsection{Ventajas Técnicas y de Accesibilidad}
+\label{subsec:ventajas_tecnicas}
+
+Ninguna de las herramientas de referencia ofrece una aplicación móvil nativa. AUTECH, construida
+con Flutter \cite{flutter2024c}, ejecuta nativamente en Android, iOS, Windows, macOS y Linux desde
+una única base de código, con rendimiento nativo en cada plataforma gracias al motor de renderizado
+Impeller \cite{flutter2024a}. Los algoritmos de AFD, AFN y expresiones regulares se procesan
+completamente en el cliente sin latencia de red \cite{fielding2000}, mientras que los modelos más
+complejos (APD, MT) se delegan a una API REST en Python.
+
+Además, AUTECH implementa un \textbf{sistema de sincronización \textit{offline}} con cola de
+operaciones en SQLite local y validación de \textit{timestamps} anti-trampa \cite{supabase2024},
+sin equivalente en ninguna de las herramientas de referencia.
+
+\newpage
+\subsection{Conclusión General -- Ciclo 0}
+\label{subsec:conclusion_general}
+
+El análisis comparativo demuestra que AUTECH no es simplemente una replicación de las herramientas
+existentes en una plataforma móvil. Las diferencias son cualitativas en tres niveles:
+
+\textbf{Nivel algorítmico:} AUTECH introduce mejoras concretas sobre JFLAP en seis de los ocho
+algoritmos evaluados: simplificación post-GNFA, Union-Find en minimización, BFS para APD, cuatro
+etapas de limpieza en la conversión APD a GIC, traza \textit{batch} para MT y poda integrada en la
+construcción de subconjuntos.
+
+\textbf{Nivel pedagógico:} La integración de la simulación dentro de una ruta de aprendizaje
+estructurada con retroalimentación inmediata, gamificación y seguimiento de progreso por grupo
+escolar no tiene equivalente en ninguna de las herramientas analizadas
+\cite{deterding2011}\cite{felder2016}\cite{sweller1988}.
+
+\textbf{Nivel de accesibilidad:} La disponibilidad multiplataforma incluyendo dispositivos móviles,
+el modo \textit{offline} funcional y la eliminación de dependencias externas eliminan barreras de
+acceso que limitan el uso práctico de las herramientas existentes en el contexto universitario
+mexicano \cite{crompton2018}\cite{kukulska2007}.
