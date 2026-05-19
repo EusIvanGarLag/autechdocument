@@ -10,7 +10,8 @@
 *.ind
 *.ist
 *.log
-.lot
+*.lot
+*.lof
 *.out
 *.toc
 *.synctex.gz
