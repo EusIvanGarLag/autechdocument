@@ -319,169 +319,233 @@ Para garantizar la integridad referencial, la escalabilidad concurrente y el cor
     \label{fig:diagrama_er}
 \end{figure}
 
-\subsection{Modelado Detallado por Módulos (UML)}
-\label{subsec:modelado_modular_uml}
+\section{Modelado Arquitectónico e Interacciones Lógicas (UML)}
+\label{sec:modelado_uml_global}
 
-A continuación, se presenta el desglose analítico e interactivo del sistema AUTECH organizado por cada uno de sus módulos arquitectónicos. Para cada bloque, se detalla el alcance mediante diagramas de casos de uso y se justifica la transferencia temporal de mensajes mediante diagramas de secuencia específicos, alineados de forma estricta con la secuencia numérica consolidada.
+Para describir formalmente la estructura estática, el alcance funcional y la dinámica transaccional del sistema AUTECH bajo el patrón \textit{Service Layer}, se desarrolló el modelado del sistema utilizando el estándar UML 2.5. Este desglose metodológico permite justificar el desacoplamiento entre las interfaces reactivas de Flutter y los servicios en la nube de Supabase.
+
+\subsection{Estructura Estática Global del Sistema}
+\label{subsec:estructura_estatica_global}
+
+La organización del código fuente y los contratos lógicos que rigen el ecosistema se definieron mediante diagramas de organización de software.
+
+\paragraph{Diagrama de Paquetes Arquitectónico}~\\
+La organización de las capas del sistema y los límites físicos del despliegue se modelaron en la Figura~\ref{fig:diagrama_paquetes}. Este esquema demuestra cómo la capa de interfaces (\texttt{Presentation Layer}) depende exclusivamente de las abstracciones de negocio (\texttt{Service Layer}), la cual a su vez interactúa de forma aislada con la persistencia híbrida local e infraestructura cloud (\texttt{Data Layer}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{imagenes/diag_paquetes_global.png}
+    \caption{Diagrama de Paquetes de la arquitectura global en capas de AUTECH.}
+    \label{fig:diagrama_paquetes}
+\end{figure}
+
+\paragraph{Diagrama de Clases Estructurado}~\\
+En la Figura~\ref{fig:diagrama_clases} se detalla el diseño de clases core. Siguiendo los principios SOLID de inversión de dependencias, las vistas interactúan únicamente con interfaces abstractas (\texttt{ISimulationEngine}, \texttt{IAuthService}). Esto aísla los motores algorítmicos matemáticos de los detalles específicos de implementación de los clientes de Supabase o Hive.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{imagenes/diag_clases_global.png}
+    \caption{Diagrama de Clases global bajo el patrón Service Layer e Inversión de Dependencias.}
+    \label{fig:diagrama_clases}
+\end{figure}
+
+\clearpage
+
+\subsection{Desglose de Comportamiento Dinámico y Funcional por Módulos}
+\label{subsec:desglose_comportamiento_modular}
+
+A continuación, se presenta el análisis detallado del sistema organizado por cada uno de sus seis bloques funcionales.
 
 \subsubsection{Módulo I: Autenticación, Seguridad y Accesos (Transversal)}
 
-Este módulo norma el ingreso seguro y la persistencia de la sesión mediante los servicios distribuidos de Supabase Auth. El alcance de sus interacciones (desde el registro del Alumno hasta las solicitudes de aprovisionamiento de los Docentes) se ilustra en la Figura~\ref{fig:dcu_modulo_1}.
+Este módulo norma el ingreso seguro y la persistencia de la sesión mediante Supabase Auth. El alcance operativo de sus interacciones (desde el registro del Alumno hasta las solicitudes de los Docentes) se ilustra en la Figura~\ref{fig:dcu_m1}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/dcu_m1_auth.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m1_auth.png}
     \caption{Diagrama de Casos de Uso del Módulo de Autenticación, Seguridad y Accesos.}
-    \label{fig:dcu_modulo_1}
+    \label{fig:dcu_m1}
 \end{figure}
 
-Para validar el flujo síncrono de verificación y el intercambio de \textit{JSON Web Tokens} (JWT) entre el cliente multiplataforma y la infraestructura en la nube, se desarrolló el diagrama de secuencia expuesto en la Figura~\ref{fig:seq_m1_login}.
+Para validar el flujo síncrono de verificación y el intercambio de tokens firmados (JWT), se desarrolló el diagrama de secuencia expuesto en la Figura~\ref{fig:seq_m1_login}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/seq_m1_login.png}
+    \includegraphics[width=0.90\textwidth]{imagenes/seq_m1_login.png}
     \caption{Diagrama de Secuencia para el inicio de sesión unificado y validación de roles.}
     \label{fig:seq_m1_login}
 \end{figure}
 
 \paragraph{Análisis del Comportamiento Dinámico (CU-01 / CU-03):}~\\
-El flujo de interacción inicia cuando el usuario introduce sus credenciales en la interfaz \texttt{LoginScreen}. La vista delega el control a la capa de negocio invocando el método asíncrono \texttt{loginWithEmail()} de la implementación \texttt{AuthServiceImpl}. Esta clase actúa como pasarela enviando una petición cifrada vía HTTPS a la API remota de \texttt{Supabase Auth}. 
+El flujo inicia cuando el usuario introduce sus credenciales en \texttt{LoginScreen}. La vista delega el control a \texttt{AuthServiceImpl} mediante \texttt{loginWithEmail()}. El servicio actúa como pasarela enviando una petición cifrada a la API remota de Supabase Auth. Tras validar los datos, el servidor retorna un objeto de sesión (JWT + Metadata). El servicio decodifica los \textit{role claims} del token, almacena de forma segura la sesión de manera local y enruta al usuario hacia la interfaz de su respectivo rol.
 
-Tras validar las credenciales en la base de datos central, el servidor retorna un objeto de sesión atómico que encapsula un token de acceso firmado (JWT) y los metadatos de identidad. Finalmente, la lógica del servicio desencadena un mapeo interno para decodificar los \textit{role claims} del token, persistir de forma segura la sesión localmente y enrutar reactivamente al usuario hacia la interfaz correspondiente a su rol, garantizando el aislamiento de privilegios.
+\clearpage
 
 \subsubsection{Módulo II: Núcleo de Simulación, Algoritmos y Aprendizaje (Alumno)}
 
-Representa el motor computacional de AUTECH en el cliente móvil. Este módulo administra la lógica matemática abstracta de la jerarquía de lenguajes formales. En la Figura~\ref{fig:dcu_modulo_2} se delimita el alcance de las herramientas interactivas del lienzo táctil, conversiones y resolución de retos didácticos.
+Representa el motor computacional de AUTECH en el cliente móvil. Administra la lógica de la jerarquía de lenguajes formales y los entornos gráficos interactivos, cuyo alcance funcional se delimita en la Figura~\ref{fig:dcu_m2}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.90\textwidth]{imagenes/dcu_m2_simulacion.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/dcu_m2_simulacion.png}
     \caption{Diagrama de Casos de Uso del Núcleo de Simulación, Algoritmos y Aprendizaje.}
-    \label{fig:dcu_modulo_2}
+    \label{fig:dcu_m2}
 \end{figure}
 
-Debido a su alta complejidad algorítmica, se modelaron dos interacciones críticas de procesamiento en memoria volátil:
+Debido a su alta carga lógica y matemática, el comportamiento temporal y operacional de sus algoritmos críticos se modeló mediante las siguientes interacciones:
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/seq_m2_conversion.png}
+    \includegraphics[width=0.90\textwidth]{imagenes/seq_conversion.png}
     \caption{Diagrama de Secuencia del Motor Algorítmico para la transformación formal de autómatas.}
     \label{fig:seq_m2_conversion}
 \end{figure}
 
-\paragraph{Análisis del Comportamiento Dinámico - Conversión (CU-13):}~\\
-Como se aprecia en la Figura~\ref{fig:seq_m2_conversion}, el proceso arranca cuando el Alumno solicita la transformación estructural en el lienzo interactivo. La clase de la vista invoca la rutina de conversión \texttt{ejecutarConversion()} expuesta por el componente especializado \texttt{ChomskyConverterImpl}. Para eliminar el no-determinismo provocado por transiciones vacías, el convertidor interactúa cíclicamente con el componente de bajo nivel \texttt{AutomataEngineImpl} mediante la llamada \texttt{calcularLambdaClausura()}. 
+\paragraph{Análisis Dinámico - Conversión de AFN-$\epsilon$ a AFD (CU-13):}~\\
+Como se aprecia en la Figura~\ref{fig:seq_m2_conversion}, cuando el Alumno solicita la transformación, la vista invoca \texttt{ejecutarConversion()} en \texttt{ChomskyConverterImpl}. Para eliminar las transiciones vacías, el convertidor interactúa de forma iterativa con \texttt{AutomataEngineImpl} mediante \texttt{calcularLambdaClausura()}. El motor matemático retorna las clausuras elementales y el convertidor ejecuta la construcción de subconjuntos en memoria. El AFD resultante se envía a \texttt{AutomataRepository} para actualizar el almacenamiento y notificar reactivamente al lienzo para refrescar el renderizado gráfico.
 
-El motor matemático evalúa el grafo y retorna el subconjunto de clausuras elementales. Con esta información, el convertidor ejecuta el Algoritmo de Construcción de Subconjuntos en memoria volátil para derivar una tabla de transiciones unívoca. Una vez consolidada la nueva estructura matemática del AFD resultante, se invoca al componente \texttt{AutomataRepository} para almacenar permanentemente la topología en el almacenamiento local y notificar reactivamente al canvas gráfico para refrescar el renderizado visual de los nodos y aristas a 60 FPS.
+La lógica secuencial y estructural de este proceso iterativo de construcción de subconjuntos y marcado de estados equivalentes se detalla paso a paso en el diagrama de actividades de la Figura~\ref{fig:act_m2_conversion}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/seq_m2_paso.png}
+    \includegraphics[width=0.75\textwidth]{imagenes/act_conversion_afn_afd.png}
+    \caption{Diagrama de Actividades UML para la ejecución del algoritmo de conversión formal.}
+    \label{fig:act_m2_conversion}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.90\textwidth]{imagenes/seq_m2_paso.png}
     \caption{Diagrama de Secuencia para la ejecución paso a paso de cadenas en el lienzo interactivo.}
     \label{fig:seq_m2_paso}
 \end{figure}
 
-\paragraph{Análisis del Comportamiento Dinámico - Simulación Paso a Paso (CU-08):}~\\
-El ciclo dinámico detallado en la Figura~\ref{fig:seq_m2_paso} describe la traza de evaluación de cadenas de entrada. Al activar la ejecución paso a paso, el widget \texttt{SimuladorAnimadoWidget} extrae secuencialmente los símbolos del alfabeto de entrada y los transmite al motor algorítmico a través de la instrucción \texttt{evaluarSiguienteSimbolo()}. El motor consulta asíncronamente con el repositorio de datos (\texttt{AutomataRepository}) el mapeo de la función de transición $\delta(q, \sigma)$. 
+\paragraph{Análisis Dinámico - Simulación Paso a Paso (CU-08):}~\\
+El ciclo descrito en la Figura~\ref{fig:seq_m2_paso} detalla la traza de evaluación de cadenas de entrada. Al avanzar paso a paso, \texttt{SimuladorAnimadoWidget} transmite secuencialmente los símbolos de la cinta al motor algorítmico a través de \texttt{evaluarSiguienteSimbolo()}. El motor consulta asíncronamente con \texttt{AutomataRepository} la función de transición $\delta(q, \sigma)$. Si la transición existe, se procesa el cambio de estado latente y responde a la UI para animar reactivamente el recorrido en el lienzo a 60 FPS, tal como se desglosa operacionalmente en la Figura~\ref{fig:act_m2_validacion}.
 
-Si la combinación de estado actual y símbolo de entrada es válida, el repositorio devuelve la configuración de destino. El motor procesa el cambio de estado latente y responde a la interfaz con la metadata de la transición autorizada. Finalmente, el widget intercepta el mensaje y ejecuta de forma reactiva las animaciones sobre el lienzo matemático, resaltando el nodo activo y la arista recorrida para facilitar al alumno el rastreo lógico de la simulación.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagenes/act_validacion_cadena.png}
+    \caption{Diagrama de Actividades UML para el proceso de validación y simulación de cadenas.}
+    \label{fig:act_m2_validacion}
+\end{figure}
+
+\paragraph{Simulación Avanzada de Máquina de Turing (CU-10):}~\\
+Para los modelos computacionales universales con memoria externa infinita, la Figura~\ref{fig:act_m2_turing} describe el bucle de control del cabezal de lectura y escritura sobre el vector dinámico. Modela la evaluación de transiciones de la 7-tupla, la sobreescritura de celdas, los desplazamientos bídireccionales ('L' / 'R') y el control de límites físicos del índice cero para evitar desbordamientos de memoria volátil.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagenes/act_m2_turing.png}
+    \caption{Diagrama de Actividades UML para el procesamiento de cintas en la Máquina de Turing.}
+    \label{fig:act_m2_turing}
+\end{figure}
+
+\clearpage
+
+\paragraph{Conversión a Gramática Libre de Contexto (CU-15):}~\\
+El procesamiento lógico encargado de deconstruir un Autómata con Pila (PDA) para extraer sus variables, terminales y reglas de producción asociadas se describe en el diagrama de actividades de la Figura~\ref{fig:act_m2_cfg}. Modela la bifurcación operativa para procesar transiciones de extracción de memoria (POP) que generan producciones elementales, frente a operaciones de inserción (PUSH) que derivan ramificaciones compuestas.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{imagenes/act_m2_cfg.png}
+    \caption{Diagrama de Actividades UML para el algoritmo de extracción y generación de CFG.}
+    \label{fig:act_m2_cfg}
+\end{figure}
 
 \subsubsection{Módulo III: Sincronización y Persistencia (Arquitectura Offline)}
 
-Este módulo funge como un \textit{middleware} reactivo que garantiza la tolerancia a fallas de red en la aplicación móvil. Sus interacciones, orientadas a conmutar de forma transparente entre la base de datos local Hive y Supabase, se modelan en la Figura~\ref{fig:dcu_modulo_3}.
+Este módulo opera como un intermediario reactivo encargado de mitigar fallas de red en la aplicación móvil, conmutando el guardado entre las cajas NoSQL de Hive y Supabase, alcance modelado en la Figura~\ref{fig:dcu_m3}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/dcu_m3_offline.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m3_offline.png}
     \caption{Diagrama de Casos de Uso del Módulo de Sincronización y Persistencia Offline.}
-    \label{fig:dcu_modulo_3}
+    \label{fig:dcu_m3}
 \end{figure}
 
-El proceso temporal de encolamiento asíncrono e interceptación de conectividad para el volcado atómico de datos (\textit{Bulk Write}) al recuperar enlace con la nube (CU-22) se detalla rigurosamente en la Figura~\ref{fig:seq_m3_sync}.
+El proceso temporal de interceptación de red y el volcado atómico de datos (\textit{Bulk Write}) al recuperar el enlace con el backend en la nube se detalla de forma secuencial en la Figura~\ref{fig:seq_m3_sync}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/seq_m3_sincronizacion.png}
+    \includegraphics[width=0.90\textwidth]{imagenes/seq_m3_sincronizacion.png}
     \caption{Diagrama de Secuencia del flujo de Sincronización Asíncrona con la capa remota.}
     \label{fig:seq_m3_sync}
 \end{figure}
 
 \paragraph{Análisis del Comportamiento Dinámico (CU-22):}~\\
-La dinámica transaccional expuesta en la Figura~\ref{fig:seq_m3_sync} sustenta la resiliencia offline de la aplicación móvil. Al registrarse interacciones didácticas, el componente reactivo \texttt{ConnectivityInterceptor} monitoriza el estado físico de los adaptadores de red del dispositivo. Si el interceptor detecta la ausencia de conectividad, desvía inmediatamente el flujo de datos fuera del flujo remoto de internet e invoca un guardado local imperativo en las cajas estructuradas de \texttt{Hive Box}. Hive procesa la serialización en formato binario garantizando latencias de escritura de bajísimo impacto ($< 15$ ms) y devuelve un estado de confirmación para alertar sutilmente al usuario en la UI.
+La dinámica expuesta en la Figura~\ref{fig:seq_m3_sync} sustenta la resiliencia offline. Al detectar la pérdida de conectividad, el componente \texttt{ConnectivityInterceptor} desvía el flujo de datos e invoca un guardado imperativo local en \texttt{Hive Box} ($< 15$ ms) emitiendo una alerta en el banner de la UI. Al registrarse la reconexión exitosa, se invoca de manera automatizada a \texttt{SyncManagerImpl}, el cual extrae las transiciones encoladas en JSON y orquesta una petición unificada hacia Supabase PostgreSQL. Tras validar las políticas RLS, el backend consolida el progreso, se purga Hive y se actualiza el estado visual.
 
-En el instante en que el interceptor registra la reconexión exitosa a internet, dispara de manera automatizada el proceso de vaciado invocando al componente central \texttt{SyncManagerImpl}. Este gestor extrae en ráfaga las operaciones encoladas en Hive en formato JSON y orquesta una petición unificada hacia la base de datos PostgreSQL en la nube de \texttt{Supabase}. Tras verificarse de forma exitosa las políticas de seguridad a nivel de fila (RLS), el backend remoto consolida los registros de progreso devolviendo un código HTTP 200 OK. Finalmente, el gestor purga la memoria local de Hive y actualiza el estado visual a ``Sincronizado''.
+\clearpage
 
 \subsubsection{Módulo IV: Experiencia de Usuario y Ludificación (Alumno)}
 
-Encargado de los incentivos visuales y mecánicas formativas que impulsan la retención del estudiante. Su alcance operativo e interacciones con el catálogo de logros se presentan en la Figura~\ref{fig:dcu_modulo_4}.
+Se encarga de procesar las mecánicas de retención formativa mediante recompensas y métricas de racha de estudio. El alcance y fronteras operativas del motor lúdico se presentan en la Figura~\ref{fig:dcu_m4}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/dcu_m4_ludificacion.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m4_ludificacion.png}
     \caption{Diagrama de Casos de Uso del Módulo de Experiencia de Usuario y Ludificación.}
-    \label{fig:dcu_modulo_4}
+    \label{fig:dcu_m4}
 \end{figure}
 
-En la Figura~\ref{fig:seq_m4_logro} se describe el flujo de eventos desencadenado tras resolver un ejercicio exitosamente, justificando el procesamiento local de rachas y la posterior persistencia síncrona de insignias desbloqueadas (CU-26).
+En la Figura~\ref{fig:seq_m4_logro} se modela el flujo secuencial de mensajes gatillado tras el cumplimiento de una meta didáctica para autorizar el desbloqueo de insignias académicas.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/seq_m4_logro.png}
+    \includegraphics[width=0.90\textwidth]{imagenes/seq_m4_logro.png}
     \caption{Diagrama de Secuencia del Motor de Ludificación para la asignación y reclamo de insignias.}
     \label{fig:seq_m4_logro}
 \end{figure}
 
 \paragraph{Análisis del Comportamiento Dinámico (CU-26):}~\\
-Como se ilustra en la Figura~\ref{fig:seq_m4_logro}, el ciclo de gamificación se activa de manera síncrona cuando el Alumno presiona el botón de reclamo en la vista \texttt{InsigniasGrid}. El widget delega el procesamiento lúdico al componente de negocio \texttt{BadgeProcessorImpl} invocando el método \texttt{procesarReclamoInsignia()}. El procesador realiza una validación cruzada consultando las métricas históricas de rendimiento persistidas localmente en \texttt{Hive Storage}. 
-
-Si las cajas locales certifican que el usuario cumple con los umbrales específicos del logro (como el contador de racha de estudio o puntos de experiencia XP acumulados), el procesador autoriza la transacción y emite un comando de inserción hacia la tabla de perfiles de \texttt{Supabase DB}. Al retornar el código HTTP 201 de persistencia exitosa desde la nube, el componente del servicio libera el candado visual de la insignia y refresca la UI, otorgándole al estudiante retroalimentación inmediata sobre su progreso didáctico.
+Cuando el Alumno solicita el reclamo de un logro en \texttt{InsigniasGrid}, la vista invoca asíncronamente a \texttt{BadgeProcessorImpl} mediante \texttt{procesarReclamoInsignia()}. El procesador realiza una validación cruzada consultando las métricas de rendimiento locales persistidas en Hive. Si se validan los umbrales de racha y puntos XP, el procesador autoriza la operación y envía una inserción al esquema remoto de Supabase. Tras retornar el código HTTP 201, se libera el candado visual de la insignia y se otorga retroalimentación inmediata en el cliente móvil.
 
 \subsubsection{Módulo V: Dashboard de Gestión Docente (Plataforma Desktop)}
 
-Herramienta analítica y de control didáctico exclusiva del profesor. La definición de sus funciones para la edición de reactivos y el consumo de reportes e indicadores grupales se detalla en la Figura~\ref{fig:dcu_modulo_5}.
+Herramienta analítica y de control pedagógico para el profesor titular. La delimitación de sus funciones para la edición de reactivos de evaluación y el consumo de reportes grupales se detalla en la Figura~\ref{fig:dcu_m5}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.90\textwidth]{imagenes/dcu_m5_docente.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/dcu_m5_docente.png}
     \caption{Diagrama de Casos de Uso del Dashboard de Gestión Docente.}
-    \label{fig:dcu_modulo_5}
+    \label{fig:dcu_m5}
 \end{figure}
 
-La Figura~\ref{fig:seq_m5_analiticas} expone de forma secuencial cómo el Dashboard Desktop consume las funciones remotas (RPC) y vistas optimizadas de Supabase para generar semáforos de desempeño grupal en tiempo real de manera asíncrona (CU-35).
+\clearpage
+
+La Figura~\ref{fig:seq_m5_analiticas} expone cómo el Dashboard Desktop consume de manera asíncrona las funciones y vistas agregadas del backend remoto para renderizar semáforos de desempeño grupal en tiempo real.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/seq_m5_analiticas.png}
+    \includegraphics[width=0.90\textwidth]{imagenes/seq_m5_analiticas.png}
     \caption{Diagrama de Secuencia para la consulta reactiva y renderizado de métricas analíticas.}
     \label{fig:seq_m5_analiticas}
 \end{figure}
 
 \paragraph{Análisis del Comportamiento Dinámico (CU-35):}~\\
-El flujo analítico modelado en la Figura~\ref{fig:seq_m5_analiticas} detalla el procesamiento de métricas de evaluación formativa. Cuando el profesor selecciona un grupo escolar en el panel administrativo \texttt{AnalyticsDashboard}, el entorno web/desktop gatilla una llamada asíncrona hacia el controlador \texttt{TeacherDashboardServiceImpl} por medio de la rutina \texttt{fetchGroupAnalytics()}. El servicio canaliza la consulta de manera directa hacia la capa de datos de Supabase, invocando un procedimiento almacenado (\textit{Remote Procedure Call} - RPC) configurado sobre la base de datos PostgreSQL.
+Cuando el profesor selecciona un grupo escolar en \texttt{AnalyticsDashboard}, el entorno web/desktop lanza una llamada asíncrona hacia el controlador \texttt{TeacherDashboardServiceImpl} por medio de \texttt{fetchGroupAnalytics()}. El servicio canaliza la consulta hacia el backend de Supabase invocando un procedimiento almacenado (\textit{Remote Procedure Call} - RPC) sobre PostgreSQL. La base de datos ejecuta las agregaciones sobre el histórico de respuestas y retorna un JSON estructurado. El servicio mapea las variables de rendimiento, evalúa los umbrales para semaforizar los indicadores (alertas en rojo, amarillo o verde) y transmite el dataset a la interfaz gráfica.
 
-La base de datos ejecuta de forma interna las agregaciones matemáticas sobre los históricos de respuestas y retorna un objeto estructurado JSON que contiene las métricas procesadas. El servicio de la plataforma docente captura la respuesta, mapea las variables de rendimiento y evalúa los umbrales estipulados para semaforizar los indicadores (alertas en rojo, amarillo o verde). Finalmente, el dataset formateado se transmite de vuelta a la UI, pintando gráficos estadísticos que facilitan la toma de decisiones pedagógicas al docente.
+\subsubsection{Módulo VI: Gestión Administrativa Global (Consola Admin)}
 
-\subsubsection{Módulo I\MakeUppercase{V}: Gestión Administrativa Global (Consola Admin)}
-
-Módulo operativo de máximo nivel jerárquico. Administra catálogos maestros, auditoría de logs y aprovisionamiento institucional. Su alcance se modela en la Figura~\ref{fig:dcu_modulo_6}.
+Módulo operativo de máximo nivel jerárquico encargado de la auditoría de logs, aprovisionamiento institucional y validación de tokens de seguridad, cuyas interacciones se delimitan en la Figura~\ref{fig:dcu_m6}.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/dcu_m6_admin.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m6_admin.png}
     \caption{Diagrama de Casos de Uso del Módulo de Gestión Administrativa Global.}
-    \label{fig:dcu_modulo_6}
+    \label{fig:dcu_m6}
 \end{figure}
 
-Finalmente, la Figura~\ref{fig:seq_m6_aprobacion} detalla el flujo crítico de seguridad para la validación y autorización del registro de un nuevo docente (CU-39), manipulando los estados de las tablas maestras bajo aislamiento transaccional.
+Finalmente, la Figura~\ref{fig:seq_m6_aprobacion} detalla el flujo crítico de seguridad para la validación y autorización del registro de un nuevo docente bajo aislamiento transaccional.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/seq_m6_aprobacion.png}
+    \includegraphics[width=0.90\textwidth]{imagenes/seq_m6_aprobacion.png}
     \caption{Diagrama de Secuencia para el flujo de Aprobación/Rechazo de credenciales docentes.}
     \label{fig:seq_m6_aprobacion}
 \end{figure}
 
 \paragraph{Análisis del Comportamiento Dinámico (CU-39):}~\\
-La traza temporal descrita en la Figura~\ref{fig:seq_m6_aprobacion} gobierna el aprovisionamiento de identidades institucionales de alto nivel. Al activarse la opción de autorización en la consola maestra (\texttt{UserManagementView}), el Administrador delega la lógica crítica de seguridad al componente de control \texttt{AdminServiceImpl} invocando la función \texttt{approveTeacherRegistration()}. El servicio abre inmediatamente un bloque transaccional seguro y altera el registro correspondiente en la tabla de solicitudes de Supabase, conmutando su estado a ``APPROVED''.
-
-Una vez validada esta mutación de datos por el motor de PostgreSQL, el servicio lanza de forma secuencial una segunda instrucción dirigida al esquema central de autenticación para dar de alta el perfil docente definitivo e inyectar de manera segura el rol RBAC verificado. Al completarse con éxito ambas operaciones, la base de datos consolida el cambio transaccional de forma permanente y responde al servicio. Finalmente, el componente administrativo refresca de forma síncrona la vista de control reflejando el nuevo estatus del usuario en los paneles del sistema.
+Al activarse la opción de autorización en la consola maestra \texttt{UserManagementView}, el Administrador delega el control de seguridad al componente \texttt{AdminServiceImpl} mediante \texttt{approveTeacherRegistration()}. El servicio abre un bloque transaccional y altera el registro en la tabla de solicitudes de Supabase a estado ``APPROVED''. Tras validarse la mutación por el motor relacional, el servicio lanza una segunda instrucción al esquema central de autenticación para dar de alta el perfil docente e inyectar el rol RBAC verificado. Al completarse con éxito, la base de datos consolida los cambios de forma permanente y se refresca la vista de control reflejando el nuevo estatus.
