@@ -1,0 +1,21 @@
+## Archivos auxiliares de LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.synctex(busy)
+*.blg
+*.bbl
+
+## El PDF generado (es mejor que cada quien lo genere en su PC)
+*.pdf
