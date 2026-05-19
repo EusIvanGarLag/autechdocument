@@ -318,7 +318,8 @@ Para garantizar la integridad referencial, la escalabilidad concurrente y el cor
     \caption{Diagrama Entidad-Relación del esquema físico PostgreSQL de AUTECH, mostrando las entidades \texttt{users}, \texttt{grupos}, \texttt{group\_members}, \texttt{ejercicios}, \texttt{role\_requests} y \texttt{achievements} con sus relaciones y atributos principales.}
     \label{fig:diagrama_er}
 \end{figure}
-
+\newpage
+\clearpage
 \section{Modelado Arquitectónico e Interacciones Lógicas (UML)}
 \label{sec:modelado_uml_global}
 
@@ -334,7 +335,7 @@ La organización de las capas del sistema y los límites físicos del despliegue
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/diag_paquetes_global.png}
+    \includegraphics[width=0.70\textwidth]{imagenes/diag_paquetes_global.png}
     \caption{Diagrama de Paquetes de la arquitectura global en capas de AUTECH.}
     \label{fig:diagrama_paquetes}
 \end{figure}
@@ -344,7 +345,7 @@ En la Figura~\ref{fig:diagrama_clases} se detalla el diseño de clases core. Sig
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{imagenes/diag_clases_global.png}
+    \includegraphics[width=0.70\textwidth]{imagenes/diag_clases_global.png}
     \caption{Diagrama de Clases global bajo el patrón Service Layer e Inversión de Dependencias.}
     \label{fig:diagrama_clases}
 \end{figure}
@@ -362,7 +363,7 @@ Este módulo norma el ingreso seguro y la persistencia de la sesión mediante Su
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m1_auth.png}
+    \includegraphics[width=0.60\textwidth]{imagenes/dcu_m1_auth.png}
     \caption{Diagrama de Casos de Uso del Módulo de Autenticación, Seguridad y Accesos.}
     \label{fig:dcu_m1}
 \end{figure}
@@ -408,7 +409,7 @@ La lógica secuencial y estructural de este proceso iterativo de construcción d
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\textwidth]{imagenes/act_conversion_afn_afd.png}
+    \includegraphics[width=0.50\textwidth]{imagenes/act_conversion_afn_afd.png}
     \caption{Diagrama de Actividades UML para la ejecución del algoritmo de conversión formal.}
     \label{fig:act_m2_conversion}
 \end{figure}
@@ -427,7 +428,7 @@ El ciclo descrito en la Figura~\ref{fig:seq_m2_paso} detalla la traza de evaluac
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\textwidth]{imagenes/act_validacion_cadena.png}
+    \includegraphics[width=0.55\textwidth]{imagenes/act_validacion_cadena.png}
     \caption{Diagrama de Actividades UML para el proceso de validación y simulación de cadenas.}
     \label{fig:act_m2_validacion}
 \end{figure}
@@ -437,7 +438,7 @@ Para los modelos computacionales universales con memoria externa infinita, la Fi
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\textwidth]{imagenes/act_m2_turing.png}
+    \includegraphics[width=0.55\textwidth]{imagenes/act_m2_turing.png}
     \caption{Diagrama de Actividades UML para el procesamiento de cintas en la Máquina de Turing.}
     \label{fig:act_m2_turing}
 \end{figure}
@@ -449,7 +450,7 @@ El procesamiento lógico encargado de deconstruir un Autómata con Pila (PDA) pa
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\textwidth]{imagenes/act_m2_cfg.png}
+    \includegraphics[width=0.55\textwidth]{imagenes/act_m2_cfg.png}
     \caption{Diagrama de Actividades UML para el algoritmo de extracción y generación de CFG.}
     \label{fig:act_m2_cfg}
 \end{figure}
@@ -460,7 +461,7 @@ Este módulo opera como un intermediario reactivo encargado de mitigar fallas de
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m3_offline.png}
+    \includegraphics[width=0.55\textwidth]{imagenes/dcu_m3_offline.png}
     \caption{Diagrama de Casos de Uso del Módulo de Sincronización y Persistencia Offline.}
     \label{fig:dcu_m3}
 \end{figure}
@@ -485,7 +486,7 @@ Se encarga de procesar las mecánicas de retención formativa mediante recompens
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m4_ludificacion.png}
+    \includegraphics[width=0.60\textwidth]{imagenes/dcu_m4_ludificacion.png}
     \caption{Diagrama de Casos de Uso del Módulo de Experiencia de Usuario y Ludificación.}
     \label{fig:dcu_m4}
 \end{figure}
@@ -508,7 +509,7 @@ Herramienta analítica y de control pedagógico para el profesor titular. La del
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/dcu_m5_docente.png}
+    \includegraphics[width=0.65\textwidth]{imagenes/dcu_m5_docente.png}
     \caption{Diagrama de Casos de Uso del Dashboard de Gestión Docente.}
     \label{fig:dcu_m5}
 \end{figure}
@@ -533,7 +534,7 @@ Módulo operativo de máximo nivel jerárquico encargado de la auditoría de log
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/dcu_m6_admin.png}
+    \includegraphics[width=0.60\textwidth]{imagenes/dcu_m6_admin.png}
     \caption{Diagrama de Casos de Uso del Módulo de Gestión Administrativa Global.}
     \label{fig:dcu_m6}
 \end{figure}
