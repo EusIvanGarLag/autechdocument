@@ -1,4 +1,257 @@
-\chapter{Análisis y Requerimientos}
-\label{ch:analisis_requerimientos}
+\chapter{Análisis}
+\label{ch:analisis}
 
-Aquí se detallará la especificación de los casos de uso y requerimientos del sistema.
+En este capítulo se presenta el desglose formal de las necesidades del sistema AUTECH mediante la especificación de sus requerimientos funcionales y no funcionales, el establecimiento de sus reglas de negocio, y el modelado detallado de sus casos de uso bajo el estándar UML.
+
+\section{Requerimientos Globales del Sistema (IEEE 830)}
+\label{sec:ieee830}
+
+La especificación de requisitos se fundamenta en la norma IEEE Std 830-1998, asegurando una trazabilidad bidireccional y una comunicación sin ambigüedades entre la arquitectura de software y las necesidades didácticas institucionales \cite{ieee1998}.
+
+\subsection{Requerimientos Funcionales}
+\label{subsec:req_funcionales}
+
+Los requerimientos funcionales (RF) definen el comportamiento interno del sistema, las transformaciones de datos y los servicios directos que se proveen a los distintos perfiles de usuario. Para garantizar la cohesión del diseño, se han classified en cuatro módulos arquitectónicos, como se definen en la Tabla~\ref{tab:rf_sistema} y la Tabla~\ref{tab:rf_sistema_p2}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Requerimientos Funcionales del Sistema AUTECH, organizados en cuatro módulos: Gestión y Seguridad (RF-01 a RF-03), Simulación y Motor Algorítmico (RF-04 a RF-08), Didáctico y de Ludificación (RF-09 a RF-12) e Interoperabilidad y UX (RF-13 a RF-15).}
+    \label{tab:rf_sistema}
+    \begin{tabular}{l l p{9.5cm}}
+        \toprule
+        \textbf{ID} & \textbf{Nombre del Requerimiento} & \textbf{Especificación Técnica} \\
+        \midrule
+        \multicolumn{3}{l}{\textbf{MÓDULO DE GESTIÓN Y SEGURIDAD}} \\
+        \midrule
+        RF-01 & Gestión Multi-Rol & Administrar el control de acceso de manera multiplataforma y concurrente para tres perfiles jerárquicos: Administrador (gestión global), Docente (gestión académica) y Alumno (simulación) \cite{pressman2020}. \\
+        \addlinespace
+        RF-02 & Aprovisionamiento Docente & Permitir el envío de solicitudes de registro docente. Tras la validación del Administrador (vía entorno desktop o móvil), el sistema deberá aprovisionar la cuenta automatizando el envío de credenciales temporales vía correo electrónico. \\
+        \addlinespace
+        RF-03 & Gestión de Grupos Académicos & Proveer al perfil Docente de un panel de control disponible en plataformas desktop y móvil para crear, modificar o eliminar grupos, así como generar identificadores alfanuméricos (códigos de invitación) para el enrolamiento de alumnos \cite{escom2016}. \\
+        \midrule
+        \multicolumn{3}{l}{\textbf{MÓDULO DE SIMULACIÓN Y MOTOR ALGORÍTMICO}} \\
+        \midrule
+        RF-04 & Editor de Autómatas Finitos & Desplegar un canvas interactivo en la aplicación móvil que permita la construcción y edición topológica de Autómatas Finitos Deterministas (AFD) y No Deterministas (AFND) \cite{ipn2020}. \\
+        \addlinespace
+        RF-05 & Editor de Autómatas de Pila & Proveer herramientas de diseño para Autómatas de Pila (AP) en la interfaz móvil, integrando la declaración del alfabeto de la pila ($\Gamma$) y la gestión de transiciones no deterministas \cite{hopcroft2007}. \\
+        \addlinespace
+        RF-06 & Editor de Máquinas de Turing & Desplegar en la aplicación móvil un simulador de Máquina de Turing (MT) orientado a la función de reconocimiento de lenguajes, incorporando una cinta infinita visual y control de cabezal bidireccional \cite{sipser2012}. \\
+        \addlinespace
+        RF-07 & Validador Lógico Multinivel & Ejecutar la validación algorítmica de cadenas de entrada en tres modalidades asíncronas: 1) Ejecución paso a paso, 2) Resolución de clausuras épsilon ($\epsilon$), y 3) Evaluación masiva de baterías de prueba (\textit{Bulk Test}) \cite{sinchi2018}. \\
+        \addlinespace
+        RF-08 & Transformación Algorítmica & Ejecutar conversiones matemáticas automatizadas, incluyendo: transformación de AFND a AFD, minimización de estados equivalentes y conversión bidireccional entre Expresiones Regulares y grafos \cite{kelley2001}. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Requerimientos Funcionales del Sistema AUTECH (Continuación).}
+    \label{tab:rf_sistema_p2}
+    \begin{tabular}{l l p{9.5cm}}
+        \toprule
+        \textbf{ID} & \textbf{Nombre del Requerimiento} & \textbf{Especificación Técnica} \\
+        \midrule
+        \multicolumn{3}{l}{\textbf{MÓDULO DIDÁCTICO Y DE LUDIFICACIÓN}} \\
+        \midrule
+        RF-09 & Evaluaciones Teóricas (Quizzes) & Permitir la creación y asignación multiplataforma de reactivos de opción múltiple orientados exclusivamente a la validación de fundamentos teóricos de la asignatura \cite{felder2016}. \\
+        \addlinespace
+        RF-10 & Analítica de Desempeño Docente & Procesar las métricas de uso y generar visualizaciones estadísticas (indicadores semaforizados) del avance grupal e individual (aciertos, errores frecuentes y completitud temporal) accesibles para el profesor \cite{munoz2012}. \\
+        \addlinespace
+        RF-11 & Ecosistema de Ludificación & Orquestar el progreso del usuario mediante el bloqueo/desbloqueo de ``mundos'' basados en la Jerarquía de Chomsky, calculando puntos de experiencia (XP) y gestionando contadores de racha de estudio en la app móvil del Alumno \cite{deterding2011}. \\
+        \addlinespace
+        RF-12 & Integración Multimedia & Integrar y reproducir material audiovisual de refuerzo desde fuentes externas de manera adaptativa en la interfaz móvil \cite{crompton2018}. \\
+        \midrule
+        \multicolumn{3}{l}{\textbf{MÓDULO DE INTEROPERABILIDAD Y UX}} \\
+        \midrule
+        RF-13 & Interoperabilidad de Estructuras & Soportar la importación y exportación bidireccional del mapeo de grafos utilizando los esquemas XML estándar de la industria académica: \texttt{.jff} (JFLAP) y \texttt{.fsam} a través del gestor de archivos nativo de cada entorno \cite{rodger2006}. \\
+        \addlinespace
+        RF-14 & Asistente de Inducción (Onboarding) & Desplegar una secuencia de instrucciones superpuestas e interactivas al detectar el primer inicio de sesión en la aplicación móvil del Alumno, con capacidad de ser omitida por el usuario \cite{materialdesign2023}. \\
+        \addlinespace
+        RF-15 & Modo de Práctica Autónoma & Habilitar el acceso irrestricto en la app móvil a los módulos de simulación y lecciones teóricas para cuentas de Alumno que no estén vinculadas a un código de grupo docente \cite{nielsen1994}. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\subsection{Requerimientos No Funcionales (RNF)}
+\label{subsec:req_no_funcionales}
+
+Los requerimientos no funcionales (RNF) especifican las restricciones técnicas, criterios de calidad del sistema, directrices de seguridad y métricas de rendimiento indispensables para garantizar el correcto funcionamiento transversal de la arquitectura de AUTECH, detallados en la Tabla~\ref{tab:req_no_funcionales}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Especificación de Requerimientos No Funcionales del Ecosistema AUTECH.}
+    \label{tab:req_no_funcionales}
+    \begin{tabular}{l l p{9.5cm}}
+        \toprule
+        \textbf{ID} & \textbf{Atributo de Calidad} & \textbf{Especificación y Restricción Técnica} \\
+        \midrule
+        RNF-01 & Rendimiento Gráfico & El renderizado y la animación matemática de los grafos sobre el canvas interactivo en Flutter debe mantener una tasa de refresco estable de 60 FPS tanto en dispositivos móviles como en entornos Desktop (Windows/macOS) \cite{flutter2024a}. \\
+        \addlinespace
+        RNF-02 & Persistencia Local Móvil & La lectura y escritura de estructuras de autómatas y progreso local en la aplicación móvil del Alumno debe realizarse mediante cajas no relacionales de Hive, garantizando tiempos de respuesta inferiores a los 15 ms. \\
+        \addlinespace
+        RNF-03 & Resiliencia Offline & El cliente móvil del Alumno debe procesar el cambio dinámico de red mediante un Service Layer reactivo, encolando localmente las peticiones de sincronización en background al perder de forma temporal la conectividad \cite{flutter2024c}. \\
+        \addlinespace
+        RNF-04 & Disponibilidad de API & La API de servicios web desplegada en la infraestructura en la nube de Render debe responder eficientemente a las peticiones concurrentes de las aplicaciones, garantizando un \textit{uptime} del 99.5\% anual. \\
+        \addlinespace
+        RNF-05 & Seguridad y Cifrado & Todo flujo de datos e intercambio de información entre los clientes de software (móviles o desktop) y la base de datos centralizada debe realizarse obligatoriamente mediante peticiones cifradas bajo el protocolo HTTPS (TLS 1.3). \\
+        \addlinespace
+        RNF-06 & Seguridad en Capa de Datos & El acceso a la persistencia en la nube debe controlarse estrictamente a través de políticas de seguridad a nivel de fila (RLS, \textit{Row Level Security}) vinculadas al ID único de usuario de la sesión activa en cualquier plataforma \cite{supabase2024}. \\
+        \addlinespace
+        RNF-07 & Escalabilidad Concurrente & El esquema de base de datos relacional y el pool de conexiones del backend deben estar dimensionados para soportar consultas simultáneas provenientes de múltiples peticiones concurrentes en periodos de evaluación masiva bajo estándares internacionales de calidad \cite{iso2011}. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\clearpage
+\section{Reglas de Negocio}
+\label{sec:reglas_negocio}
+
+Las reglas de negocio definen las políticas, restricciones lógicas y leyes matemáticas constantes, que el sistema debe respetar durante su ejecución. A diferencia de los requerimientos funcionales, estas reglas aseguran que la simulación gráfica sea matemáticamente exacta y que el avance del estudiante sea didácticamente coherente con el programa de estudios \cite{ipn2020, hopcroft2007}. La especificación detallada de estas directrices se presenta en la Tabla~\ref{tab:reglas_negocio}.
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Reglas de Negocio del Sistema AUTECH.}
+    \label{tab:reglas_negocio}
+    \begin{tabular}{l l p{9.5cm}}
+        \toprule
+        \textbf{ID} & \textbf{Nombre de la Regla} & \textbf{Restricción Lógica y Matemática} \\
+        \midrule
+        RN-01 & Determinismo Estricto (AFD) & Durante la edición de un Autómata Finito Determinista, el sistema impedirá la ejecución de la simulación y desplegará una alerta de error si detecta que un estado posee múltiples transiciones de salida evaluadas con el mismo símbolo del alfabeto \cite{hopcroft2007}. \\
+        \addlinespace
+        RN-02 & Integridad de Memoria LIFO & En el simulador de Autómatas de Pila, el motor de validación prohibirá cualquier operation de extracción (POP) si el estado actual de la pila contiene únicamente el símbolo de fondo inicial ($Z_0$), evitando desbordamientos lógicos \cite{hopcroft2007}. \\
+        \addlinespace
+        RN-03 & Límite Físico de Cinta (MT) & Conforme al modelo estándar de Máquina de Turing de cinta semi-infinita, el sistema restringirá el desplazamiento del cabezal hacia la izquierda si su posición actual corresponde a la celda de inicio (índice cero) \cite{hopcroft2007}. \\
+        \addlinespace
+        RN-04 & Umbral de Competencia Didáctica & El sistema aplicará un candado lógico que impedirá el desbloqueo de un nivel superior (por ejemplo, la transición de Lenguajes Regulares a Libres de Contexto) a menos que el usuario acredite el módulo vigente con un puntaje mínimo aprobatorio de 80/100. La implementación de esta regla corresponde al Ciclo 1 del prototipado evolutivo, una vez que el sistema de progresión base quede consolidado en el Ciclo 0 \cite{ipn2020}. \\
+        \addlinespace
+        RN-05 & Límite de Complejidad Topológica & Para mantener el alineamiento con el RNF-01 de rendimiento, el lienzo de simulación emitirá una advertencia preventiva de optimización si la topología del grafo diseñado por el usuario alcanza los 15 estados activos. \\
+        \addlinespace
+        RN-06 & Iteración Formativa Ilimitada & El sistema garantizará que las cuentas con rol de Alumno posean intentos infinitos para la resolución de simulaciones y cuestionarios teóricos, priorizando la internalización del conocimiento por repetición sobre la penalización punitiva. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\clearpage 
+
+\section{Especificación de Requisitos y Modelado Funcional (UML)}
+\label{sec:especificacion_uml}
+
+La ingeniería de requisitos visual permite modelar las limitaciones operativas del sistema, facilitando la comprensión de los flujos de trabajo sin comprometerse con detalles de implementación a nivel de código. Para mantener el rigor técnico exigido en el IPN, se utiliza el estándar industrial UML 2.5 (Lenguaje de Modelado Unificado), el cual esquematiza cómo las entidades humanas interactúan con los procesos de la Jerarquía de Chomsky y el motor analítico del sistema \cite{pressman2020}.
+
+\subsection{Actores del Sistema}
+\label{subsec:actores_sistema}
+
+De acuerdo con las especificaciones de UML 2.5, un ``Actor'' representa un rol que desempeña un usuario humano o un sistema externo al interactuar con el caso de uso \cite{pressman2020}. Para AUTECH, se han definido estrictamente tres perfiles jerárquicos basados en una arquitectura de control de acceso por roles (RBAC) \cite{supabase2024}.
+
+\begin{quote}
+    \small \textit{\textbf{Nota Técnica de Arquitectura:} Se omite deliberadamente la inclusión de componentes de infraestructura interna, como la base de datos local Hive o el proveedor de autenticación Supabase Auth, ya que no inician interacciones de forma autónoma, sino que responden a peticiones del cliente.}
+\end{quote}
+
+\begin{description}
+    \item[\textbf{Alumno (Actor Primario - Móvil):}] Estudiante matriculado en la ESCOM. Su objetivo principal es interactuar exclusivamente con el cliente móvil (Android) para resolver simulaciones de autómatas, consultar teoría algorítmica y gestionar su progresión académica dentro del ecosistema ludificado \cite{ipn2020, materialdesign2023}.
+    \item[\textbf{Docente (Actor Primario - Multiplataforma adaptativo Desktop/Móvil):}] Profesor titular de la asignatura de Teoría de la Computación. Su interacción se centraliza en el Dashboard Desktop y dispositivos móviles, donde ejerce funciones de evaluación formativa, gestión de grupos académicos (códigos de invitación) y análisis de métricas de desempeño \cite{felder2016}.
+    \item[\textbf{Administrador (Actor Secundario - Multiplataforma adaptativo Desktop/Móvil):}] Perfil técnico y operativo con privilegios globales (\textit{Super User}). Su responsabilidad recae en el aprovisionamiento de cuentas institucionales (validación y aprobación de registros docentes) y el mantenimiento de los parámetros de configuración globales del sistema \cite{supabase2024}.
+\end{description}
+
+\subsection{Casos de Uso}
+\label{subsec:casos_uso}
+
+El catálogo de Casos de Uso (CU) define las interacciones entre los actores (Alumno, Docente, Administrador) y los servicios del sistema, clasificando cada función por su importancia para el proceso educativo (Prioridad) y su impacto en la estabilidad del software (Criticidad).
+
+\subsubsection{I. Módulo de Autenticación, Seguridad y Accesos (Transversal)}
+Este bloque gestiona el control de acceso unificado al ecosistema, validando los privilegios según el rol.
+
+\begin{itemize}
+    \item \textbf{CU-01:} Iniciar Sesión Alumno.
+    \item \textbf{CU-02:} Registrarse Alumno.
+    \item \textbf{CU-16:} Iniciar Sesión Docente/Admin.
+    \item \textbf{CU-17:} Solicitar Registro Docente.
+    \item \textbf{CU-03:} Recuperar Contraseña.
+    \item \textbf{CU-04:} Cerrar Sesión.
+\end{itemize}
+
+\subsubsection{II. Módulo Móvil: Núcleo de Simulación, Algoritmos y Aprendizaje (Alumno)}
+Representa la lógica algorítmica central del sistema distribuida en la interfaz reactiva del estudiante.
+
+\paragraph{A. Entorno Interactivo y Motores de Simulación}~\\
+\begin{itemize}
+    \item \textbf{CU-35:} Grafo del Autómata Interactivo. \textit{(Renderizado dinámico de estados/transiciones)}.
+    \item \textbf{CU-36:} Simulación Paso a Paso (Animada). \textit{(Validación de cadenas en AFD/AFN)}.
+    \item \textbf{CU-43:} Definir, visualizar y simular un Autómata con Pila (PDA).
+    \item \textbf{CU-45:} Simulación completa con cinta animada (Máquina de Turing - MT).
+\end{itemize}
+
+\paragraph{B. Algoritmos de Conversión y Procesamiento Formal}~\\
+\begin{itemize}
+    \item \textbf{CU-37:} Operaciones sobre Lenguajes Regulares.
+    \item \textbf{CU-42:} Conversión de Expresión Regular (ER) a Autómata.
+    \item \textbf{CU-38:} Conversión de AFN-$\epsilon$ a AFD.
+    \item \textbf{CU-39:} Reducción de Estados (Minimización de AFD).
+    \item \textbf{CU-44:} Convierte a Gramática Libre de Contexto (CFG).
+\end{itemize}
+
+\paragraph{C. Sistema de Evaluación de Retos}~\\
+\begin{itemize}
+    \item \textbf{CU-05:} Ver Retos Disponibles.
+    \item \textbf{CU-06:} Resolver Reto de Simulación.
+    \item \textbf{CU-07:} Enviar Respuesta para Evaluación.
+    \item \textbf{CU-08:} Ver Historial de Respuestas.
+\end{itemize}
+
+\subsubsection{III. Módulo Móvil: Sincronización y Persistencia (Arquitectura Offline)}
+Casos de uso dedicados a la resiliencia de datos locales y sincronización asíncrona mediante la capa de servicios.
+
+\begin{itemize}
+    \item \textbf{CU-09:} Descargar Contenido Teórico (Unidades 1-8).
+    \item \textbf{CU-10:} Modo Autónomo Offline (Persistencia de estados en Hive).
+    \item \textbf{CU-11:} Sincronizar Datos con la Nube (Consumo de API / Supabase).
+\end{itemize}
+
+\subsubsection{IV. Módulo Móvil: Experiencia de Usuario y Ludificación (Alumno)}
+Flujos encargados de la retención del alumno a través de métricas de progreso e incentivos visuales.
+
+\begin{itemize}
+    \item \textbf{CU-12:} Ver Perfil y Estadísticas de Progreso.
+    \item \textbf{CU-13:} Ver Calificaciones e Historial.
+    \item \textbf{CU-15:} Gestionar Notificaciones Push.
+    \item \textbf{CU-41:} Reclamar Insignia de Logro.
+\end{itemize}
+
+\subsubsection{V. Módulo Desktop/Móvil: Dashboard de Gestión Docente}
+Herramientas exclusivas del profesor para el control de la estrategia didáctica, evaluación y analítica grupal.
+
+\paragraph{A. Gestión de Contenido Académico y Retos}~\\
+\begin{itemize}
+    \item \textbf{CU-18:} Crear Reto/Ejercicio.
+    \item \textbf{CU-19:} Editar/Actualizar Reto.
+    \item \textbf{CU-20:} Eliminar Reto.
+    \item \textbf{CU-21:} Asignar Reto a Grupo.
+    \item \textbf{CU-27:} Gestionar Material de Apoyo.
+\end{itemize}
+
+\paragraph{B. Evaluación y Analíticas de Desempeño}~\\
+\begin{itemize}
+    \item \textbf{CU-22:} Ver Respuestas Pendientes de Alumnos.
+    \item \textbf{CU-24:} Asignar Retroalimentación Personalizada.
+    \item \textbf{CU-23:} Observar calificaciones en analíticas.
+    \item \textbf{CU-25:} Ver Analíticas de Desempeño Grupal.
+    \item \textbf{CU-26:} Exportar Reportes (PDF/Excel) \textit{(Planificado para Ciclo 2)}.
+\end{itemize}
+
+\subsubsection{VI. Módulo Desktop/Móvil: Gestión Administrativa Global (Consola Admin)}
+Operaciones críticas de configuración global, salud del sistema y control de infraestructura.
+
+\begin{itemize}
+    \item \textbf{CU-28:} Crear/Gestionar Grupos (Vinculación institucional).
+    \item \textbf{CU-29:} Vincular Alumnos a Grupo.
+    \item \textbf{CU-31:} Approbar/Rechazar Registro de Docentes.
+    \item \textbf{CU-30:} Gestionar Cuentas de Usuario (Admin).
+    \item \textbf{CU-34:} Configurar Parámetros del Sistema de Ludificación.
+    \item \textbf{CU-32:} Monitorear Logs de Sistema y Errores (Mantenimiento y Resiliencia).
+\end{itemize}
