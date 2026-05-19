@@ -1,3 +1,550 @@
-\chapter{Introducción}
-\label{ch:introduccion}
-El sistema AUTECH se basa en los fundamentos de la teoría de la computación \cite{kelley2001}.
+% ============================================================
+%  capitulos/cap1.tex  —  AUTECH · Trabajo Terminal ESCOM-IPN
+%  Capítulo 1: Marco introductorio
+% ============================================================
+
+\chapter{Marco introductorio}
+\label{ch:cap1}
+
+% ─────────────────────────────────────────────────────────────
+\section{Introducción}
+\label{sec:introduccion}
+
+La Teoría de la Computación es una asignatura de gran importancia dentro del plan de estudios
+de Ingeniería en Sistemas Computacionales de la ESCOM, ya que establece las bases matemáticas
+y lógicas que sustentan áreas como el diseño de compiladores, la arquitectura de computadoras
+y el desarrollo de lenguajes de programación~\cite{ipn2020, aho2006}. Sin embargo, la
+naturaleza abstracta de sus temas como autómatas finitos, lenguajes formales y Máquinas de
+Turing convierte su enseñanza en un reto constante para docentes y alumnos por
+igual~\cite{sinchi2018, felder2016}.
+
+Este problema no es exclusivo de la ESCOM. En general, las materias de alto contenido formal
+dentro de las carreras STEM presentan altos índices de dificultad de comprensión cuando el
+estudiante no cuenta con herramientas que le permitan experimentar con los conceptos, más allá
+del pizarrón y los apuntes~\cite{munoz2012}. La práctica continua y el contacto directo con
+los modelos son factores clave para consolidar este tipo de
+conocimientos~\cite{hopcroft2007}.
+
+Frente a esto, el aprendizaje móvil (m-learning) ha demostrado ser una alternativa eficaz para
+fortalecer el aprendizaje de conceptos abstractos al estudiante de forma visual e interactiva,
+aprovechando la disponibilidad que ofrece un dispositivo móvil~\cite{crompton2018}. Bajo esa
+premisa nace AUTECH: una plataforma educativa para Android orientada a fortalecer el aprendizaje
+de la Teoría de la Computación en la ESCOM, integrando un motor de simulación de autómatas, un
+sistema de aprendizaje por niveles y componentes de ludificación que buscan mantener la
+motivación del usuario a lo largo del proceso, además de un sistema de gestión para que tanto
+alumnos como profesores puedan trabajar en conjunto~\cite{deterding2011}.
+
+Para guiar al lector a través del proceso de ingeniería seguido en este proyecto, el documento
+se organiza de la siguiente manera:
+
+\begin{itemize}
+    \item \textbf{Capítulo 1 -- Marco Introductorio:} Establece el contexto académico, el
+        planteamiento del problema, los objetivos y las fronteras del
+        proyecto~\cite{ipn2020, escom2016}.
+
+    \item \textbf{Capítulo 2 -- Marco Teórico y Estado del Arte:} Presenta los fundamentos de
+        la Teoría de la Computación, los principios de diseño UI/UX aplicados al m-learning y
+        una comparativa con las herramientas existentes~\cite{sinchi2018, crompton2018}.
+
+    \item \textbf{Capítulo 3 -- Análisis:} Documenta el levantamiento de requerimientos bajo
+        el estándar IEEE 830, el modelado funcional en UML, el análisis de riesgos, la
+        factibilidad del proyecto y los términos legales y de privacidad
+        aplicables~\cite{ieee1998}.
+
+    \item \textbf{Capítulo 4 -- Diseño:} Detalla las decisiones de arquitectura, el diseño
+        de datos, los mockups de interfaz, los diagramas del sistema y la infraestructura
+        tecnológica, integrando Design Thinking como enfoque centrado en el usuario.
+
+    \item \textbf{Capítulo 5 -- Ciclo~0, Prototipo Base (MVP):} Describe la implementación
+        del primer ciclo de desarrollo evolutivo, abarcando el motor de simulación de autómatas
+        finitos y los módulos de aprendizaje básicos.
+\end{itemize}
+
+Los capítulos correspondientes a los ciclos 1 y 2 del prototipado evolutivo serán incorporados
+durante la fase TT2, conforme al plan de desarrollo establecido en la
+sección~\ref{ssec:ciclos}.
+
+% ─────────────────────────────────────────────────────────────
+\section{Antecedentes}
+\label{sec:antecedentes}
+
+Históricamente, la enseñanza de la Teoría de la Computación en la ESCOM se ha apoyado en el
+desarrollo analítico de modelos matemáticos mediante representaciones gráficas tradicionales
+como diagramas en pizarrón, ejercicios en papel y sesiones de laboratorio
+presenciales~\cite{ipn2020}. Con el tiempo, la academia incorporó simuladores de escritorio
+para hacer estos conceptos más tangibles, siendo JFLAP la herramienta que se escogió como
+estándar en las prácticas de la institución~\cite{rodger2006}.
+
+Si bien JFLAP representó un avance significativo en su momento, actualmente las condiciones
+del entorno educativo han cambiado. Las herramientas de escritorio, aunque siguen siendo
+funcionales, están atadas a equipos fijos y no han evolucionado al ritmo de las necesidades
+actuales del estudiante, quien cada vez más organiza su estudio fuera del
+laboratorio~\cite{nielsen1994}. Frente a esto, la oferta de aplicaciones móviles relacionadas
+con ToC es escasa y, cuando existe, se limita a simuladores técnicos sin estructura didáctica
+o una estructura didáctica sin una pizca de ludificación, lo que no contribuye a una buena
+comprensión o al menos limita la comprensión de modelos a un uso mecánico de los mismos,
+además de que tampoco contribuye a un alto índice de retención en los sistemas
+actuales~\cite{felder2016, crompton2018}.
+
+Este contexto evidencia una brecha entre las herramientas disponibles y las formas en que el
+estudiante actual aprende y se organiza, brecha que AUTECH busca atender.
+
+% ─────────────────────────────────────────────────────────────
+\section{Planteamiento del Problema}
+\label{sec:planteamiento}
+
+En la ESCOM, el aprendizaje de la Teoría de la Computación enfrenta una barrera que va más
+allá de la dificultad natural de la materia: la alta abstracción de sus modelos y temas genera
+una brecha con la familiarización que los métodos de enseñanza actuales no logran cerrar del
+todo~\cite{hopcroft2007}. Aunque los índices de acreditación de la asignatura se perciben como
+aceptables, se observa de manera empírica un fenómeno de arrastre de deficiencias conceptuales
+que se hace evidente en materias siguientes del plan de estudios ISC
+2020~\cite{ipn2020, felder2016}.
+
+El problema concreto es que muchos estudiantes desarrollan una comprensión mecánica suficiente
+para aprobar evaluaciones inmediatas, pero sin la asimilación profunda necesaria para aplicar
+esos conocimientos en contextos reales, como el diseño de analizadores léxicos o la
+implementación de lógica de control en hardware~\cite{aho2006}. Esto se llega a convertir en
+un cuello de botella cuando llegan a materias como diseño de compiladores o arquitectura de
+computadoras, que dan por sentado un dominio sólido de estos fundamentos~\cite{munoz2012}.
+
+Parte del problema radica en que las herramientas de apoyo actuales no favorecen la práctica
+continua. Al estar limitadas a entornos de escritorio, el contacto del alumno con los modelos
+queda limitado a sesiones específicas de laboratorio, lo cual no es suficiente para unificar
+conocimiento de esta naturaleza~\cite{escom2016, nielsen1994}.
+
+% ─────────────────────────────────────────────────────────────
+\section{Solución Propuesta}
+\label{sec:solucion}
+
+Como respuesta a la problemática identificada, se propone el desarrollo de AUTECH, una
+plataforma educativa móvil para Android diseñada para fortalecer el aprendizaje de la Teoría
+de la Computación en la ESCOM mediante simulación interactiva, aprendizaje guiado y
+ludificación~\cite{deterding2011}. El contenido se organiza en niveles de progresión alineados
+con el programa sintético de la asignatura, siguiendo la estructura de la Jerarquía de Chomsky,
+desde autómatas finitos hasta Máquinas de Turing, exceptuando los lenguajes tipo~1 ya que no
+están contemplados en el programa sintético de ISC 2020~\cite{ipn2020, hopcroft2007}.
+
+\begin{infobox}
+\textbf{Nota:} Aunque la aplicación AUTECH está desarrollada en lenguaje Dart, con ayuda del
+framework multiplataforma Flutter, el alcance de este Trabajo Terminal restringe el despliegue
+y distribución exclusivamente al sistema operativo Android. Esta delimitación técnica resulta
+de tres factores críticos: primero, \textbf{infraestructura de compilación}: la generación de
+ejecutables para iOS exige hardware propietario (macOS con Xcode), del cual carecemos y no
+podemos costear; segundo, \textbf{sostenibilidad financiera}: el ecosistema de Apple requiere
+un licenciamiento anual de \$99~dólares, lo cual es inviable para un proyecto académico sin
+fines de lucro; y tercero, \textbf{agilidad de distribución}: Android permite el despliegue
+directo de paquetes instalables (\textit{sideloading} mediante .apk), lo que resulta vital
+para realizar pruebas de usuario rápidas bajo la metodología de Prototipado Evolutivo. Además,
+estadísticamente, priorizar Android asegura la compatibilidad con más del 75\% del mercado
+móvil estudiantil en México según el reporte de StatCounter global stats realizado en abril
+del 2026.
+\end{infobox}
+
+La plataforma se articula en tres componentes principales:
+
+\textbf{Motor de Simulación y Validación Interactiva.} Desarrollado con Flutter y el motor
+Flame, permite al estudiante construir y manipular autómatas directamente en la pantalla
+mediante gestos táctiles. El motor valida los modelos probando cadenas de entrada y soporta
+conversiones automáticas entre modelos equivalentes, como la transformación de un AFND a un
+AFD, facilitando la experimentación y comprensión de las relaciones entre
+modelos~\cite{sinchi2018, rodger2006}.
+
+\textbf{Sistema de Gestión de Aprendizaje y Analíticas.} AUTECH opera bajo un esquema
+multi-rol (Administrador, Profesor y Alumno) respaldado por Supabase como infraestructura de
+base de datos relacional en la nube, ya que, aunque anteriormente se tenía pensado el uso de
+Firebase, se optó por el cambio debido a los costos que implicaba pagar Firebase para lograr
+implementar el envío de correos de confirmación. El docente cuenta con un panel de analíticas
+que visualiza el desempeño grupal e individual, permitiendo identificar temas problemáticos y
+asignar actividades de refuerzo a grupos específicos de alumnos, además de estadísticas de
+temas o ejercicios con más problemas de asimilación por parte del
+alumno~\cite{felder2016, munoz2012}.
+
+\newpage
+\textbf{Experiencia de Usuario Ludificada.} El recorrido de aprendizaje combina teoría y
+práctica en cada lección, integrando ejercicios de opción múltiple, construcción de autómatas
+y depuración de modelos incorrectos. Un sistema de insignias y rachas incentiva la constancia
+del usuario, mientras que la persistencia local de datos garantiza el funcionamiento de la
+aplicación en entornos sin conexión~\cite{deterding2011, materialdesign2023}.
+
+La arquitectura del sistema sigue una arquitectura por capas basada en Layered Architecture
+con estructura modular por funcionalidad, anteriormente concebida como MVC en el protocolo
+inicial del proyecto. La transición respondió a una decisión técnica surgida durante el primer
+ciclo de desarrollo: al implementar el sistema en Flutter, la naturaleza del framework favorece
+que las pantallas consuman los servicios directamente mediante \texttt{StreamBuilder} y
+\texttt{FutureBuilder}, sin requerir una capa de controlador explícita. Forzar una separación
+MVC estricta habría introducido complejidad innecesaria sin beneficio real para el tamaño y
+alcance del proyecto. La arquitectura adoptada mantiene la separación de responsabilidades
+mediante dos capas bien definidas: una capa de datos compuesta por servicios y modelos, y una
+capa de UI organizada por módulos funcionales, lo cual es coherente con los principios de
+mantenibilidad y escalabilidad que originalmente motivaron la elección de
+MVC~\cite{pressman2010, reenskaug1979}.
+
+El aporte central de ingeniería de AUTECH no reside en la gestión convencional de datos, sino
+en la integración de cuatro elementos técnicos no triviales en una sola plataforma móvil: un
+motor de simulación algorítmica capaz de ejecutar y visualizar en tiempo real modelos
+computacionales formales, incluyendo la construcción de subconjuntos para conversión AFND a
+AFD, la minimización de estados por el algoritmo de Hopcroft, la construcción de Thompson para
+expresiones regulares y la simulación determinista de Máquinas de Turing; un patrón de
+resiliencia API-First con Fallback Local que garantiza disponibilidad total independientemente
+de la conectividad del dispositivo (exceptuando el material audiovisual que será externo a la
+app); y un sistema de analíticas educativas que transforma el comportamiento del estudiante
+dentro de la plataforma en métricas accionables para el docente. Además, el módulo de
+aprendizaje guiado utiliza componentes de ludificación para obtener mayores índices de
+retención por parte de los alumnos dentro de la aplicación. La combinación de estos cuatro
+elementos, orientada específicamente al contexto académico de la ESCOM y alineada con el
+programa sintético ISC 2020, constituye la contribución técnica distintiva del
+proyecto~\cite{hopcroft2007, pressman2020, flame2024}.
+
+\newpage
+% ─────────────────────────────────────────────────────────────
+\section{Metodología de Desarrollo: Paradigma de Prototipado evolutivo}
+\label{sec:metodologia}
+
+Para la construcción de AUTECH se adoptó el Paradigma de Construcción de Prototipos en su
+variante evolutiva, fundamentado en la metodología de Roger~S.\ Pressman~\cite{pressman2010}.
+A diferencia del prototipado desechable, en este enfoque cada prototipo no se descarta al
+finalizar el ciclo, sino que se convierte en la base del siguiente, permitiendo que el sistema
+crezca y se refine de forma progresiva. Esta característica lo hace especialmente adecuado para
+el desarrollo de herramientas didácticas móviles, donde los requisitos pedagógicos y técnicos
+se validan y ajustan con cada entrega.
+
+Como se ilustra en la Figura~\ref{fig:paradigma_prototipos}, el ciclo de vida del proyecto se
+compone de cinco etapas que se repiten en cada iteración, además de visualizarlos en la
+Ilustración~\ref{fig:paradigma_prototipos}:
+
+\begin{itemize}
+    \item \textbf{Comunicación:} Levantamiento de requerimientos a partir de las necesidades
+        de aprendizaje identificadas en la ESCOM para los temas de teoría de la computación.
+
+    \item \textbf{Plan rápido:} Definición del alcance de cada entrega y gestión de los
+        riesgos técnicos asociados~\cite{pmi2021}.
+
+    \item \textbf{Modelado y diseño rápido:} Traducción de los requerimientos en diagramas
+        UML y maquetas de alta fidelidad en Figma, estableciendo la experiencia de usuario
+        antes de escribir código.
+
+    \item \textbf{Construcción del prototipo:} Implementación del código fuente con Dart,
+        Flutter y Flame Engine, produciendo un simulador funcional de autómatas como entregable
+        de cada ciclo.
+
+    \item \textbf{Despliegue, entrega y retroalimentación:} El prototipo se entrega a
+        estudiantes y docentes para pruebas de usabilidad, esto a partir del ciclo~1. Los
+        comentarios obtenidos reinician el ciclo, orientando las mejoras de la siguiente
+        iteración~\cite{pressman2010}.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.70\textwidth]{fig_paradigma_prototipos}
+    \caption{Paradigma de Construcción de Prototipos.}
+    \label{fig:paradigma_prototipos}
+\end{figure}
+
+% ──────────────────────────────────────────────────────────
+\subsection{Justificación del Enfoque Evolutivo}
+\label{ssec:justificacion_evolutivo}
+
+La elección del prototipado evolutivo sobre modelos secuenciales como el modelo en cascada
+responde a la naturaleza del proyecto: un simulador interactivo con alta complejidad
+algorítmica y visual, cuyos requisitos didácticos solo pueden validarse con usuarios
+reales~\cite{pressman2020}. Las ventajas concretas para AUTECH son:
+
+\textbf{Reducción de riesgos técnicos.} Validar el motor gráfico y la lógica de validación
+de cadenas en modelos simples como los autómatas finitos antes de abordar arquitecturas más
+complejas como las Máquinas de Turing reduce significativamente la probabilidad de errores
+estructurales en etapas avanzadas~\cite{aho2006, pressman2020}.
+
+\textbf{Adaptabilidad didáctica.} Evaluar la retención y usabilidad del estudiante en las
+primeras etapas permite calibrar la dificultad de los niveles y los componentes de
+ludificación con datos reales, en lugar de suposiciones
+iniciales~\cite{deterding2011, nielsen1994}.
+
+\textbf{Entrega temprana de valor.} Cada ciclo produce un módulo funcional que puede probarse
+en el entorno académico real, sin necesidad de esperar a que el sistema esté
+completo~\cite{escom2016}.
+
+Este principio se evidencia en la propia evolución del proyecto: durante el primer ciclo de
+desarrollo, la arquitectura y el stack tecnológico definidos en el protocolo inicial fueron
+refinados como resultado directo de la validación técnica. El prototipado evolutivo no solo
+permite, sino que anticipa este tipo de ajustes: cada ciclo aporta información real que orienta
+las decisiones del siguiente, haciendo del cambio controlado una fortaleza del paradigma, sin
+desviarnos completamente de él~\cite{pressman2010}.
+
+% ──────────────────────────────────────────────────────────
+\subsection{Definición de los Ciclos de Iteración}
+\label{ssec:ciclos}
+
+El proyecto se estructura en tres ciclos de desarrollo, cada uno escalando progresivamente en
+complejidad teórica y funcionalidad operativa:
+
+\textbf{Ciclo~0: Núcleo y Lenguajes Regulares.} Construcción de la arquitectura base bajo un
+esquema de Layered Architecture con estructura modular por funcionalidad. Incluye el motor de
+simulación para Autómatas Finitos Deterministas y No Deterministas, las validaciones lógicas
+de cadenas, además de la simulación de Autómatas de pila y la gestión inicial de usuarios
+mediante Supabase~\cite{pressman2020, supabase2024}. En este ciclo solo se incluyen pruebas
+internas que no consideran la validación con estudiantes y/o profesores, debido a que aún no
+estaría implementado por completo el módulo de gestión y estadísticas.
+
+\textbf{Ciclo~1: Gestión Docente.} Se integra el panel de analíticas en aplicación desktop
+para el docente, con visualización semaforizada del desempeño grupal e
+individual~\cite{materialdesign2023}. Refinación del prototipo anterior basado en validaciones
+con estudiantes y profesores. Y se integra en panel del simulador, la opción de conversión de
+un autómata pila a su gramática independiente del contexto equivalente.
+
+\textbf{Ludificación Avanzada:} Consolidación del ecosistema completo. Se despliega el
+sistema de insignias y rachas para fortalecer la autonomía y retención del
+estudiante~\cite{deterding2011}. Refinación del prototipo anterior basado en validaciones con
+estudiantes y profesores, además de los manuales correspondientes.
+
+\textbf{Ciclo~2:} Se integra al simulador la opción de simulación de máquinas de Turing
+unicinta, así como las opciones de operaciones sobre lenguajes regulares, conversión de
+AFN, AFN-$\varepsilon$ a AFD, y minimización de estados, e integra las notificaciones de
+estilo push.
+
+% ──────────────────────────────────────────────────────────
+\subsection{Cronograma de actividades}
+\label{ssec:cronograma}
+
+\begin{table}[H]
+    \centering
+    \caption{Cronograma de actividades generales para cada ciclo de desarrollo.}
+    \label{tab:cronograma}
+    \includegraphics[width=\textwidth]{tabla_cronograma}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo General}
+\label{ssec:obj_general}
+
+Diseñar e implementar una plataforma educativa móvil ludificada para Android que permita a los
+estudiantes de Teoría de la Computación de la ESCOM simular, construir y validar modelos
+computacionales de la Jerarquía de Chomsky, además de contar con un sistema de aprendizaje
+guiado por niveles, analíticas de desempeño para el docente y soporte multi-rol.
+
+\subsection{Objetivos Específicos}
+\label{ssec:obj_especificos}
+
+\begin{itemize}
+    \item Implementar un motor de simulación gráfica interactiva que permita la construcción,
+        manipulación táctil y validación de modelos computacionales, incluyendo conversiones
+        automáticas entre modelos equivalentes.
+
+    \item Diseñar un sistema de aprendizaje guiado con progresión por niveles, integrando
+        teoría, ejercicios prácticos y retroalimentación inmediata para el estudiante.
+
+    \item Desarrollar un panel de analíticas en desktop orientado al perfil docente, capaz de
+        procesar y visualizar métricas de desempeño grupal e individual mediante indicadores
+        semaforizados.
+
+    \item Integrar un mecanismo de persistencia y sincronización de datos en la nube mediante
+        Supabase, que garantice el funcionamiento de la aplicación en entornos sin conexión y
+        salvaguarde el progreso académico~\cite{supabase2024}.
+
+    \item Construir un módulo de administración global para la gestión centralizada de usuarios
+        y control de acceso al sistema.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────
+\section{Justificación}
+\label{sec:justificacion}
+
+El desarrollo de AUTECH responde a la necesidad de modernizar las herramientas didácticas
+disponibles para la asignatura de Teoría de la Computación en la ESCOM, abordando la
+problemática desde tres dimensiones: la eficiencia académica, la accesibilidad tecnológica y
+la alineación institucional.
+
+\subsection{Justificación Académica}
+\label{ssec:just_academica}
+
+La Teoría de la Computación es base obligada para materias de alto rigor técnico en semestres
+superiores, como el diseño de compiladores y la arquitectura de
+computadoras~\cite{ipn2020, aho2006}. La asimilación superficial de sus conceptos llega a
+generar un fenómeno de arrastre de deficiencias que compromete la trayectoria del estudiante:
+al existir una dependencia seriada de conocimientos, la falta de comprensión en esta materia
+frena el avance y puede derivar en índices más altos de recurse en ciertas materias, lo que a
+su vez en ocasiones llega a saturar la oferta educativa~\cite{tinto1987}.
+
+Un factor que hace que esta problemática sea más difícil de afrontar es que los métodos de
+enseñanza tradicionales, centrados en la pizarra y los apuntes, privilegian un único canal de
+transmisión del conocimiento. Sin embargo, los estudiantes no aprenden de forma homogénea:
+el modelo VARK identifica perfiles de aprendizaje visual, auditivo, lector/escritor y
+kinestésico, cuyas necesidades cognitivas difieren significativamente entre
+sí~\cite{fleming1992}. En un entorno donde la herramienta principal es JFLAP ---una interfaz
+estática operada desde escritorio---, los estudiantes kinestésicos y visuales, que requieren
+manipulación directa y representaciones dinámicas para consolidar conceptos abstractos, se
+encuentran en desventaja sistemática~\cite{felder2016}.
+
+AUTECH atiende esta brecha mediante un diseño multimodal: la construcción táctil de autómatas
+responde al perfil kinestésico, las animaciones y diagramas dinámicos al perfil visual, y el
+contenido teórico estructurado por lección al perfil lector. Como trabajo futuro, está
+considerada la implementación de elementos de sonido para incluir los perfiles de aprendizaje
+auditivos junto con el material audiovisual, sin olvidar los elementos hápticos que pueden ser
+considerados de ser necesario después del ciclo~1. Esta convergencia de canales no busca validar
+empíricamente los estilos de aprendizaje, sino reducir la dependencia de un único modo de
+transmisión del conocimiento y ampliar el alcance didáctico de la
+herramienta~\cite{felder2016, sweller1988}.
+
+\subsection{Justificación Tecnológica y de Movilidad}
+\label{ssec:just_tecnologica}
+
+Aunque la comunidad estudiantil de la ESCOM tiene acceso a equipos de cómputo, la dependencia
+de software de escritorio como JFLAP restringe el estudio a entornos fijos y sesiones de
+laboratorio programadas~\cite{rodger2006}. En un contexto donde un sector considerable de los
+estudiantes invierte hasta cinco horas diarias en traslados metropolitanos, la portabilidad se
+convierte en un factor relacionado con el rendimiento académico~\cite{kukulska2007}. AUTECH
+permite convertir esos tiempos muertos en sesiones de práctica activa, aprovechando la
+disponibilidad del dispositivo móvil y mitigando además los problemas de conectividad mediante
+su modo sin conexión~\cite{crompton2018, materialdesign2023}.
+
+\subsection{Justificación Institucional}
+\label{ssec:just_institucional}
+
+El Instituto Politécnico Nacional promueve activamente la incorporación de tecnologías que
+modernicen y dinamicen sus procesos educativos a través del modelo educativo del IPN, así como
+el documento rector de operación y evaluación para los trabajos terminales. Sin embargo, con
+frecuencia existe una brecha entre los objetivos del programa de estudios y las herramientas
+realmente disponibles en el aula~\cite{ipn2020, escom2016}. AUTECH se alinea con esa visión
+institucional al ofrecer una solución tecnológica original, desarrollada desde la propia
+comunidad de la ESCOM, que responde a las necesidades concretas de sus estudiantes y docentes.
+
+% ─────────────────────────────────────────────────────────────
+\section{Resultados Esperados}
+\label{sec:resultados}
+
+Al concluir el desarrollo e implementación del proyecto, se proyecta la obtención de los
+siguientes resultados tangibles y medibles, orientados a satisfacer las necesidades de
+actualización tecnológica en la Academia de Ciencias de la Computación de la
+ESCOM~\cite{ipn2020, escom2016}.
+
+\subsection{Ecosistema de Software Funcional}
+\label{ssec:ecosistema}
+
+\begin{itemize}
+    \item \textbf{Aplicación Móvil (AUTECH):} Un paquete de instalación (.APK) para el
+        sistema operativo Android que integre el motor de simulación de autómatas, el módulo
+        de aprendizaje guiado y el validador algorítmico de lenguajes formales, además de los
+        módulos anteriormente mencionados~\cite{crompton2018}.
+
+    \item \textbf{Panel de Gestión en aplicación de escritorio (Dashboard):} Una plataforma
+        administrativa para el cuerpo docente que, mediante Supabase como infraestructura de
+        base de datos relacional en la nube, permita visualizar de forma centralizada las
+        métricas de desempeño grupal e individual de múltiples grupos y/o carreras de la
+        ESCOM~\cite{supabase2024}.
+\end{itemize}
+
+\subsection{Métricas de Éxito y Validación Didáctica}
+\label{ssec:metricas}
+
+El impacto del proyecto no se medirá basándose en índices de aprobación externos, sino a
+través de la evaluación directa del software mediante instrumentos estandarizados:
+
+\begin{itemize}
+    \item \textbf{Validación de Usabilidad:} Obtención de un puntaje superior al 80\% de
+        aceptación en la Escala de Usabilidad del Sistema (SUS) aplicada a una muestra
+        representativa de estudiantes activos y consideración de un modelo TAM~\cite{brooke1996}
+        para los ciclos~1 y~2.
+
+    \item \textbf{Autopercepción de Competencias:} Confirmación, mediante instrumentos de
+        evaluación post-uso, de una reducción en la carga cognitiva y un aumento en la
+        confianza técnica de los usuarios al modelar los componentes específicos de la
+        Jerarquía de Chomsky~\cite{hopcroft2007, sweller1988}.
+
+    \item \textbf{Analíticas de Intervención:} Generación de un registro histórico (o al
+        menos con un historial de 3~semestres) en la nube que mapee los errores lógicos más
+        frecuentes por grupo, dotando al docente de datos empíricos para realizar
+        intervenciones didácticas de precisión~\cite{felder2016}.
+\end{itemize}
+
+\subsection{Sistema de Progresión y Ludificación}
+\label{ssec:ludificacion}
+
+El componente de ludificación producirá un historial de competencias digitales para cada
+usuario, estructurado en los siguientes elementos:
+
+\begin{itemize}
+    \item \textbf{Jerarquía de Insignias:} Un sistema de reconocimiento progresivo con
+        insignias alusivas a las secciones completadas que clasifica el dominio del estudiante
+        a partir de la resolución de problemas y la depuración de cadenas, además de los
+        típicos cuestionarios~\cite{deterding2011}.
+
+    \item \textbf{Desbloqueo Secuencial de Mundos:} Evidencia visual del avance lógico del
+        alumno a través de los modelos de la Jerarquía de Chomsky, desde los Autómatas
+        Finitos hasta las Máquinas de Turing, con la excepción mencionada anteriormente de
+        los lenguajes tipo~1~\cite{hopcroft2007}.
+
+    \item \textbf{Indicador de Racha:} Registro visual del número de días consecutivos en
+        que el alumno ha completado ejercicios, fomentando la práctica continua y la
+        constancia en el estudio.
+\end{itemize}
+
+\subsection{Interoperabilidad y Transferencia Tecnológica}
+\label{ssec:interoperabilidad}
+
+\textbf{Compatibilidad con JFLAP y FSAM:} Desarrollo de un módulo de análisis (parser) capaz
+de importar y exportar la estructura XML de los archivos .jff, garantizando que los autómatas
+construidos en el dispositivo móvil sean bidireccionalmente compatibles con el software de
+escritorio utilizado en los laboratorios de la institución~\cite{rodger2006}, además de la
+implementación de archivos exportados desde FSAM.
+
+\textbf{Documentación de Ingeniería:} Entrega de un repositorio de código fuente organizado
+bajo el patrón de Layered Architecture y manuales correspondientes, asegurando que el sistema
+sea mantenible y escalable por futuras generaciones de la ESCOM~\cite{pressman2020, reenskaug1979}.
+
+% ─────────────────────────────────────────────────────────────
+\section{Restricciones y Fronteras de Diseño}
+\label{sec:restricciones}
+
+Para delimitar el alcance técnico y operativo del proyecto AUTECH, y garantizar su viabilidad
+dentro de los tiempos de desarrollo del Trabajo Terminal, se establecen las siguientes
+fronteras fundamentales:
+
+\subsection{Restricciones Técnicas y de Hardware}
+\label{ssec:restricciones_tecnicas}
+
+\textbf{Segmentación de Plataforma:} El desarrollo se orienta de forma exclusiva al sistema
+operativo Android, estableciendo la versión 9.0 (Pie, API~28) como requerimiento
+mínimo~\cite{google2023android}. No se contempla compatibilidad con iOS debido a los costos
+de licenciamiento asociados a la cuenta de desarrollador de Apple, además de la falta de
+infraestructura para el empaquetado de recursos para iOS.
+
+\textbf{Optimización Gráfica y Rendimiento:} El motor de renderizado Impeller, utilizado para
+la manipulación fluida de autómatas en pantalla, aprovecha Vulkan como backend gráfico
+principal cuando el dispositivo lo soporta, manteniéndose compatible mediante OpenGL~ES en
+hardware que no cuente con dicha capacidad~\cite{flutter2024a}. El hardware mínimo requerido
+consiste en un procesador de arquitectura de 64~bits y 4~GB de memoria RAM.
+
+\textbf{Conectividad Híbrida:} El sistema operará bajo un modelo de tolerancia a
+desconexiones. El motor de simulación y las lecciones teóricas funcionarán de manera autónoma
+sin conexión a internet. No obstante, se requiere conectividad intermitente para la
+autenticación de usuarios, la visualización de material audiovisual externo y la
+sincronización de analíticas hacia el panel docente mediante Supabase~\cite{supabase2024}.
+
+\textbf{Adaptabilidad de Interfaz:} El diseño garantizará la correcta visualización en
+smartphones convencionales y tablets, priorizando una distribución de elementos que maximice
+el área de trabajo del simulador en función del dispositivo del usuario
+(responsive)~\cite{materialdesign2023}.
+
+\subsection{Fronteras Didácticas y Operativas}
+\label{ssec:fronteras_didacticas}
+
+\textbf{Alcance Temático Institucional:} La base algorítmica y de contenidos se restringe
+estrictamente a los tópicos del programa sintético de Teoría de la Computación
+(ISC~2020)~\cite{ipn2020}. El avance lógico sigue la Jerarquía de Chomsky, Autómatas Finitos,
+Autómatas de Pila y Máquinas de Turing, omitiendo deliberadamente temas de complejidad
+computacional avanzada, como las clases P vs.\ NP, que exceden el propósito de esta
+herramienta~\cite{hopcroft2007}, así como los lenguajes tipo~1 dentro de la Jerarquía de
+Chomsky.
+
+\textbf{Rol de Evaluación:} AUTECH está creada como una plataforma de refuerzo y evaluación
+formativa. El software no pretende sustituir el proceso de evaluación sumativa oficial del
+docente titular de la asignatura, sino tomar el rol de herramienta de apoyo a las clases
+impartidas por el mismo~\cite{escom2016}.
+
+\textbf{Estrategia Multimedia:} El contenido de video se define como recurso secundario. Las
+lecciones están diseñadas para asimilarse íntegramente mediante textos, autómatas interactivos
+e infografías, asegurando que la falta de ancho de banda no comprometa la integridad
+didáctica de la unidad~\cite{crompton2018}.

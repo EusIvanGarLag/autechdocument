@@ -1,42 +1,43 @@
 \babel@toc {spanish}{}\relax 
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Cronograma de actividades generales para cada ciclo de desarrollo.}}{9}{table.caption.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Requerimientos Funcionales del Sistema AUTECH, organizados en cuatro módulos: Gestión y Seguridad (RF-01 a RF-03), Simulación y Motor Algorítmico (RF-04 a RF-08), Didáctico y de Ludificación (RF-09 a RF-12) e Interoperabilidad y UX (RF-13 a RF-15).}}{5}{table.caption.4}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Requerimientos Funcionales del Sistema AUTECH (Continuación).}}{6}{table.caption.5}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Especificación de Requerimientos No Funcionales del Ecosistema AUTECH.}}{7}{table.caption.6}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Reglas de Negocio del Sistema AUTECH.}}{8}{table.caption.7}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 1).}}{11}{table.caption.8}%
-\contentsline {table}{\numberline {3.6}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 2).}}{12}{table.caption.9}%
-\contentsline {table}{\numberline {3.7}{\ignorespaces Matriz de Evaluación y Priorización de Riesgos de AUTECH.}}{38}{table.caption.30}%
-\contentsline {table}{\numberline {3.8}{\ignorespaces Mapa de Calor y Distribución de Riesgos del Proyecto AUTECH.}}{39}{table.caption.31}%
-\contentsline {table}{\numberline {3.9}{\ignorespaces Análisis del Valor Monetario Esperado (EMV) de los Riesgos Críticos.}}{40}{table.caption.32}%
-\contentsline {table}{\numberline {3.10}{\ignorespaces Desglose de Costos de Software, Infraestructura y Licencias de AUTECH.}}{46}{table.caption.33}%
-\contentsline {table}{\numberline {3.11}{\ignorespaces Análisis de Licencias y Conformidad Open Source de los Componentes.}}{48}{table.caption.34}%
-\contentsline {table}{\numberline {3.12}{\ignorespaces Desglose de Costos de Hardware del Proyecto AUTECH.}}{49}{table.caption.35}%
-\contentsline {table}{\numberline {3.13}{\ignorespaces Desglose de Costos de Software y Licencias de AUTECH.}}{50}{table.caption.36}%
-\contentsline {table}{\numberline {3.14}{\ignorespaces Valoración del Capital Humano del Proyecto AUTECH por Rol.}}{50}{table.caption.37}%
-\contentsline {table}{\numberline {3.15}{\ignorespaces Costos Operativos Anuales (OPEX) Proyectados para AUTECH.}}{51}{table.caption.38}%
-\contentsline {table}{\numberline {3.16}{\ignorespaces Consolidado de Inversión Total del Proyecto AUTECH.}}{51}{table.caption.39}%
-\contentsline {table}{\numberline {3.17}{\ignorespaces Ficha de Identificación del Responsable del Tratamiento de Datos de AUTECH.}}{53}{table.caption.40}%
-\contentsline {table}{\numberline {3.18}{\ignorespaces Matriz de Finalidades del Tratamiento de Datos Personales en AUTECH.}}{55}{table.caption.41}%
-\contentsline {table}{\numberline {3.19}{\ignorespaces Mecanismos de Ejercicio de Derechos ARCO en el Ecosistema AUTECH.}}{57}{table.caption.42}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Requerimientos Funcionales del Sistema AUTECH, organizados en cuatro módulos: Gestión y Seguridad (RF-01 a RF-03), Simulación y Motor Algorítmico (RF-04 a RF-08), Didáctico y de Ludificación (RF-09 a RF-12) e Interoperabilidad y UX (RF-13 a RF-15).}}{18}{table.caption.6}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Requerimientos Funcionales del Sistema AUTECH (Continuación).}}{19}{table.caption.7}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Especificación de Requerimientos No Funcionales del Ecosistema AUTECH.}}{20}{table.caption.8}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Reglas de Negocio del Sistema AUTECH.}}{21}{table.caption.9}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 1).}}{24}{table.caption.10}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 2).}}{25}{table.caption.11}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Matriz de Evaluación y Priorización de Riesgos de AUTECH.}}{51}{table.caption.32}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Mapa de Calor y Distribución de Riesgos del Proyecto AUTECH.}}{52}{table.caption.33}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Análisis del Valor Monetario Esperado (EMV) de los Riesgos Críticos.}}{53}{table.caption.34}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces Desglose de Costos de Software, Infraestructura y Licencias de AUTECH.}}{59}{table.caption.35}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces Análisis de Licencias y Conformidad Open Source de los Componentes.}}{61}{table.caption.36}%
+\contentsline {table}{\numberline {3.12}{\ignorespaces Desglose de Costos de Hardware del Proyecto AUTECH.}}{62}{table.caption.37}%
+\contentsline {table}{\numberline {3.13}{\ignorespaces Desglose de Costos de Software y Licencias de AUTECH.}}{63}{table.caption.38}%
+\contentsline {table}{\numberline {3.14}{\ignorespaces Valoración del Capital Humano del Proyecto AUTECH por Rol.}}{63}{table.caption.39}%
+\contentsline {table}{\numberline {3.15}{\ignorespaces Costos Operativos Anuales (OPEX) Proyectados para AUTECH.}}{64}{table.caption.40}%
+\contentsline {table}{\numberline {3.16}{\ignorespaces Consolidado de Inversión Total del Proyecto AUTECH.}}{64}{table.caption.41}%
+\contentsline {table}{\numberline {3.17}{\ignorespaces Ficha de Identificación del Responsable del Tratamiento de Datos de AUTECH.}}{66}{table.caption.42}%
+\contentsline {table}{\numberline {3.18}{\ignorespaces Matriz de Finalidades del Tratamiento de Datos Personales en AUTECH.}}{68}{table.caption.43}%
+\contentsline {table}{\numberline {3.19}{\ignorespaces Mecanismos de Ejercicio de Derechos ARCO en el Ecosistema AUTECH.}}{70}{table.caption.44}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Matriz de necesidades del usuario de AUTECH}}{60}{table.caption.43}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Mapa de empatía del estudiante de AUTECH}}{61}{table.caption.44}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces \textit {Customer Journey Map} del estudiante de AUTECH}}{62}{table.caption.45}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Taxonomía de reactivos de evaluación de AUTECH}}{64}{table.caption.46}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Matriz de necesidades del usuario de AUTECH}}{73}{table.caption.45}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Mapa de empatía del estudiante de AUTECH}}{74}{table.caption.46}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces \textit {Customer Journey Map} del estudiante de AUTECH}}{75}{table.caption.47}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Taxonomía de reactivos de evaluación de AUTECH}}{77}{table.caption.48}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Modelo de datos PostgreSQL/Supabase de AUTECH}}{99}{table.caption.73}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Esquema de columnas de la tabla \texttt {users}}}{100}{table.caption.74}%
-\contentsline {table}{\numberline {5.3}{\ignorespaces Esquema de columnas de la tabla \texttt {grupos}}}{101}{table.caption.75}%
-\contentsline {table}{\numberline {5.4}{\ignorespaces Esquema de columnas de la tabla \texttt {ejercicios}}}{101}{table.caption.76}%
-\contentsline {table}{\numberline {5.5}{\ignorespaces Esquema del subdocumento \texttt {Pregunta}}}{102}{table.caption.77}%
-\contentsline {table}{\numberline {5.6}{\ignorespaces Columnas de la tabla \texttt {role\_requests}}}{102}{table.caption.78}%
-\contentsline {table}{\numberline {5.7}{\ignorespaces Clases principales del motor de grafos}}{104}{table.caption.79}%
-\contentsline {table}{\numberline {5.8}{\ignorespaces Tiempos de respuesta: Cold Start vs. Warm State}}{113}{table.caption.89}%
-\contentsline {table}{\numberline {5.9}{\ignorespaces Resultados de rendimiento por operación evaluada}}{114}{table.caption.91}%
-\contentsline {table}{\numberline {5.10}{\ignorespaces Pruebas de errores HTTP -- casos límite}}{115}{table.caption.95}%
-\contentsline {table}{\numberline {5.11}{\ignorespaces Resultados de pruebas por módulo}}{120}{table.caption.104}%
-\contentsline {table}{\numberline {5.12}{\ignorespaces Resumen de pruebas por dimensión}}{121}{table.caption.106}%
-\contentsline {table}{\numberline {5.13}{\ignorespaces Comparativa algorítmica y funcional: AUTECH vs.\ herramientas de referencia}}{135}{table.caption.123}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Modelo de datos PostgreSQL/Supabase de AUTECH}}{112}{table.caption.75}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Esquema de columnas de la tabla \texttt {users}}}{113}{table.caption.76}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Esquema de columnas de la tabla \texttt {grupos}}}{114}{table.caption.77}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Esquema de columnas de la tabla \texttt {ejercicios}}}{114}{table.caption.78}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Esquema del subdocumento \texttt {Pregunta}}}{115}{table.caption.79}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Columnas de la tabla \texttt {role\_requests}}}{115}{table.caption.80}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Clases principales del motor de grafos}}{117}{table.caption.81}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Tiempos de respuesta: Cold Start vs. Warm State}}{126}{table.caption.91}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Resultados de rendimiento por operación evaluada}}{127}{table.caption.93}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Pruebas de errores HTTP -- casos límite}}{128}{table.caption.97}%
+\contentsline {table}{\numberline {5.11}{\ignorespaces Resultados de pruebas por módulo}}{133}{table.caption.106}%
+\contentsline {table}{\numberline {5.12}{\ignorespaces Resumen de pruebas por dimensión}}{134}{table.caption.108}%
+\contentsline {table}{\numberline {5.13}{\ignorespaces Comparativa algorítmica y funcional: AUTECH vs.\ herramientas de referencia}}{148}{table.caption.125}%

@@ -1,4 +1,607 @@
-\chapter{Marco Teórico}
-\label{ch:marco_teorico}
+% ============================================================
+%  capitulos/cap2.tex  —  AUTECH · Trabajo Terminal ESCOM-IPN
+%  Capítulo 2: Marco teórico y estado del arte
+% ============================================================
 
-Este capítulo contendrá los fundamentos de autómatas, lenguajes formales y gramáticas.
+\chapter{Marco teórico y estado del arte}
+\label{ch:cap2}
+
+% ─────────────────────────────────────────────────────────────
+\section{Presentación del Contenido Temático y Justificación de Selección}
+\label{sec:contenido_tematico}
+
+\subsection{Presentación del Contenido Académico}
+\label{ssec:contenido_academico}
+
+La base teórica de este proyecto está fielmente basada en el programa oficial de la institución
+para la asignatura de Teoría de la Computación. Este programa académico representa un pilar
+fundamental en la formación del Ingeniero en Sistemas Computacionales, destinando un total de
+101~horas para el desarrollo de competencias (54~horas de teoría/docente, 27~horas de práctica
+y 20~horas de aprendizaje autónomo)~\cite{ipn2020}.
+
+El marco teórico de AUTECH se ha estructurado para reflejar la evolución natural de la
+computabilidad, respetando la Jerarquía de Chomsky con la única excepción de algunos
+componentes de los lenguajes tipo~1. El flujo de aprendizaje transita desde los fundamentos
+lógicos y la automatización del cómputo, pasando por la estructura jerárquica de los lenguajes,
+hasta alcanzar los límites de la decidibilidad y los problemas no computables mediante el
+modelo unicinta de la Máquina de Turing.
+
+\subsection{Justificación de la Selección de Temas (Enfoque Curricular)}
+\label{ssec:seleccion_temas}
+
+La selección de los temas integrados en la plataforma responde a un análisis de la
+disponibilidad de horas y la complejidad pedagógica del temario, buscando maximizar el apoyo
+en las áreas donde el alumno requiere mayor experimentación práctica.
+
+\subsubsection*{Priorización por Carga Horaria}
+
+La Unidad Temática~I tiene una carga total de 35~horas. Es el bloque con mayor peso en el
+programa, pues establece la base de la automatización. El temario destina 21~horas
+específicamente al estudio de Autómatas Finitos (AFD/AFN) y Expresiones Regulares
+(temas~1.2.3 a~1.2.6)~\cite{ipn2020}.
+
+\textbf{Justificación para AUTECH:} Debido a que este bloque representa el primer contacto
+con el pensamiento formal, la aplicación dedica las Unidades~2, 3 y~4 a este eje. Los
+simuladores incluidos mitigan el error humano en procesos de conversión y trazado manual que
+tradicionalmente consumen gran parte de las 9~horas de práctica asignadas con el docente,
+permitiendo que dichas horas se centren en el análisis de propiedades y
+aplicaciones~\cite{ipn2020}.
+
+\subsubsection*{Visualización de la Memoria en Lenguajes Independientes del Contexto}
+
+La Unidad Temática~II suma un total de 33~horas. Este bloque introduce el concepto de memoria
+externa mediante el Autómata de Pila, un tema que por sí solo demanda 8.5~horas de dedicación
+total (4.5 con docente, 3 de práctica y 1 autónoma)~\cite{ipn2020}.
+
+\textbf{Justificación para AUTECH:} La selección de estos temas en las Unidades~5 y~6 de la
+aplicación responde a la necesidad de herramientas que permitan observar dinámicamente el
+comportamiento de la pila (\textit{stack}). Dado que el programa académico exige estructurar
+lenguajes a partir de gramáticas (temas~2.1.1 a~2.1.6)~\cite{ipn2020}, la aplicación facilita
+la visualización de derivaciones y árboles de sintaxis, abstracciones cuya enseñanza en
+métodos tradicionales (pizarrón) suele resultar insuficiente para capturar la naturaleza
+recursiva del modelo.
+
+\subsubsection*{Modelos unicinta y Límites de la Computabilidad}
+
+La Unidad Temática~III representa el cierre del programa con 33~horas totales. La Máquina de
+Turing~(MT) es el núcleo de este bloque, ocupando 19~horas de dedicación (10 con docente,
+6 de práctica y 3~autónomas)~\cite{ipn2020}.
+
+\textbf{Justificación para AUTECH:} La selección para las Unidades~7 y~8 de la aplicación
+obedece a la importancia de la Tesis de Church-Turing y la noción de decidibilidad. Se
+considera implementar en el simulador una máquina de Turing unicinta debido a que una máquina
+de Turing de tipo universal implica una complejidad que se sale del tiempo de desarrollo
+otorgado para el proyecto. Esto permite que el alumno aproveche las horas de práctica no solo
+para el ``trazado'' del diseño, sino para la clasificación de problemas en computables y no
+computables, enfrentándose a conceptos complejos como el Problema del Paro sin la carga
+operativa de la gestión manual de la cinta.
+
+% ── Tabla 2: Mapeo de Carga Horaria ───────────────────────────
+\begin{table}[H]
+    \centering
+    \caption{Mapeo de carga horaria vs.\ cobertura de AUTECH.}
+    \label{tab:mapeo_horario}
+    \rowcolors{2}{azulFila}{white}
+    \begin{tabularx}{\textwidth}{%
+        >{\bfseries\raggedright\arraybackslash}p{3.6cm}
+        >{\centering\arraybackslash}p{2.0cm}
+        >{\centering\arraybackslash}p{3.0cm}
+        X}
+        \toprule
+        \thcol{Unidad Temática Institucional} &
+        \thcol{Horas Totales (T+P+AA)} &
+        \thcol{Cobertura en Unidades AUTECH} &
+        \thcol{Justificación Pedagógica} \\
+        \midrule
+        I: Lenguajes Regulares
+            & 35.0
+            & U1, U2, U3, U4
+            & Bloque base con mayor carga de prácticas de automatización. \\
+        II: Lenguajes Libres de Contexto
+            & 33.0
+            & U5, U6
+            & Necesidad de visualización de memoria tipo stack y árboles. \\
+        III: Computabilidad
+            & 33.0
+            & U7, U8
+            & Simulación del modelo unicinta y límites lógicos del cómputo. \\
+        \midrule
+        \textbf{TOTAL}
+            & \textbf{101.0}
+            & \textbf{8 unidades}
+            & \textbf{Cobertura del 100\% del temario práctico-teórico.} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Según el análisis de tópicos realizado, se compondrán estas unidades que conformarán AUTECH.
+La plataforma AUTECH se organiza en 8~unidades que recorren la Teoría de la Computación de
+menor a mayor complejidad:
+
+\textbf{Unidad~1 -- Cadenas y lenguajes} sienta los fundamentos: alfabetos, cadenas, longitud,
+cadena vacía~($\varepsilon$), operaciones algebraicas (concatenación, potencia, reversa) y las
+clausuras de Kleene~($\Sigma^{*}$) y positiva~($\Sigma^{+}$).
+
+\textbf{Unidad~2 -- AFD} introduce el modelo determinista: la 5-tupla formal, función de
+transición total, tablas y diagramas de transición, estado muerto y propiedades de cerradura
+de los lenguajes regulares.
+
+\textbf{Unidad~3 -- AFN} amplía el modelo al no determinismo: transiciones múltiples y
+vacías~($\varepsilon$), cálculo de cerradura-$\varepsilon$, el algoritmo de construcción de
+subconjuntos para convertir un AFN en AFD, y la minimización de estados mediante el teorema
+de Myhill-Nerode.
+
+\textbf{Unidad~4 -- Expresiones y gramáticas regulares} presenta la notación algebraica
+equivalente: los tres operadores base (unión, concatenación, Kleene), el Teorema de Kleene,
+el algoritmo de Thompson para convertir ER en AFN, las gramáticas Tipo~3 y el Lema de Bombeo.
+
+\textbf{Unidad~5 -- GIC} sube al siguiente nivel de la Jerarquía de Chomsky: la 4-tupla
+gramatical, derivaciones izquierdas/derecha, árboles de sintaxis, ambigüedad, notación
+BNF/EBNF y las formas normales de Chomsky y Greibach.
+
+\textbf{Unidad~6 -- Autómatas de pila (APD)} agrega memoria: la 7-tupla con alfabeto de pila,
+operaciones push/pop, criterios duales de aceptación (estado final o pila vacía), determinismo
+vs.\ no determinismo y la equivalencia entre APDs y GICs.
+
+\textbf{Unidad~7 -- Máquinas de Turing} llega al modelo universal: cinta infinita, cabeza
+lectora-escritora, símbolo blanco, función de transición parcial, variantes (multicinta, no
+determinista) y la Tesis de Church-Turing.
+
+\textbf{Unidad~8 -- Decidibilidad y computabilidad} cierra el programa con los límites de la
+computación: lenguajes decidibles versus Turing-reconocibles, el Problema de la Parada,
+reducibilidad y una introducción a las clases de complejidad P y NP.
+
+% ─────────────────────────────────────────────────────────────
+\section{Teoría de Diseño de Interfaces (UI) y Experiencia de Usuario (UX)}
+\label{sec:ui_ux}
+
+\subsection{Carga Cognitiva en Entornos de Aprendizaje Móvil}
+\label{ssec:carga_cognitiva}
+
+El aprendizaje de conceptos abstractos, como los modelos de cómputo, exige un diseño que
+minimice la carga cognitiva generada por interfaces confusas o mal estructuradas para potenciar
+la carga pertinente, es decir, el procesamiento real del concepto
+didáctico~\cite{sweller1988}. Cuando una interfaz obliga al estudiante a invertir recursos
+cognitivos en descifrar su funcionamiento antes de poder interactuar con el contenido, la
+memoria de trabajo se satura y el aprendizaje se ve comprometido~\cite{sweller1988}.
+
+AUTECH responde a este principio desde dos frentes. Por un lado, aplica principios de
+microaprendizaje fragmentando la vasta teoría en unidades de información digeribles,
+permitiendo sesiones de estudio efectivas incluso en entornos móviles con distracciones
+externas~\cite{crompton2018}. Por otro, adopta un diseño multimodal fundamentado en el modelo
+VARK de estilos de aprendizaje~\cite{fleming1992}: la manipulación táctil directa de autómatas
+atiende al perfil kinestésico, las representaciones visuales animadas al perfil visual, y los
+bloques de contenido teórico al perfil lector/escritor, además del material audiovisual. Esta
+convergencia de canales reduce la dependencia de un único modo de instrucción y amplía la
+accesibilidad cognitiva de la plataforma para distintos perfiles de
+estudiante~\cite{felder2016, sweller1988}.
+
+\subsection{Principios de Diseño Visual}
+\label{ssec:disenio_visual}
+
+El sistema visual de AUTECH adopta un enfoque de diseño en dos capas. Para los módulos de
+aprendizaje y progresión, se toma como referente principal a Duolingo, cuya estructura de
+niveles desbloqueables, retroalimentación inmediata y sistemas de recompensa representan
+patrones de interacción ya interiorizados por la comunidad estudiantil
+objetivo~\cite{duolingo2024}. Este enfoque se sustenta en la Ley de Jakob, que establece que
+los usuarios prefieren interfaces que funcionen de manera similar a las que ya conocen,
+reduciendo así la curva de aprendizaje del sistema~\cite{nielsen1994}.
+
+Para el resto de la interfaz, el diseño se fundamenta en Material Design~3 y tipografías de
+Google Fonts, complementado con patrones de UI consolidados en productos de uso masivo:
+heroes con gradiente oscuro y estadísticas superpuestas, cards elevadas con banda lateral de
+color, componentes pill y chips redondeados, bottom sheets con encabezado degradado contextual
+y acciones circulares tintadas~\cite{materialdesign2023}. Este conjunto de decisiones visuales
+garantiza consistencia, jerarquía clara y una experiencia de usuario moderna sin requerir una
+curva de aprendizaje adicional.
+
+\subsection{Principios de Ludificación Educativa}
+\label{ssec:ludificacion_educativa}
+
+Para garantizar un avance continuo, AUTECH integra mecánicas de diseño lúdico que transforman
+la resolución de problemas lógicos en una experiencia de progresión~\cite{deterding2011}:
+
+\begin{itemize}
+    \item \textbf{Estructura de Progresión:} Desbloqueo secuencial de mundos basado en la
+        complejidad gramatical de la Jerarquía de Chomsky y el temario de ToC, asegurando que
+        el estudiante consolide cada nivel antes de avanzar al siguiente~\cite{hopcroft2007}.
+
+    \item \textbf{Retroalimentación Inmediata:} Validación algorítmica en tiempo real que
+        notifica al usuario acerca de sus aciertos o fallos en sus transiciones, permitiendo
+        la corrección de errores en el momento exacto en que ocurren~\cite{deterding2011}.
+
+    \item \textbf{Sistemas de Reconocimiento:} Implementación de insignias que incentivan la
+        práctica autónoma y la internalización progresiva de los modelos
+        computacionales~\cite{materialdesign2023}.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────
+\section{Estado del Arte}
+\label{sec:estado_arte}
+
+Para fundamentar la necesidad de AUTECH, se realizó un análisis comparativo de las herramientas
+existentes más relevantes para la enseñanza de la Teoría de la Computación, evaluando cada una
+en cinco dimensiones: cobertura temática, plataforma y portabilidad, enfoque pedagógico, diseño
+e interfaz, y soporte de ludificación. El análisis abarca herramientas de escritorio, web y
+móviles, e incluye una referencia de diseño del ecosistema EdTech.
+
+\subsection{JFLAP (Java Formal Languages and Automata Package)}
+\label{ssec:jflap}
+
+JFLAP es la herramienta de referencia histórica para la enseñanza de la Teoría de la
+Computación a nivel universitario, desarrollada desde 1993 por Susan~H. Rodger en Duke
+University y adoptada como estándar en la ESCOM~\cite{rodger2006}.
+
+En cuanto a cobertura temática, JFLAP es la herramienta más completa del mercado: soporta
+Autómatas Finitos Deterministas y No Deterministas, Autómatas de Pila, Máquinas de Turing de
+múltiples cintas, gramáticas formales, expresiones regulares, L-Systems y conversiones entre
+modelos equivalentes como la transformación AFND a AFD~\cite{rodger2006, hopcroft2007}. Es la
+única herramienta gratuita que cubre la totalidad de la Jerarquía de Chomsky.
+
+Sin embargo, su diseño presenta limitaciones críticas para el entorno educativo actual. Su
+interfaz está construida sobre Java Swing, tecnología que no ha recibido actualizaciones
+significativas desde 2002, lo que produce una experiencia visual estática y poco intuitiva
+para el estudiante actual~\cite{nielsen1994}. Investigaciones sobre usabilidad señalan que
+JFLAP no relaciona sus visualizaciones con las definiciones formales que los estudiantes
+estudian en los libros de texto, generando una separación entre la teoría y la herramienta que
+dificulta la comprensión profunda~\cite{kukulska2007}. Adicionalmente, al distribuirse como
+archivo ejecutable Java (.jar), su uso queda restringido a equipos de escritorio con el entorno
+de ejecución instalado, eliminando toda posibilidad de práctica móvil~\cite{kukulska2007}.
+
+En términos pedagógicos, JFLAP opera como simulador de práctica libre (como lo muestra la
+Figura~\ref{fig:jflap_afd}) y no ofrece estructura de aprendizaje guiado, no genera
+retroalimentación didáctica sobre los errores del estudiante y asume que el usuario ya posee
+el conocimiento teórico necesario para operar los modelos. No integra ningún componente de
+ludificación ni sistema de progresión.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.72\textwidth]{fig_jflap_afd}
+    \caption{Diagrama de un AFD en el editor JFLAP con tres estados (q0, q4, q1), donde q0
+             es el estado inicial, mostrando transiciones con los símbolos `a' y `b'.}
+    \label{fig:jflap_afd}
+\end{figure}
+
+\subsection{Automata Tutor v3}
+\label{ssec:automata_tutor}
+
+Automata Tutor es una plataforma web desarrollada en colaboración entre instituciones académicas
+europeas, diseñada específicamente para apoyar cursos universitarios de gran escala en teoría
+de autómatas y lenguajes formales~\cite{aichernig2022}.
+
+Su principal fortaleza es pedagógica: implementa un sistema de calificación automática con
+retroalimentación personalizada e inmediata para cada intento del estudiante. A diferencia de
+JFLAP, el sistema no solo valida si el autómata es correcto, sino que genera mensajes de
+retroalimentación específicos que guían al estudiante hacia la corrección del error. La
+versión~3 amplió significativamente su cobertura temática, incorporando soporte para
+expresiones regulares, gramáticas libres de contexto, autómatas de pila, Máquinas de Turing
+y conversiones entre modelos equivalentes~\cite{aichernig2022}.
+
+Un estudio de usabilidad aplicado a un grupo de 950~estudiantes reportó que los usuarios
+encontraron útil la retroalimentación del sistema, sintieron mayor confianza al resolver
+problemas y se sintieron mejor preparados para sus evaluaciones tras usar la
+herramienta~\cite{aichernig2022}.
+
+No obstante, Automata Tutor presenta limitaciones relevantes para el contexto de la ESCOM. Al
+ser una aplicación web, requiere conectividad constante y no está diseñada para uso móvil, lo
+que elimina la posibilidad de práctica en tránsito. Su interfaz es funcional pero sencilla,
+sin elementos de diseño moderno ni componentes de ludificación que incentiven la práctica
+autónoma fuera del contexto de una tarea asignada. El sistema está orientado al docente que
+administra ejercicios, no al estudiante que aprende de forma autodidacta.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.74\textwidth]{fig_automata_tutor_ejercicio}
+    \caption{Interfaz de ejercicio web para construir un AFD que reconozca todas las cadenas
+             que terminen en ``ab'', mostrando el lienzo de construcción con un estado inicial
+             y una transición de autolazo.}
+    \label{fig:automata_tutor_ejercicio}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.74\textwidth]{fig_automata_tutor_tipos}
+    \caption{Lista de tipos de problemas disponibles en una plataforma educativa de Teoría de
+             la Computación.}
+    \label{fig:automata_tutor_tipos}
+\end{figure}
+
+\subsection{FSAM (Finite State Automata Manager)}
+\label{ssec:fsam}
+
+FSAM es una aplicación nativa para Android que representa el intento más directo de trasladar
+la simulación de autómatas al entorno móvil~\cite{crompton2018}. Su principal aportación es la
+portabilidad: permite construir autómatas finitos mediante una interfaz táctil y ejecutar
+cadenas de entrada de forma paso a paso, funcionalidades que responden directamente a la
+limitación de movilidad de JFLAP.
+
+Sin embargo, su cobertura temática está acotada exclusivamente a los Autómatas Finitos,
+omitiendo los Autómatas de Pila y las Máquinas de Turing que son parte obligatoria del plan
+de estudios ISC 2020~\cite{ipn2020, escom2016}. Al igual que JFLAP, opera como simulador
+técnico puro: no ofrece contenido teórico, no guía al estudiante en el proceso de construcción,
+no genera retroalimentación didáctica sobre los errores y carece de cualquier estructura de
+progresión o ludificación. Es una herramienta para quien ya sabe lo que hace, no para quien
+está aprendiendo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.74\textwidth]{fig_fsam_simulacion}
+    \caption{Simulación de un autómata finito en la herramienta FSAM, con cuatro estados
+             (q0--q3), visualización del grafo de transiciones y panel de prueba de cadenas
+             con resultados de aceptación y rechazo.}
+    \label{fig:fsam_simulacion}
+\end{figure}
+
+\subsection{Herramientas Web para Expresiones Regulares: Regex101 y RegExr}
+\label{ssec:regex_tools}
+
+Regex101 y RegExr son plataformas web especializadas en la construcción, prueba y depuración
+de expresiones regulares~\cite{fycikas2021, skinner2021}. Ambas ofrecen interfaces claras y
+retroalimentación visual en tiempo real sobre el comportamiento de una expresión frente a
+cadenas de prueba, siendo útiles como complemento puntual para el tema de expresiones regulares
+dentro del plan de estudios.
+
+Su limitación es estructural: ambas herramientas están diseñadas para un perfil técnico, no
+educativo. No cubren autómatas, gramáticas ni ningún otro modelo de la Jerarquía de Chomsky.
+No ofrecen contenido teórico, progresión de aprendizaje ni retroalimentación pedagógica. Son
+herramientas de depuración profesional que pueden apoyar un tema específico, pero no
+constituyen una solución didáctica integral.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{fig_regexr_interfaz}
+    \caption{Captura de la herramienta en línea RegExr, utilizada para crear, probar y
+             explicar expresiones regulares, mostrando la interfaz con la expresión
+             \texttt{([A-Z])\textbackslash n*/g} y panel de referencia.}
+    \label{fig:regexr_interfaz}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{fig_regex101_interfaz}
+    \caption{Interfaz de la herramienta Regex101, con campos para ingresar expresión regular
+             y cadena de prueba, panel de información de coincidencias y referencia rápida de
+             tokens.}
+    \label{fig:regex101_interfaz}
+\end{figure}
+
+\newpage
+\subsection{Duolingo como Referente de Diseño EdTech}
+\label{ssec:duolingo}
+
+Aunque Duolingo no es una herramienta de Teoría de la Computación, su análisis es pertinente
+como referente del estado del arte en diseño de experiencias de aprendizaje móvil
+ludificado~\cite{duolingo2024}. Con más de 500 millones de usuarios registrados, Duolingo ha
+validado empíricamente un modelo de aprendizaje basado en microcontenido, progresión por
+niveles y mecánicas de retención que han sido objeto de múltiples estudios académicos.
+
+Sus mecánicas de ludificación ---rachas diarias, insignias por logros, desbloqueo secuencial
+de unidades y retroalimentación inmediata--- han demostrado incrementos medibles en la
+retención y el compromiso del usuario~\cite{deterding2011}. La racha diaria, en particular,
+ha sido identificada como el mecanismo de mayor impacto en la formación de hábitos de estudio:
+usuarios que mantienen una racha de siete días tienen una probabilidad significativamente mayor
+de continuar usando la aplicación a largo plazo. El sistema de insignias, por su parte, genera
+motivación intrínseca vinculada al crecimiento personal, a diferencia de las recompensas
+externas que producen un enganche pasajero~\cite{deterding2011}.
+
+AUTECH adopta este modelo de diseño como referente directo para su sistema de progresión,
+aplicando las mismas mecánicas al aprendizaje de modelos computacionales: rachas de práctica
+diaria, desbloqueo secuencial de mundos por nivel de la Jerarquía de Chomsky e insignias de
+maestría por dominio demostrado.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{fig_duolingo_interfaz}
+    \caption{Captura de la aplicación Duolingo en móvil, mostrando la sección ``Habla de tus
+             estudios'' en la Etapa~2, con actividades de aprendizaje gamificado e indicadores
+             de progreso.}
+    \label{fig:duolingo_interfaz}
+\end{figure}
+
+\subsection{Análisis Comparativo}
+\label{ssec:analisis_comparativo}
+
+La siguiente tabla sintetiza el análisis de las herramientas estudiadas en las cinco
+dimensiones evaluadas:
+
+% ── Tabla 3: Comparativa de herramientas ──────────────────────
+\begin{table}[H]
+    \centering
+    \caption{Comparativa de herramientas educativas para Teoría de la Computación (JFLAP,
+             Automata Tutor v3, FSAM, Regex101, RegExr y AUTECH) en los criterios de
+             plataforma, enfoque pedagógico, diseño moderno, ludificación y disponibilidad
+             offline.}
+    \label{tab:comparativa_herramientas}
+    \small
+    \setlength{\tabcolsep}{5pt}
+    \rowcolors{2}{azulFila}{white}
+    \begin{tabular}{%
+        >{\raggedright\arraybackslash}p{2.4cm}
+        >{\centering\arraybackslash}p{1.7cm}
+        >{\raggedright\arraybackslash}p{4.2cm}
+        >{\centering\arraybackslash}p{1.6cm}
+        >{\centering\arraybackslash}p{1.6cm}
+        >{\centering\arraybackslash}p{1.3cm}}
+        \toprule
+        \thcol{Herramienta} &
+        \thcol{Plataforma} &
+        \thcol{Enfoque Pedagógico} &
+        \thcol{Diseño Moderno} &
+        \thcol{Ludificación} &
+        \thcol{Offline} \\
+        \midrule
+        JFLAP
+            & Escritorio
+            & Práctica libre
+            & No  & No  & Sí \\
+        Automata Tutor v3
+            & Web
+            & Guiado con feedback
+            & Parcial & No & No \\
+        FSAM
+            & Android
+            & Simulador técnico
+            & Parcial & No & Sí \\
+        Regex101
+            & Web
+            & Depuración técnica
+            & Parcial & No & No \\
+        RegExr
+            & Web
+            & Aprendizaje de ER
+            & Sí  & No  & No \\
+        \midrule
+        \textbf{AUTECH}
+            & \textbf{Android}
+            & \textbf{Simuladores, guiado por niveles y feedback inmediato}
+            & \textbf{Sí}
+            & \textbf{Sí}
+            & \textbf{Sí} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+El análisis evidencia que ninguna herramienta existente combina simultáneamente cobertura
+completa de la Jerarquía de Chomsky, aprendizaje guiado con estructura didáctica, diseño de
+interfaz moderno, componentes de ludificación y soporte sin conexión en una plataforma móvil.
+AUTECH se posiciona precisamente en ese espacio no atendido, integrando las fortalezas de cada
+categoría en un ecosistema único orientado al perfil y las necesidades del estudiante de la
+ESCOM.
+
+\newpage
+% ─────────────────────────────────────────────────────────────
+\section{Tecnologías de Desarrollo}
+\label{sec:tecnologias}
+
+La selección del stack tecnológico responde a la necesidad arquitectónica de construir un
+ecosistema interactivo, de alto rendimiento gráfico y escalable, garantizando la portabilidad
+en dispositivos móviles~\cite{pressman2020}.
+
+\subsection{Flutter e Impeller: Renderizado de Próxima Generación}
+\label{ssec:flutter_impeller}
+
+Se determinó el uso del framework Flutter para el desarrollo del cliente móvil debido a su
+transición hacia el motor de renderizado Impeller~\cite{flutter2024a}. A diferencia de su
+predecesor (Skia), Impeller precompila los shaders, eliminando el problema de la compilación
+en tiempo de ejecución conocido como \textit{shader compilation jank}.
+
+Para la operatividad de AUTECH, esta característica es crítica: el motor gráfico debe procesar
+y renderizar la actualización de estados de los autómatas sin latencia visual. Impeller aprovecha
+Vulkan como backend gráfico principal cuando el dispositivo lo soporta, manteniéndose compatible
+mediante OpenGL~ES en hardware que no cuente con dicha capacidad. Como estrategia de
+compatibilidad adicional, Flutter garantiza que en dispositivos que no soporten Impeller, el
+sistema realice un \textit{fallback} automático hacia el motor Skia, asegurando la
+disponibilidad universal de la aplicación~\cite{google2023android, flutter2024a}.
+
+\subsection{Flame Engine: Gestión de la Interactividad}
+\label{ssec:flame_engine}
+
+Para la simulación visual de los autómatas se implementó Flame, un motor de desarrollo de
+juegos 2D construido sobre Flutter~\cite{flame2024}. Su integración en AUTECH obedece a la
+necesidad de implementar un Game Loop dedicado, capaz de gestionar las animaciones
+algorítmicas de los estados a 60~cuadros por segundo. Esta capacidad es fundamental para que
+el estudiante visualice el recorrido paso a paso de una cadena a través de un grafo complejo.
+Flame permite la detección precisa de colisiones y la manipulación dinámica de objetos en el
+canvas ---como arrastrar estados o modificar transiciones táctilmente---, operaciones que una
+librería de UI tradicional no podría procesar con la misma eficiencia técnica~\cite{flame2024}.
+
+\subsection{Assets Locales y Contenido Offline}
+\label{ssec:assets_offline}
+
+El contenido didáctico de AUTECH ---lecciones teóricas, ejercicios, definiciones formales y
+configuraciones de autómatas de ejemplo--- se distribuye empaquetado dentro de la aplicación
+en formato JSON, almacenado en el directorio de assets locales del proyecto Flutter. Esta
+decisión arquitectónica garantiza que el núcleo didáctico de la plataforma funcione de forma
+completamente autónoma sin requerir conectividad a internet, respondiendo directamente a la
+restricción de conectividad híbrida establecida en la
+sección~\ref{ssec:restricciones_tecnicas}. La carga de estos recursos se realiza mediante
+llamadas asíncronas desde Dart, integrándose de forma nativa con el ciclo de renderizado de
+Flutter.
+
+La selección de Supabase como infraestructura principal implicó una decisión de cambio respecto
+al stack definido en el protocolo original del proyecto, donde se contemplaba Firebase como
+plataforma de backend. Esta transición respondió a una limitación técnica concreta: el plan
+gratuito de Firebase (Spark) no permite el envío de correos transaccionales, funcionalidad
+indispensable para el sistema de autenticación de AUTECH, que requiere verificación de cuenta,
+recuperación de contraseña y notificaciones de cambio de rol. Supabase, al integrarse con
+Resend mediante dominio propio en Namecheap, resuelve esta limitación de forma nativa sin un
+costo significativo con respecto al precio del plan Blaze de Firebase, justificando plenamente
+la migración~\cite{supabase2024}.
+
+\subsection{API Backend: Python sobre Render}
+\label{ssec:api_backend}
+
+Para las funcionalidades que requieren procesamiento en servidor, AUTECH integra una API
+desarrollada en Python puro y desplegada en Render como plataforma de hosting en la nube. Esta
+API actúa como capa de lógica de negocio del simulador cuando el dispositivo cuenta con
+conectividad, gestionando operaciones computacionalmente intensivas que complementan el motor
+local de la aplicación. Al estar alojada en un repositorio de GitHub y desplegada desde él,
+el flujo de actualización del servicio queda integrado al mismo ciclo de desarrollo del
+proyecto~\cite{pressman2020}.
+
+\subsection{Infraestructura de Autenticación y Comunicación: Supabase, Resend y Namecheap}
+\label{ssec:infraestructura_auth}
+
+La gestión de identidad y comunicación con los usuarios se resuelve mediante la integración
+de tres servicios complementarios.
+
+Supabase actúa como Backend-as-a-Service de código abierto, proveyendo la base de datos
+relacional PostgreSQL para garantizar la integridad de los datos de desempeño estudiantil, y
+el módulo de autenticación con políticas de seguridad a nivel de fila (Row Level Security) que
+separan los privilegios de acceso entre los perfiles de Administrador, Docente y
+Estudiante~\cite{supabase2024}. La sincronización del progreso académico se ejecuta de forma
+asíncrona hacia Supabase en el momento en que el dispositivo restablece la conectividad.
+
+Resend gestiona el envío de correos transaccionales automáticos del sistema: verificación de
+cuenta en el registro, recuperación de contraseña, bienvenida a nuevos usuarios y
+notificaciones de cambio de rol. Estos correos se originan desde un dominio propio registrado
+en Namecheap, lo que garantiza la autenticidad del remitente y evita que los mensajes sean
+clasificados como spam por los clientes de correo de los usuarios.
+
+La verificación de cuentas se completa mediante un enlace enviado por correo que redirige al
+usuario a una página de confirmación alojada en GitHub Pages, aprovechando los beneficios del
+programa GitHub Education para el dominio de verificación~\cite{github2024}.
+
+\subsection{Patrón API-First con Fallback Local}
+\label{ssec:api_first}
+
+La arquitectura de los módulos de simulación de AUTECH sigue un patrón denominado
+\textbf{API-First con Fallback Local}, con la intención de garantizar disponibilidad total de
+todas y cada una de las funciones independientemente de las condiciones de conectividad del
+entorno universitario o particular del usuario~\cite{pressman2020}. El patrón opera de la
+siguiente manera: al ejecutar cualquier operación algorítmica, la aplicación intenta primero
+conectarse al servidor remoto alojado en Render para obtener el resultado; si tras 59~segundos
+que tarda la API en estar disponible en línea, y entre 10 a~40~segundos (dependiendo del tipo
+y dificultad del ejercicio) en lo que se aplican los algoritmos al problema en cuestión, no
+recibe respuesta, notifica al usuario y ejecuta el cálculo directamente en el dispositivo
+utilizando las implementaciones locales de los algoritmos.
+
+Esta decisión arquitectónica responde a una realidad operativa concreta: la conectividad en
+entornos universitarios puede ser inestable, y un simulador educativo que falle ante la
+ausencia de red compromete directamente la experiencia de aprendizaje. Las implementaciones
+locales son matemáticamente equivalentes a las del servidor y producen resultados correctos
+para todos los casos de uso que se plantean tomar del programa sintético ISC~2020, garantizando
+así que el estudiante nunca pierda acceso a las funcionalidades del
+sistema~\cite{hopcroft2007, supabase2024}.
+
+\subsection{Monitoreo de Errores: Sentry}
+\label{ssec:sentry}
+
+Para garantizar la estabilidad del sistema en entornos de uso real, AUTECH integrará Sentry
+como plataforma de monitoreo de errores y telemetría de aplicación~\cite{sentry2024}. Sentry
+captura automáticamente excepciones no controladas, crashes y eventos de rendimiento en tiempo
+real, generando reportes detallados que incluyen el stack trace, el dispositivo afectado, la
+versión de la aplicación y el contexto de la acción que desencadenó el error.
+
+Su integración en Flutter se realiza mediante el paquete oficial \texttt{sentry\_flutter}, que
+intercepta el ciclo de vida de la aplicación y reporta los fallos de forma asíncrona hacia el
+dashboard en escritorio con Sentry, sin impacto perceptible en el rendimiento del dispositivo.
+El plan gratuito de la plataforma cubre hasta 3\,000~eventos por mes con retención de 30~días,
+lo cual es suficiente para el volumen de usuarios contemplado en el entorno académico de la
+ESCOM.
+
+La implementación de Sentry está planificada para el inicio del Ciclo~1 del prototipado
+evolutivo, una vez que el núcleo funcional del MVP haya sido validado en el Ciclo~0. Esta
+decisión responde a una priorización técnica: instrumentar el monitoreo sobre un sistema
+estable produce datos más accionables que hacerlo sobre un prototipo en construcción
+activa~\cite{sentry2024}.
