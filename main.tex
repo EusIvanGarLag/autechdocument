@@ -1,0 +1,43 @@
+\documentclass[12pt,letterpaper]{report}
+
+% 1. Cargamos el preámbulo con todas las librerías
+\input{preambulo}
+
+\begin{document}
+
+% 2. PORTADA INDEPENDIENTE
+\input{capitulos/portada.tex} 
+\newpage
+
+% 3. BLOQUE DE ÍNDICES DIRECTOS
+% Usamos numeración romana para los índices
+\pagenumbering{roman}
+
+\tableofcontents % Índice General
+\newpage
+
+\listoffigures % Índice de Imágenes
+\newpage
+
+\listoftables % Índice de Tablas
+\newpage
+
+
+% 4. BLOQUE DEL CONTENIDO PRINCIPAL
+% Cambiamos a numeración arábiga y reiniciamos el contador de páginas
+\pagenumbering{arabic} 
+\setcounter{page}{1} 
+
+\include{capitulos/cap1}
+\include{capitulos/cap2}
+\include{capitulos/cap3}
+\include{capitulos/cap4}
+\include{capitulos/cap5}
+
+
+% 5. BLOQUE DE REFERENCIAS (BIBLIOGRAFÍA)
+\newpage
+\bibliographystyle{ieeetr} % Estilo IEEE para ingeniería
+\bibliography{bibliografia} % Archivo bibliografia.bib
+
+\end{document}
