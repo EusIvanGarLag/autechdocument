@@ -73,7 +73,7 @@ acciones que se hacen desde la aplicación AUTECH:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/DA.jpeg}
+    \includegraphics[width=0.85\textwidth]{imagenes/DA.jpg}
     \caption[Arquitectura del sistema AUTECH]{Arquitectura del sistema AUTECH organizada en cinco
         capas: Presentación, Servicios, Datos, Backend Externo y Gestión de Autenticación.}
     \label{fig:arquitectura}
@@ -133,7 +133,7 @@ Entidad-Relación que rige el ecosistema de AUTECH.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.70\textwidth]{imagenes/DiagramaER.jpg}
+    \includegraphics[width=0.80\textwidth]{imagenes/DiagramaER.jpeg}
     \caption[Diagrama Entidad-Relación de AUTECH]{Diagrama Entidad-Relación
         del esquema físico PostgreSQL de AUTECH, mostrando las entidades
         \texttt{users}, \texttt{grupos}, \texttt{group\_members},
@@ -144,7 +144,7 @@ Entidad-Relación que rige el ecosistema de AUTECH.
 
 \begin{table}[H]
     \centering
-    \caption[Modelo de datos PostgreSQL/Supabase de AUTECH]{Modelo de datos PostgreSQL/Supabase de
+    \caption[Modelo relacional de datos de AUTECH]{Modelo relacional de datos de
         AUTECH: relaciones entre entidades y su cardinalidad.}
     \label{tab:modelo_datos}
     \small
@@ -156,35 +156,48 @@ Entidad-Relación que rige el ecosistema de AUTECH.
         \thcol{Tabla / Entidad} & \thcol{Cardinalidad} & \thcol{Descripción de la relación} \\
         \midrule
         \rowcolor{azulFila}
-        \texttt{Users} & 1 &
-            Fila por usuario. Contiene rol, datos académicos y estado de aprobación. Clave
-            primaria: \texttt{id}~(UUID). \\[3pt]
+        \texttt{users} & 1 &
+            Entidad central. Fila por usuario con rol, datos académicos y estado de
+            aprobación. Clave primaria: \texttt{id}~(UUID). Referenciada por todas
+            las demás tablas mediante FK. \\[3pt]
 
-        \texttt{group\_members}\newline(\texttt{users} $\leftrightarrow$ \texttt{grupos}) & N:M &
-            Un alumno puede pertenecer a varios grupos; un grupo puede tener múltiples alumnos.
-            La relación se materializa con la tabla de unión \texttt{group\_members}
-            (FK \texttt{student\_id}~$\rightarrow$~\texttt{users},
-            FK \texttt{group\_id}~$\rightarrow$~\texttt{grupos}). \\[3pt]
-
-        \rowcolor{azulFila}
         \texttt{grupos}~$\rightarrow$~\texttt{users}\newline(\texttt{docente\_id}) & N:1 &
-            Cada grupo tiene una FK \texttt{docente\_id} que referencia a \texttt{users}. El
-            nombre del docente se desnormaliza en \texttt{docente\_name} para evitar JOINs
-            adicionales en las consultas frecuentes. \\[3pt]
-
-        \texttt{ejercicios}~$\rightarrow$~\texttt{grupos}\newline(\texttt{grupo\_id} FK) & 1:N &
-            Un grupo puede tener múltiples ejercicios. La relación está en la FK
-            \texttt{grupo\_id} de la tabla \texttt{ejercicios}. \\[3pt]
+            Cada grupo tiene una FK \texttt{docente\_id} que referencia al docente
+            responsable en \texttt{users}. El nombre se desnormaliza en
+            \texttt{docente\_name} para evitar JOINs en consultas frecuentes. \\[3pt]
 
         \rowcolor{azulFila}
-        \texttt{ejercicios.preguntas}\newline(JSONB embebido) & 1:N &
-            Las preguntas se almacenan como JSONB dentro del campo \texttt{preguntas} de la tabla
-            \texttt{ejercicios}. No tienen tabla propia. \\[3pt]
+        \texttt{group\_members}\newline(\texttt{users} $\leftrightarrow$ \texttt{grupos}) & N:M &
+            Tabla de unión entre alumnos y grupos. FK \texttt{student\_id}~$\rightarrow$~%
+            \texttt{users} y FK \texttt{group\_id}~$\rightarrow$~\texttt{grupos}. Almacena
+            además el progreso completo del alumno: \texttt{unit\_progress[]},
+            \texttt{node\_completed}, \texttt{activity\_dates[]} y \texttt{racha\_dias}. \\[3pt]
 
+        \texttt{unit\_assignments}~$\rightarrow$~\texttt{grupos} & N:1 &
+            Cada asignación de unidad pertenece a un grupo mediante FK
+            \texttt{group\_id}~$\rightarrow$~\texttt{grupos}. Registra también
+            \texttt{assigned\_by}~$\rightarrow$~\texttt{users} (docente que la creó),
+            estado (\texttt{active}, \texttt{expired}, \texttt{disabled}) y fecha
+            límite opcional. \\[3pt]
+
+        \rowcolor{azulFila}
         \texttt{role\_requests}~$\rightarrow$~\texttt{users} & N:1 &
-            Un usuario puede emitir múltiples solicitudes de cambio de rol. Cada solicitud
-            referencia mediante FK \texttt{user\_id}~$\rightarrow$~\texttt{users} al
-            solicitante. \\
+            Un usuario puede emitir múltiples solicitudes de cambio de rol (e.g.\
+            alumno~$\rightarrow$~docente). Cada solicitud referencia al solicitante
+            mediante FK \texttt{user\_id}~$\rightarrow$~\texttt{users} y al
+            administrador que la resolvió mediante \texttt{resolved\_by}~$\rightarrow$~%
+            \texttt{users}. \\[3pt]
+
+        \texttt{push\_tokens}~$\rightarrow$~\texttt{users} & N:1 &
+            Registra los tokens FCM/APNs de cada dispositivo. Un usuario puede tener
+            múltiples tokens activos (varios dispositivos). FK
+            \texttt{user\_id}~$\rightarrow$~\texttt{users}. \\[3pt]
+
+        \rowcolor{azulFila}
+        \texttt{notification\_log}~$\rightarrow$~\texttt{users} & N:1 &
+            Historial de notificaciones push enviadas a cada usuario. FK
+            \texttt{user\_id}~$\rightarrow$~\texttt{users}. Registra tipo, título,
+            cuerpo, datos adicionales (JSONB) y estado del envío. \\
         \bottomrule
     \end{tabularx}
 \end{table}
