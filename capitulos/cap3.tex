@@ -15,65 +15,122 @@ La especificación de requisitos se fundamenta en la norma IEEE Std 830-1998, as
 Los requerimientos funcionales (RF) definen el comportamiento interno del sistema, las transformaciones de datos y los servicios directos que se proveen a los distintos perfiles de usuario. Para garantizar la cohesión del diseño, se han classified en cuatro módulos arquitectónicos, como se definen en la Tabla~\ref{tab:rf_sistema} y la Tabla~\ref{tab:rf_sistema_p2}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Requerimientos Funcionales del Sistema AUTECH, organizados en cuatro módulos: Gestión y Seguridad (RF-01 a RF-03), Simulación y Motor Algorítmico (RF-04 a RF-08), Didáctico y de Ludificación (RF-09 a RF-12) e Interoperabilidad y UX (RF-13 a RF-15).}
-    \label{tab:rf_sistema}
-    \begin{tabular}{l l p{9.5cm}}
-        \toprule
-        \textbf{ID} & \textbf{Nombre del Requerimiento} & \textbf{Especificación Técnica} \\
-        \midrule
-        \multicolumn{3}{l}{\textbf{MÓDULO DE GESTIÓN Y SEGURIDAD}} \\
-        \midrule
-        RF-01 & Gestión Multi-Rol & Administrar el control de acceso de manera multiplataforma y concurrente para tres perfiles jerárquicos: Administrador (gestión global), Docente (gestión académica) y Alumno (simulación) \cite{pressman2020}. \\
-        \addlinespace
-        RF-02 & Aprovisionamiento Docente & Permitir el envío de solicitudes de registro docente. Tras la validación del Administrador (vía entorno desktop o móvil), el sistema deberá aprovisionar la cuenta automatizando el envío de credenciales temporales vía correo electrónico. \\
-        \addlinespace
-        RF-03 & Gestión de Grupos Académicos & Proveer al perfil Docente de un panel de control disponible en plataformas desktop y móvil para crear, modificar o eliminar grupos, así como generar identificadores alfanuméricos (códigos de invitación) para el enrolamiento de alumnos \cite{escom2016}. \\
-        \midrule
-        \multicolumn{3}{l}{\textbf{MÓDULO DE SIMULACIÓN Y MOTOR ALGORÍTMICO}} \\
-        \midrule
-        RF-04 & Editor de Autómatas Finitos & Desplegar un canvas interactivo en la aplicación móvil que permita la construcción y edición topológica de Autómatas Finitos Deterministas (AFD) y No Deterministas (AFND) \cite{ipn2020}. \\
-        \addlinespace
-        RF-05 & Editor de Autómatas de Pila & Proveer herramientas de diseño para Autómatas de Pila (AP) en la interfaz móvil, integrando la declaración del alfabeto de la pila ($\Gamma$) y la gestión de transiciones no deterministas \cite{hopcroft2007}. \\
-        \addlinespace
-        RF-06 & Editor de Máquinas de Turing & Desplegar en la aplicación móvil un simulador de Máquina de Turing (MT) orientado a la función de reconocimiento de lenguajes, incorporando una cinta infinita visual y control de cabezal bidireccional \cite{sipser2012}. \\
-        \addlinespace
-        RF-07 & Validador Lógico Multinivel & Ejecutar la validación algorítmica de cadenas de entrada en tres modalidades asíncronas: 1) Ejecución paso a paso, 2) Resolución de clausuras épsilon ($\epsilon$), y 3) Evaluación masiva de baterías de prueba (\textit{Bulk Test}) \cite{sinchi2018}. \\
-        \addlinespace
-        RF-08 & Transformación Algorítmica & Ejecutar conversiones matemáticas automatizadas, incluyendo: transformación de AFND a AFD, minimización de estados equivalentes y conversión bidireccional entre Expresiones Regulares y grafos \cite{kelley2001}. \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+\centering
+\caption{Requerimientos Funcionales del Sistema AUTECH.}
+\label{tab:rf_sistema}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X @{}}
+\toprule
+\textbf{ID} & \textbf{Requerimiento} & \textbf{Especificación Técnica} \\
+\midrule
 
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE GESTIÓN Y SEGURIDAD}} \\
+\midrule
+
+RF-01 & Gestión Multi-Rol &
+Control de acceso multiplataforma para tres perfiles: \textbf{Administrador} (gestión global), \textbf{Docente} (académico) y \textbf{Alumno} (simulación) \cite{pressman2020}. \\
+
+RF-02 & Aprovisionamiento Docente &
+Gestionar solicitudes de registro docente; aprovisionar cuenta y enviar credenciales temporales por correo tras validación del Administrador. \\
+
+RF-03 & Grupos Académicos &
+Panel (desktop/móvil) para crear, modificar o eliminar grupos y generar códigos de invitación para enrolamiento de alumnos \cite{escom2016}. \\
+
+\midrule
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE SIMULACIÓN Y MOTOR ALGORÍTMICO}} \\
+\midrule
+
+RF-04 & Editor AFD/AFND &
+Canvas interactivo móvil para construcción y edición de Autómatas Finitos Deterministas (AFD) y No Deterministas (AFND) \cite{ipn2020}. \\
+
+RF-05 & Editor de Pila &
+Herramientas de diseño para Autómatas de Pila (AP) con declaración del alfabeto $\Gamma$ y gestión de transiciones no deterministas \cite{hopcroft2007}. \\
+
+RF-06 & Editor MT &
+Simulador de Máquina de Turing con cinta infinita visual y cabezal bidireccional orientado al reconocimiento de lenguajes \cite{sipser2012}. \\
+
+RF-07 & Validador Multinivel &
+Validación algorítmica en tres modalidades: \textbf{(1)} paso a paso, \textbf{(2)} clausuras $\epsilon$ y \textbf{(3)} evaluación masiva (\textit{Bulk Test}) \cite{sinchi2018}. \\
+
+RF-08 & Transformación Algorítmica &
+Conversiones automatizadas: AFND$\to$AFD, minimización de estados y conversión bidireccional Expresión Regular $\leftrightarrow$ grafo \cite{kelley2001}. \\
+
+\midrule
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DIDÁCTICO Y DE LUDIFICACIÓN}} \\
+\midrule
+
+RF-09 & Retos y Ejercicios &
+Crear, asignar y calificar retos de simulación vinculados a unidades temáticas con retroalimentación inmediata al Alumno. \\
+
+RF-10 & Sistema de Progresión &
+Sistema de puntos XP, rachas de actividad e insignias desbloqueables para motivar la participación continua del Alumno. \\
+
+RF-11 & Analíticas de Desempeño &
+Reportes visuales de desempeño individual y grupal para el Docente, con exportación en PDF y Excel. \\
+
+RF-12 & Notificaciones Push &
+Notificaciones multiplataforma para recordatorios de retos pendientes, logros obtenidos y actualizaciones de contenido. \\
+
+\midrule
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE INTEROPERABILIDAD Y UX}} \\
+\midrule
+
+RF-13 & Modo Offline &
+Operación autónoma sin conectividad mediante caché local (Hive); sincronización automática con la nube al restablecer conexión. \\
+
+RF-14 & Sincronización en la Nube &
+Persistencia de simulaciones, progreso y configuraciones en Supabase (PostgreSQL) con integridad transaccional y control por RLS. \\
+
+RF-15 & Multiplataforma &
+Disponibilidad y consistencia visual en Android, iOS y Web desde una única base de código Flutter. \\
+
+\bottomrule
+\end{tabularx}
+\end{table}
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Requerimientos Funcionales del Sistema AUTECH (Continuación).}
-    \label{tab:rf_sistema_p2}
-    \begin{tabular}{l l p{9.5cm}}
-        \toprule
-        \textbf{ID} & \textbf{Nombre del Requerimiento} & \textbf{Especificación Técnica} \\
-        \midrule
-        \multicolumn{3}{l}{\textbf{MÓDULO DIDÁCTICO Y DE LUDIFICACIÓN}} \\
-        \midrule
-        RF-09 & Evaluaciones Teóricas (Quizzes) & Permitir la creación y asignación multiplataforma de reactivos de opción múltiple orientados exclusivamente a la validación de fundamentos teóricos de la asignatura \cite{felder2016}. \\
-        \addlinespace
-        RF-10 & Analítica de Desempeño Docente & Procesar las métricas de uso y generar visualizaciones estadísticas (indicadores semaforizados) del avance grupal e individual (aciertos, errores frecuentes y completitud temporal) accesibles para el profesor \cite{munoz2012}. \\
-        \addlinespace
-        RF-11 & Ecosistema de Ludificación & Orquestar el progreso del usuario mediante el bloqueo/desbloqueo de ``mundos'' basados en la Jerarquía de Chomsky, calculando puntos de experiencia (XP) y gestionando contadores de racha de estudio en la app móvil del Alumno \cite{deterding2011}. \\
-        \addlinespace
-        RF-12 & Integración Multimedia & Integrar y reproducir material audiovisual de refuerzo desde fuentes externas de manera adaptativa en la interfaz móvil \cite{crompton2018}. \\
-        \midrule
-        \multicolumn{3}{l}{\textbf{MÓDULO DE INTEROPERABILIDAD Y UX}} \\
-        \midrule
-        RF-13 & Interoperabilidad de Estructuras & Soportar la importación y exportación bidireccional del mapeo de grafos utilizando los esquemas XML estándar de la industria académica: \texttt{.jff} (JFLAP) y \texttt{.fsam} a través del gestor de archivos nativo de cada entorno \cite{rodger2006}. \\
-        \addlinespace
-        RF-14 & Asistente de Inducción (Onboarding) & Desplegar una secuencia de instrucciones superpuestas e interactivas al detectar el primer inicio de sesión en la aplicación móvil del Alumno, con capacidad de ser omitida por el usuario \cite{materialdesign2023}. \\
-        \addlinespace
-        RF-15 & Modo de Práctica Autónoma & Habilitar el acceso irrestricto en la app móvil a los módulos de simulación y lecciones teóricas para cuentas de Alumno que no estén vinculadas a un código de grupo docente \cite{nielsen1994}. \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Requerimientos Funcionales del Sistema AUTECH (Continuación).}
+\label{tab:rf_sistema_p2}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X @{}}
+\toprule
+\textbf{ID} & \textbf{Requerimiento} & \textbf{Especificación Técnica} \\
+\midrule
+
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DIDÁCTICO Y DE LUDIFICACIÓN}} \\
+\midrule
+
+RF-09 & Evaluaciones Teóricas &
+Crear y asignar reactivos de opción múltiple multiplataforma orientados a la validación de fundamentos teóricos de la asignatura \cite{felder2016}. \\
+
+RF-10 & Analítica Docente &
+Procesar métricas de uso y generar visualizaciones estadísticas semaforizadas del avance grupal e individual (aciertos, errores frecuentes y completitud temporal) accesibles para el profesor \cite{munoz2012}. \\
+
+RF-11 & Ecosistema de Ludificación &
+Orquestar el progreso mediante bloqueo/desbloqueo de ``mundos'' basados en la Jerarquía de Chomsky, calculando puntos XP y contadores de racha de estudio en la app móvil \cite{deterding2011}. \\
+
+RF-12 & Integración Multimedia &
+Integrar y reproducir material audiovisual de refuerzo desde fuentes externas de forma adaptativa en la interfaz móvil \cite{crompton2018}. \\
+
+\midrule
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE INTEROPERABILIDAD Y UX}} \\
+\midrule
+
+RF-13 & Interoperabilidad de Estructuras &
+Soportar importación y exportación bidireccional de grafos en esquemas XML estándar: \texttt{.jff} (JFLAP) y \texttt{.fsam}, a través del gestor de archivos nativo de cada entorno \cite{rodger2006}. \\
+
+RF-14 & Asistente de Inducción &
+Desplegar una secuencia de instrucciones superpuestas e interactivas al detectar el primer inicio de sesión en la app móvil, con opción de omisión por el usuario \cite{materialdesign2023}. \\
+
+RF-15 & Modo de Práctica Autónoma &
+Habilitar acceso irrestricto a módulos de simulación y lecciones teóricas para cuentas de Alumno no vinculadas a un código de grupo docente \cite{nielsen1994}. \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \newpage
@@ -83,29 +140,40 @@ Los requerimientos funcionales (RF) definen el comportamiento interno del sistem
 Los requerimientos no funcionales (RNF) especifican las restricciones técnicas, criterios de calidad del sistema, directrices de seguridad y métricas de rendimiento indispensables para garantizar el correcto funcionamiento transversal de la arquitectura de AUTECH, detallados en la Tabla~\ref{tab:req_no_funcionales}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Especificación de Requerimientos No Funcionales del Ecosistema AUTECH.}
-    \label{tab:req_no_funcionales}
-    \begin{tabular}{l l p{9.5cm}}
-        \toprule
-        \textbf{ID} & \textbf{Atributo de Calidad} & \textbf{Especificación y Restricción Técnica} \\
-        \midrule
-        RNF-01 & Rendimiento Gráfico & El renderizado y la animación matemática de los grafos sobre el canvas interactivo en Flutter debe mantener una tasa de refresco estable de 60 FPS tanto en dispositivos móviles como en entornos Desktop (Windows/macOS) \cite{flutter2024a}. \\
-        \addlinespace
-        RNF-02 & Persistencia Local Móvil & La lectura y escritura de estructuras de autómatas y progreso local en la aplicación móvil del Alumno debe realizarse mediante cajas no relacionales de Hive, garantizando tiempos de respuesta inferiores a los 15 ms. \\
-        \addlinespace
-        RNF-03 & Resiliencia Offline & El cliente móvil del Alumno debe procesar el cambio dinámico de red mediante un Service Layer reactivo, encolando localmente las peticiones de sincronización en background al perder de forma temporal la conectividad \cite{flutter2024c}. \\
-        \addlinespace
-        RNF-04 & Disponibilidad de API & La API de servicios web desplegada en la infraestructura en la nube de Render debe responder eficientemente a las peticiones concurrentes de las aplicaciones, garantizando un \textit{uptime} del 99.5\% anual. \\
-        \addlinespace
-        RNF-05 & Seguridad y Cifrado & Todo flujo de datos e intercambio de información entre los clientes de software (móviles o desktop) y la base de datos centralizada debe realizarse obligatoriamente mediante peticiones cifradas bajo el protocolo HTTPS (TLS 1.3). \\
-        \addlinespace
-        RNF-06 & Seguridad en Capa de Datos & El acceso a la persistencia en la nube debe controlarse estrictamente a través de políticas de seguridad a nivel de fila (RLS, \textit{Row Level Security}) vinculadas al ID único de usuario de la sesión activa en cualquier plataforma \cite{supabase2024}. \\
-        \addlinespace
-        RNF-07 & Escalabilidad Concurrente & El esquema de base de datos relacional y el pool de conexiones del backend deben estar dimensionados para soportar consultas simultáneas provenientes de múltiples peticiones concurrentes en periodos de evaluación masiva bajo estándares internacionales de calidad \cite{iso2011}. \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Especificación de Requerimientos No Funcionales del Ecosistema AUTECH.}
+\label{tab:req_no_funcionales}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X @{}}
+\toprule
+\textbf{ID} & \textbf{Atributo de Calidad} & \textbf{Especificación y Restricción Técnica} \\
+\midrule
+
+RNF-01 & Rendimiento Gráfico &
+Renderizado y animación de grafos en el canvas Flutter a tasa estable de \textbf{60 FPS} en dispositivos móviles y entornos desktop (Windows/macOS) \cite{flutter2024a}. \\
+
+RNF-02 & Persistencia Local Móvil &
+Lectura y escritura de estructuras de autómatas y progreso local mediante cajas no relacionales \textbf{Hive}, con tiempos de respuesta inferiores a \textbf{15 ms}. \\
+
+RNF-03 & Resiliencia Offline &
+El cliente móvil debe gestionar cambios dinámicos de red mediante un Service Layer reactivo, encolando localmente las peticiones de sincronización en background ante pérdida temporal de conectividad \cite{flutter2024c}. \\
+
+RNF-04 & Disponibilidad de API &
+La API desplegada en Render debe responder eficientemente a peticiones concurrentes garantizando un \textit{uptime} del \textbf{99.5\%} anual. \\
+
+RNF-05 & Seguridad y Cifrado &
+Todo intercambio de datos entre clientes (móvil/desktop) y la base de datos centralizada debe realizarse obligatoriamente bajo \textbf{HTTPS} con protocolo \textbf{TLS 1.3}. \\
+
+RNF-06 & Seguridad en Capa de Datos &
+El acceso a la nube debe controlarse mediante políticas \textbf{RLS} (\textit{Row Level Security}) vinculadas al ID único de sesión activa en cualquier plataforma \cite{supabase2024}. \\
+
+RNF-07 & Escalabilidad Concurrente &
+El esquema relacional y el pool de conexiones del backend deben soportar consultas simultáneas de múltiples usuarios en periodos de evaluación masiva bajo estándares internacionales de calidad \cite{iso2011}. \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \clearpage
@@ -115,27 +183,37 @@ Los requerimientos no funcionales (RNF) especifican las restricciones técnicas,
 Las reglas de negocio definen las políticas, restricciones lógicas y leyes matemáticas constantes, que el sistema debe respetar durante su ejecución. A diferencia de los requerimientos funcionales, estas reglas aseguran que la simulación gráfica sea matemáticamente exacta y que el avance del estudiante sea didácticamente coherente con el programa de estudios \cite{ipn2020, hopcroft2007}. La especificación detallada de estas directrices se presenta en la Tabla~\ref{tab:reglas_negocio}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Reglas de Negocio del Sistema AUTECH.}
-    \label{tab:reglas_negocio}
-    \begin{tabular}{l l p{9.5cm}}
-        \toprule
-        \textbf{ID} & \textbf{Nombre de la Regla} & \textbf{Restricción Lógica y Matemática} \\
-        \midrule
-        RN-01 & Determinismo Estricto (AFD) & Durante la edición de un Autómata Finito Determinista, el sistema impedirá la ejecución de la simulación y desplegará una alerta de error si detecta que un estado posee múltiples transiciones de salida evaluadas con el mismo símbolo del alfabeto \cite{hopcroft2007}. \\
-        \addlinespace
-        RN-02 & Integridad de Memoria LIFO & En el simulador de Autómatas de Pila, el motor de validación prohibirá cualquier operation de extracción (POP) si el estado actual de la pila contiene únicamente el símbolo de fondo inicial ($Z_0$), evitando desbordamientos lógicos \cite{hopcroft2007}. \\
-        \addlinespace
-        RN-03 & Límite Físico de Cinta (MT) & Conforme al modelo estándar de Máquina de Turing de cinta semi-infinita, el sistema restringirá el desplazamiento del cabezal hacia la izquierda si su posición actual corresponde a la celda de inicio (índice cero) \cite{hopcroft2007}. \\
-        \addlinespace
-        RN-04 & Umbral de Competencia Didáctica & El sistema aplicará un candado lógico que impedirá el desbloqueo de un nivel superior (por ejemplo, la transición de Lenguajes Regulares a Libres de Contexto) a menos que el usuario acredite el módulo vigente con un puntaje mínimo aprobatorio de 80/100. La implementación de esta regla corresponde al Ciclo 1 del prototipado evolutivo, una vez que el sistema de progresión base quede consolidado en el Ciclo 0 \cite{ipn2020}. \\
-        \addlinespace
-        RN-05 & Límite de Complejidad Topológica & Para mantener el alineamiento con el RNF-01 de rendimiento, el lienzo de simulación emitirá una advertencia preventiva de optimización si la topología del grafo diseñado por el usuario alcanza los 15 estados activos. \\
-        \addlinespace
-        RN-06 & Iteración Formativa Ilimitada & El sistema garantizará que las cuentas con rol de Alumno posean intentos infinitos para la resolución de simulaciones y cuestionarios teóricos, priorizando la internalización del conocimiento por repetición sobre la penalización punitiva. \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Reglas de Negocio del Sistema AUTECH.}
+\label{tab:reglas_negocio}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X @{}}
+\toprule
+\textbf{ID} & \textbf{Nombre de la Regla} & \textbf{Restricción Lógica y Matemática} \\
+\midrule
+
+RN-01 & Determinismo Estricto (AFD) &
+Durante la edición de un AFD, el sistema impedirá la simulación y desplegará una alerta si detecta múltiples transiciones de salida con el mismo símbolo desde un mismo estado \cite{hopcroft2007}. \\
+
+RN-02 & Integridad de Memoria LIFO &
+En el simulador de Autómatas de Pila, se prohibirá toda operación POP si la pila contiene únicamente el símbolo de fondo inicial ($Z_0$), evitando desbordamientos lógicos \cite{hopcroft2007}. \\
+
+RN-03 & Límite Físico de Cinta (MT) &
+Conforme al modelo de cinta semi-infinita, el sistema restringirá el desplazamiento del cabezal a la izquierda cuando su posición sea el índice \textbf{cero} (celda de inicio) \cite{hopcroft2007}. \\
+
+RN-04 & Umbral de Competencia Didáctica &
+Se aplicará un candado lógico que impedirá el desbloqueo de un nivel superior (e.g.\ Lenguajes Regulares $\to$ Libres de Contexto) sin acreditar el módulo vigente con un puntaje mínimo de \textbf{80/100}. Esta regla se implementa en el Ciclo~1 del prototipado evolutivo \cite{ipn2020}. \\
+
+RN-05 & Límite de Complejidad Topológica &
+En alineación con RNF-01, el lienzo emitirá una advertencia preventiva de optimización al detectar una topología de grafo con \textbf{15 o más estados} activos. \\
+
+RN-06 & Iteración Formativa Ilimitada &
+Las cuentas con rol Alumno dispondrán de intentos \textbf{ilimitados} para simulaciones y cuestionarios, priorizando la internalización por repetición sobre la penalización punitiva. \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \clearpage 
@@ -167,95 +245,118 @@ El catálogo de Casos de Uso (CU) define las interacciones entre los actores (Al
 Para optimizar la trazabilidad y ofrecer una visión holística del sistema, el catálogo completo de AUTECH se ha unificado en la Tabla~\ref{tab:catalogo_cu_consolidado} y la Tabla~\ref{tab:catalogo_cu_consolidado_p2}, segmentado jerárquicamente por el ámbito de aplicación de cada módulo y ordenado en una secuencia numérica progresiva continua.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 1).}
-    \label{tab:catalogo_cu_consolidado}
-    \begin{tabular}{l p{5.5cm} l l l}
-        \toprule
-        \textbf{Código} & \textbf{Caso de Uso} & \textbf{Actor} & \textbf{Prioridad} & \textbf{Criticidad} \\
-        \midrule
-        \multicolumn{5}{l}{\textbf{I. MÓDULO DE AUTENTICACIÓN, SEGURIDAD Y ACCESOS (Transversal)}} \\
-        \midrule
-        CU-01 & Iniciar Sesión Alumno & Alumno & CRÍTICA & Bloqueante \\
-        CU-02 & Registrarse Alumno & Alumno & Alta & Bloqueante \\
-        CU-03 & Iniciar Sesión Docente/Admin & Docente/Admin & CRÍTICA & Bloqueante \\
-        CU-04 & Solicitar Registro Docente & Docente & Alta & Alta \\
-        CU-05 & Recuperar Contraseña & Alumno/Docente & Media & Alta \\
-        CU-06 & Cerrar Sesión & Todos & Media & Alta \\
-        \midrule
-        \multicolumn{5}{l}{\textbf{II. NÚCLEO DE SIMULACIÓN, ALGORITMOS Y APRENDIZAJE (Alumno)}} \\
-        \midrule
-        \multicolumn{5}{l}{\textit{A. Entorno Interactivo y Motores de Simulación}} \\
-        CU-07 & Grafo del Autómata Interactivo & Alumno/Docente & CRÍTICA & Core \\
-        CU-08 & Simulación Paso a Paso (Animada) & Alumno & CRÍTICA & Core \\
-        CU-09 & Definir, visualizar y simular un PDA & Alumno & Alta & Media \\
-        CU-10 & Simulación completa con cinta animada (MT) & Alumno & Alta & Media \\
-        \addlinespace
-        \multicolumn{5}{l}{\textit{B. Algoritmos de Conversión y Procesamiento Formal}} \\
-        CU-11 & Operaciones sobre Lenguajes Regulares & Alumno & Alta & Técnica \\
-        CU-12 & Conversión de ER a Autómata & Alumno & Alta & Técnica \\
-        CU-13 & Conversión de AFN-$\epsilon$ a AFD & Alumno & CRÍTICA & Algorítmica \\
-        CU-14 & Reducción de Estados (Minimización de AFD) & Alumno & Alta & Técnica \\
-        CU-15 & Convierte a Gramática Libre de Contexto (CFG) & Alumno & Media & Técnica \\
-        \addlinespace
-        \multicolumn{5}{l}{\textit{C. Sistema de Evaluación de Retos}} \\
-        CU-16 & Ver Retos Disponibles & Alumno & CRÍTICA & Core \\
-        CU-17 & Resolver Reto de Simulación & Alumno & CRÍTICA & Core \\
-        CU-18 & Enviar Respuesta para Evaluación & Alumno & CRÍTICA & Core \\
-        CU-19 & Ver Historial de Respuestas & Alumno & Media & Alta \\
-        \midrule
-        \multicolumn{5}{l}{\textbf{III. MÓDULO MÓVIL: SINCRONIZACIÓN Y PERSISTENCIA (Arquitectura Offline)}} \\
-        \midrule
-        CU-20 & Descargar Contenido Teórico (Unidades 1-8) & Alumno & Alta & Alta \\
-        CU-21 & Modo Autónomo Offline (Persistencia en Hive) & Alumno & Alta & Alta \\
-        CU-22 & Sincronizar Datos con la Nube (API / Supabase) & Alumno & Alta & Alta \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 1).}
+\label{tab:catalogo_cu_consolidado}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}X l l l @{}}
+\toprule
+\textbf{Código} & \textbf{Caso de Uso} & \textbf{Actor} & \textbf{Prioridad} & \textbf{Criticidad} \\
+\midrule
+
+\multicolumn{5}{@{}l}{\cellcolor{gray!15}\textbf{I. MÓDULO DE AUTENTICACIÓN, SEGURIDAD Y ACCESOS (Transversal)}} \\
+\midrule
+
+CU-01 & Iniciar sesión alumno              & Alumno         & CRÍTICA & Bloqueante \\
+CU-02 & Registrarse alumno                 & Alumno         & Alta    & Bloqueante \\
+CU-03 & Iniciar sesión docente/admin       & Docente/Admin  & CRÍTICA & Bloqueante \\
+CU-04 & Solicitar registro docente         & Docente        & Alta    & Alta \\
+CU-05 & Recuperar contraseña               & Alumno/Docente & Media   & Alta \\
+CU-06 & Cerrar sesión                      & Todos          & Media   & Alta \\
+
+\midrule
+\multicolumn{5}{@{}l}{\cellcolor{gray!15}\textbf{II. NÚCLEO DE SIMULACIÓN, ALGORITMOS Y APRENDIZAJE (Alumno)}} \\
+\midrule
+
+\multicolumn{5}{@{}l}{\cellcolor{gray!8}\textit{\textbf{A.} Entorno interactivo y motores de simulación}} \\
+
+CU-07 & Grafo del autómata interactivo             & Alumno/Docente & CRÍTICA & Core \\
+CU-08 & Simulación paso a paso (animada)           & Alumno         & CRÍTICA & Core \\
+CU-09 & Definir, visualizar y simular un PDA       & Alumno         & Alta    & Media \\
+CU-10 & Simulación completa con cinta animada (MT) & Alumno         & Alta    & Media \\
+
+\multicolumn{5}{@{}l}{\cellcolor{gray!8}\textit{\textbf{B.} Algoritmos de conversión y procesamiento formal}} \\
+
+CU-11 & Operaciones sobre lenguajes regulares          & Alumno & Alta    & Técnica \\
+CU-12 & Conversión de ER a autómata                    & Alumno & Alta    & Técnica \\
+CU-13 & Conversión de AFN-$\epsilon$ a AFD             & Alumno & CRÍTICA & Algorítmica \\
+CU-14 & Reducción de estados (minimización de AFD)     & Alumno & Alta    & Técnica \\
+CU-15 & Convertir a gramática libre de contexto (CFG)  & Alumno & Media   & Técnica \\
+
+\multicolumn{5}{@{}l}{\cellcolor{gray!8}\textit{\textbf{C.} Sistema de evaluación de retos}} \\
+
+CU-16 & Ver retos disponibles              & Alumno & CRÍTICA & Core \\
+CU-17 & Resolver reto de simulación        & Alumno & CRÍTICA & Core \\
+CU-18 & Enviar respuesta para evaluación   & Alumno & CRÍTICA & Core \\
+CU-19 & Ver historial de respuestas        & Alumno & Media   & Alta \\
+
+\midrule
+\multicolumn{5}{@{}l}{\cellcolor{gray!15}\textbf{III. MÓDULO MÓVIL: SINCRONIZACIÓN Y PERSISTENCIA (Arquitectura Offline)}} \\
+\midrule
+
+CU-20 & Descargar contenido teórico (Unidades 1--8)     & Alumno & Alta & Alta \\
+CU-21 & Modo autónomo offline (persistencia en Hive)    & Alumno & Alta & Alta \\
+CU-22 & Sincronizar datos con la nube (API / Supabase)  & Alumno & Alta & Alta \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 2).}
-    \label{tab:catalogo_cu_consolidado_p2}
-    \begin{tabular}{l p{5.5cm} l l l}
-        \toprule
-        \textbf{Código} & \textbf{Caso de Uso} & \textbf{Actor} & \textbf{Prioridad} & \textbf{Criticidad} \\
-        \midrule
-        \multicolumn{5}{l}{\textbf{IV. MÓDULO MÓVIL: EXPERIENCIA DE USUARIO Y LUDIFICACIÓN (Alumno)}} \\
-        \midrule
-        CU-23 & Ver Perfil y Estadísticas de Progreso & Alumno & Media & Media \\
-        CU-24 & Ver Calificaciones e Historial & Alumno & Alta & Alta \\
-        CU-25 & Gestionar Notificaciones Push & Alumno & Media & Media \\
-        CU-26 & Reclamar Insignia de Logro & Alumno & Baja & Media \\
-        \midrule
-        \multicolumn{5}{l}{\textbf{V. MÓDULO WEB: DASHBOARD DE GESTIÓN DOCENTE (Plataforma Desktop)}} \\
-        \midrule
-        \multicolumn{5}{l}{\textit{A. Gestión de Contenido Académico y Retos}} \\
-        CU-27 & Crear Reto/Ejercicio & Docente & CRÍTICA & Core \\
-        CU-28 & Editar/Actualizar Reto & Docente & Alta & Alta \\
-        CU-29 & Eliminar Reto & Docente & Media & Media \\
-        CU-30 & Asignar Reto a Grupo & Docente & CRÍTICA & Core \\
-        CU-31 & Gestionar Material de Apoyo & Docente & Media & Media \\
-        \addlinespace
-        \multicolumn{5}{l}{\textit{B. Evaluación y Analíticas de Desempeño}} \\
-        CU-32 & Ver Respuestas Pendientes de Alumnos & Docente & CRÍTICA & Core \\
-        CU-33 & Asignar Retroalimentación Personalizada & Docente & Alta & Alta \\
-        CU-34 & Observar calificaciones en analíticas & Docente & CRÍTICA & Core \\
-        CU-35 & Ver Analíticas de Desempeño Grupal & Docente & Alta & Alta \\
-        CU-36 & Exportar Reportes (PDF/Excel) (Ciclo 2) & Docente & Media & Media \\
-        \midrule
-        \multicolumn{5}{l}{\textbf{VI. MÓDULO WEB: GESTIÓN ADMINISTRATIVA GLOBAL (Consola Admin)}} \\
-        \midrule
-        CU-37 & Crear/Gestionar Grupos (Vinculación) & Docente/Admin & Media & Media \\
-        CU-38 & Vincular Alumnos a Grupo & Docente/Admin & Media & Media \\
-        CU-39 & Aprobar/Rechazar Registro de Docentes & Administrador & CRÍTICA & Seguridad \\
-        CU-40 & Gestionar Cuentas de Usuario (Admin) & Administrador & Alta & Crítica \\
-        CU-41 & Configurar Parámetros de Ludificación & Administrador & Media & Media \\
-        CU-42 & Monitorear Logs de Sistema y Errores & Administrador & Media & Técnica \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 2).}
+\label{tab:catalogo_cu_consolidado_p2}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}X l l l @{}}
+\toprule
+\textbf{Código} & \textbf{Caso de Uso} & \textbf{Actor} & \textbf{Prioridad} & \textbf{Criticidad} \\
+\midrule
+
+\multicolumn{5}{@{}l}{\cellcolor{gray!15}\textbf{IV. MÓDULO MÓVIL: EXPERIENCIA DE USUARIO Y LUDIFICACIÓN (Alumno)}} \\
+\midrule
+
+CU-23 & Ver perfil y estadísticas de progreso & Alumno & Media   & Media \\
+CU-24 & Ver calificaciones e historial         & Alumno & Alta    & Alta \\
+CU-25 & Gestionar notificaciones push          & Alumno & Media   & Media \\
+CU-26 & Reclamar insignia de logro             & Alumno & Baja    & Media \\
+
+\midrule
+\multicolumn{5}{@{}l}{\cellcolor{gray!15}\textbf{V. MÓDULO WEB: DASHBOARD DE GESTIÓN DOCENTE (Plataforma Desktop)}} \\
+\midrule
+
+\multicolumn{5}{@{}l}{\cellcolor{gray!8}\textit{\textbf{A.} Gestión de contenido académico y retos}} \\
+
+CU-27 & Crear reto / ejercicio       & Docente & CRÍTICA & Core \\
+CU-28 & Editar / actualizar reto     & Docente & Alta    & Alta \\
+CU-29 & Eliminar reto                & Docente & Media   & Media \\
+CU-30 & Asignar reto a grupo         & Docente & CRÍTICA & Core \\
+CU-31 & Gestionar material de apoyo  & Docente & Media   & Media \\
+
+\multicolumn{5}{@{}l}{\cellcolor{gray!8}\textit{\textbf{B.} Evaluación y analíticas de desempeño}} \\
+
+CU-32 & Ver respuestas pendientes de alumnos      & Docente & CRÍTICA & Core \\
+CU-33 & Asignar retroalimentación personalizada   & Docente & Alta    & Alta \\
+CU-34 & Observar calificaciones en analíticas     & Docente & CRÍTICA & Core \\
+CU-35 & Ver analíticas de desempeño grupal        & Docente & Alta    & Alta \\
+CU-36 & Exportar reportes PDF/Excel (Ciclo 2)     & Docente & Media   & Media \\
+
+\midrule
+\multicolumn{5}{@{}l}{\cellcolor{gray!15}\textbf{VI. MÓDULO WEB: GESTIÓN ADMINISTRATIVA GLOBAL (Consola Admin)}} \\
+\midrule
+
+CU-37 & Crear / gestionar grupos (vinculación)    & Docente/Admin  & Media   & Media \\
+CU-38 & Vincular alumnos a grupo                  & Docente/Admin  & Media   & Media \\
+CU-39 & Aprobar / rechazar registro de docentes   & Administrador  & CRÍTICA & Seguridad \\
+CU-40 & Gestionar cuentas de usuario              & Administrador  & Alta    & Crítica \\
+CU-41 & Configurar parámetros de ludificación     & Administrador  & Media   & Media \\
+CU-42 & Monitorear logs de sistema y errores      & Administrador  & Media   & Técnica \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \clearpage
@@ -612,22 +713,68 @@ A continuación, se presenta en la Tabla~\ref{tab:matriz_riesgos_consolidada} el
 Para visualizar la distribución espacial de las amenazas y segmentar los esfuerzos de mitigación, se estructuró un Mapa de Calor basado en los cuadrantes de Probabilidad e Impacto. Las zonas de criticidad se definen cromáticamente en la Tabla~\ref{tab:mapa_calor}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Mapa de Calor y Distribución de Riesgos del Proyecto AUTECH.}
-    \label{tab:mapa_calor}
-    \begin{tabular}{l | c c c c c}
-        \toprule
-        \textbf{Probabilidad} & \multicolumn{5}{c}{\textbf{Impacto Potencial}} \\
-         & \textbf{Insignificante (1)} & \textbf{Menor (2)} & \textbf{Moderado (3)} & \textbf{Peligroso (4)} & \textbf{Catastrófico (5)} \\
-        \midrule
-        \textbf{Muy Alta (5)} &  &  &  &  &  \\
-        \textbf{Alta (4)}     &  &  &  &  &  \\
-        \textbf{Media (3)}    &  &  &  &  &  \\
-        \textbf{Media (2)}    &  & RS-02, RS-03 & RS-01 & \cellcolor{yellow!40} \begin{tabular}{@{}l@{}} RT-02, RT-03, \\ RO-03, RO-04, \\ RF-01 \end{tabular} &  \\
-        \textbf{Baja (1)}     &  & RT-01 & \cellcolor{green!20} \begin{tabular}{@{}l@{}} RO-02, RL-01, \\ RL-02 \end{tabular} &  &  \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Mapa de calor y distribución de riesgos del proyecto AUTECH.}
+\label{tab:mapa_calor}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.6}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{2cm} | *{5}{>{\centering\arraybackslash}X} @{}}
+\toprule
+\textbf{Probabilidad} &
+\textbf{Insignificante (1)} &
+\textbf{Menor (2)} &
+\textbf{Moderado (3)} &
+\textbf{Peligroso (4)} &
+\textbf{Catastrófico (5)} \\
+\midrule
+
+\textbf{Muy Alta (5)} &
+\cellcolor{yellow!30} &
+\cellcolor{orange!40} &
+\cellcolor{orange!60} &
+\cellcolor{red!50} &
+\cellcolor{red!70} \\
+
+\textbf{Alta (4)} &
+\cellcolor{green!20} &
+\cellcolor{yellow!30} &
+\cellcolor{orange!40} &
+\cellcolor{orange!60} &
+\cellcolor{red!50} \\
+
+\textbf{Media (3)} &
+\cellcolor{green!15} &
+\cellcolor{green!20} &
+\cellcolor{yellow!30} &
+\cellcolor{orange!40} &
+\cellcolor{orange!60} \\
+
+\textbf{Baja (2)} &
+\cellcolor{green!10} &
+\cellcolor{green!15} RS-02, RS-03 &
+\cellcolor{yellow!20} RS-01 &
+\cellcolor{orange!40} RT-02, RT-03, RO-03, RO-04, RF-01 &
+\cellcolor{red!30} \\
+
+\textbf{Muy Baja (1)} &
+\cellcolor{green!10} &
+\cellcolor{green!10} RT-01 &
+\cellcolor{green!20} RO-02, RL-01, RL-02 &
+\cellcolor{yellow!20} &
+\cellcolor{orange!30} \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{4pt}
+\begin{tabularx}{\textwidth}{@{} *{4}{>{\centering\arraybackslash}X} @{}}
+\scriptsize
+\cellcolor{green!20}\hspace{6pt} Bajo \hspace{6pt} &
+\cellcolor{yellow!30}\hspace{6pt} Moderado \hspace{6pt} &
+\cellcolor{orange!50}\hspace{6pt} Alto \hspace{6pt} &
+\cellcolor{red!55}\hspace{6pt} Crítico \hspace{6pt} \\
+\end{tabularx}
 \end{table}
 
 Los umbrales operativos de respuesta se rigen bajo los siguientes criterios normativos de urgencia:
@@ -650,22 +797,34 @@ El impacto monetario de cada riesgo se calcula en función de las horas de ingen
 En la Tabla~\ref{tab:analisis_emv} se presenta el desglose cuantitativo de los riesgos críticos y la estimación del fondo de contingencia teórico requerido.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Análisis del Valor Monetario Esperado (EMV) de los Riesgos Críticos.}
-    \label{tab:analisis_emv}
-    \begin{tabular}{l l c c r r}
-        \toprule
-        \textbf{ID} & \textbf{Riesgo Crítico Evaluado} & \textbf{Prob.} & \textbf{Horas} & \textbf{Impacto Monetario} & \textbf{EMV Proyectado} \\
-        \midrule
-        RT-02 & Rediseño de capa gráfica por fragmentación & $40\%$ & 80 h & $\$20,000.00$ MXN & $\$8,000.00$ MXN \\
-        RT-03 & Rediseño por latencia en Supabase & $40\%$ & 60 h & $\$15,000.00$ MXN & $\$6,000.00$ MXN \\
-        RO-03 & Reconfiguración del modelo relacional & $40\%$ & 100 h & $\$25,000.00$ MXN & $\$10,000.00$ MXN \\
-        RF-01 & Superar capa gratuita de infraestructura BaaS & $40\%$ & 80 h & $\$20,000.00$ MXN & $\$8,000.00$ MXN \\
-        \midrule
-        \multicolumn{5}{l}{\textbf{EMV Total Estimado para Fondo de Contingencia Teórico:}} & \textbf{\$32,000.00 MXN} \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Análisis del Valor Monetario Esperado (EMV) de los Riesgos Críticos.}
+\label{tab:analisis_emv}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}X c c r r @{}}
+\toprule
+\textbf{ID} &
+\textbf{Riesgo Crítico Evaluado} &
+\textbf{Prob.} &
+\textbf{Horas} &
+\textbf{Impacto Monetario} &
+\textbf{EMV Proyectado} \\
+\midrule
+
+RT-02 & Rediseño de capa gráfica por fragmentación de Flutter  & $40\%$ & 80 h  & \$20{,}000.00 MXN & \$8{,}000.00 MXN \\
+RT-03 & Rediseño por latencia en Supabase                      & $40\%$ & 60 h  & \$15{,}000.00 MXN & \$6{,}000.00 MXN \\
+RO-03 & Reconfiguración del modelo relacional                  & $40\%$ & 100 h & \$25{,}000.00 MXN & \$10{,}000.00 MXN \\
+RF-01 & Superar capa gratuita de infraestructura BaaS          & $40\%$ & 80 h  & \$20{,}000.00 MXN & \$8{,}000.00 MXN \\
+
+\midrule
+\multicolumn{5}{@{} >{\raggedright\arraybackslash}p{13cm}}%
+  {\textbf{EMV Total Estimado — Fondo de Contingencia Teórico:}} &
+  \textbf{\$32{,}000.00 MXN} \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \subsection{Plan de Mitigación y Control}
@@ -783,24 +942,44 @@ La factibilidad económica de AUTECH se analiza bajo un modelo de Inversión Tec
 El desglose completo de los costos proyectados para el despliegue e infraestructura del primer año se presenta detalladamente en la Tabla~\ref{tab:costos_despliegue}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Desglose de Costos de Software, Infraestructura y Licencias de AUTECH.}
-    \label{tab:costos_despliegue}
-    \begin{tabular}{l l r}
-        \toprule
-        \textbf{Concepto del Recurso} & \textbf{Tipo de Gasto} & \textbf{Costo Estimado} \\
-        \midrule
-        Cuenta de desarrollador Google Play Console & CAPEX (Pago único) & $\$25.00$ USD ($\sim \$450$ MXN) \\
-        Infraestructura Cloud Supabase (Plan gratuito) & OPEX mensual & $\$0.00$ MXN \\
-        Dominio web institucional para Dashboard Docente & OPEX anual & $\sim \$200.00$ MXN / año \\
-        Herramientas de desarrollo (Flutter, Dart, GitHub) & CAPEX & $\$0.00$ MXN (Open Source) \\
-        Librerías Core (Flame Engine, Hive NoSQL, SDKs) & CAPEX & $\$0.00$ MXN (Open Source) \\
-        Dispositivos de prueba y compilación (BYOD) & CAPEX & $\$0.00$ MXN (Equipos propios) \\
-        \midrule
-        \textbf{TOTAL ESTIMADO (Año 1):} & & \textbf{$\sim$ \$650.00 MXN + \$25.00 USD} \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Desglose de costos de software, infraestructura y licencias de AUTECH.}
+\label{tab:costos_despliegue}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{3cm} >{\raggedleft\arraybackslash}p{4.2cm} @{}}
+\toprule
+\textbf{Concepto del Recurso} &
+\textbf{Tipo de Gasto} &
+\textbf{Costo Estimado} \\
+\midrule
+
+Cuenta de desarrollador Google Play Console
+  & CAPEX (pago único)  & \$25.00 USD (${\sim}$\$450 MXN) \\
+
+Infraestructura cloud Supabase (plan gratuito)
+  & OPEX mensual        & \$0.00 MXN \\
+
+Dominio web institucional para dashboard docente
+  & OPEX anual          & ${\sim}$\$200.00 MXN / año \\
+
+Herramientas de desarrollo (Flutter, Dart, GitHub)
+  & CAPEX               & \$0.00 MXN \textit{(open source)} \\
+
+Librerías core (Flame Engine, Hive NoSQL, SDKs)
+  & CAPEX               & \$0.00 MXN \textit{(open source)} \\
+
+Dispositivos de prueba y compilación
+  & CAPEX               & \$0.00 MXN \textit{(equipos propios)} \\
+
+\midrule
+\multicolumn{2}{@{} >{\raggedright\arraybackslash}p{10cm}}%
+  {\textbf{Total estimado (Año 1):}} &
+  ${\sim}$\textbf{\$650.00 MXN + \$25.00 USD} \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \subsubsection{Sustentabilidad y Proyección de Retorno}
@@ -874,52 +1053,101 @@ Los costos se clasifican en tres categorías: (1) Costos de Inversión Inicial (
 El proyecto opera bajo un modelo BYOD (\textit{Bring Your Own Device}), aprovechando los equipos de cómputo y dispositivos móviles propios del equipo de desarrollo para las fases de programación, diseño y pruebas. Esto elimina prácticamente la necesidad de inversión en hardware institucional, como se detalla en la Tabla~\ref{tab:costos_hardware}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Desglose de Costos de Hardware del Proyecto AUTECH.}
-    \label{tab:costos_hardware}
-    \begin{tabular}{l c r r}
-        \toprule
-        \textbf{Recurso Tecnológico} & \textbf{Cantidad} & \textbf{Costo Unitario} & \textbf{Costo Total} \\
-        \midrule
-        Computadora portátil (Desarrollo Core) & 3 & $\$0.00$ MXN (Propias) & $\$0.00$ MXN \\
-        Dispositivo Android gama media (Pruebas) & 3 & $\$0.00$ MXN (Propios) & $\$0.00$ MXN \\
-        Monitor externo adicional (Opcional) & 1 & $\sim \$1,500.00$ MXN & $\sim \$1,500.00$ MXN \\
-        Cables, adaptadores y accesorios de red & -- & $\sim \$300.00$ MXN & $\sim \$300.00$ MXN \\
-        \midrule
-        \textbf{SUBTOTAL HARDWARE} & & & \textbf{$\sim$ \$1,800.00 MXN} \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+\centering
+\caption{Desglose de costos de software, infraestructura y licencias de AUTECH.}
+\label{tab:costos_despliegue}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{3cm} >{\raggedleft\arraybackslash}p{4.2cm} @{}}
+\toprule
+\textbf{Concepto del Recurso} &
+\textbf{Tipo de Gasto} &
+\textbf{Costo Estimado} \\
+\midrule
 
+Cuenta de desarrollador Google Play Console
+  & CAPEX (pago único)  & \$25.00 USD (${\sim}$\$450 MXN) \\
+
+Infraestructura cloud Supabase (plan gratuito)
+  & OPEX mensual        & \$0.00 MXN \\
+
+Dominio web institucional para dashboard docente
+  & OPEX anual          & ${\sim}$\$200.00 MXN / año \\
+
+Herramientas de desarrollo (Flutter, Dart, GitHub)
+  & CAPEX               & \$0.00 MXN \textit{(open source)} \\
+
+Librerías core (Flame Engine, Hive NoSQL, SDKs)
+  & CAPEX               & \$0.00 MXN \textit{(open source)} \\
+
+Dispositivos de prueba y compilación
+  & CAPEX               & \$0.00 MXN \textit{(equipos propios)} \\
+
+\midrule
+\multicolumn{2}{@{} >{\raggedright\arraybackslash}p{10cm}}%
+  {\textbf{Total estimado (Año 1):}} &
+  ${\sim}$\textbf{\$650.00 MXN + \$25.00 USD} \\
+
+\bottomrule
+\end{tabularx}
+\end{table}
 \subsection{Costos de Software y Licencias (CAPEX)}
 \label{subsec:costos_software}
 
 La arquitectura tecnológica de AUTECH fue seleccionada deliberadamente para maximizar el uso de herramientas \textit{Open Source} sin restricciones comerciales, eliminando el pago de licencias de software propietario en todas las capas del sistema, tal como se expone en la Tabla~\ref{tab:costos_software}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Desglose de Costos de Software y Licencias de AUTECH.}
-    \label{tab:costos_software}
-    \begin{tabular}{l l r}
-        \toprule
-        \textbf{Herramienta Integrada} & \textbf{Tipo de Licencia de Software} & \textbf{Costo de Adquisición} \\
-        \midrule
-        Flutter SDK + Dart Language & Open Source (BSD 3-Clause) & $\$0.00$ MXN \\
-        Flame Engine & Open Source (MIT License) & $\$0.00$ MXN \\
-        Hive Embedded Database & Open Source (Apache 2.0) & $\$0.00$ MXN \\
-        Supabase Cloud Infrastructure & Open Source / Plan Gratuito & $\$0.00$ MXN \\
-        GitHub Platform & Plan Gratuito (GitHub Student) & $\$0.00$ MXN \\
-        Visual Studio Code (IDE) & Open Source (MIT License) & $\$0.00$ MXN \\
-        Android Studio (Profiler \& Emulators) & Gratuito (Google Software) & $\$0.00$ MXN \\
-        Figma Design Tool & Plan Gratuito (Education License) & $\$0.00$ MXN \\
-        Google Play Console & Developer Account (Pago único) & $\$25.00$ USD ($\sim \$450$ MXN) \\
-        Dominio para Dashboard Docente & Anual (Opcional) & $\$0.00$ MXN \\
-        \midrule
-        \textbf{SUBTOTAL SOFTWARE Y LICENCIAS} & & \textbf{$\sim$ \$450.00 MXN (\$25.00 USD)} \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Desglose de costos de software y licencias de AUTECH.}
+\label{tab:costos_software}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{4cm} >{\raggedleft\arraybackslash}p{3.8cm} @{}}
+\toprule
+\textbf{Herramienta Integrada} &
+\textbf{Tipo de Licencia} &
+\textbf{Costo de Adquisición} \\
+\midrule
+
+Flutter SDK + Dart Language
+  & Open source (BSD 3-Clause)        & \$0.00 MXN \\
+
+Flame Engine
+  & Open source (MIT License)         & \$0.00 MXN \\
+
+Hive Embedded Database
+  & Open source (Apache 2.0)          & \$0.00 MXN \\
+
+Supabase Cloud Infrastructure
+  & Open source / plan gratuito       & \$0.00 MXN \\
+
+GitHub Platform
+  & Plan gratuito (GitHub Student)    & \$0.00 MXN \\
+
+Visual Studio Code (IDE)
+  & Open source (MIT License)         & \$0.00 MXN \\
+
+Android Studio (Profiler \& Emulators)
+  & Gratuito (Google Software)        & \$0.00 MXN \\
+
+Figma Design Tool
+  & Plan gratuito (Education License) & \$0.00 MXN \\
+
+Google Play Console
+  & Developer account (pago único)    & \$25.00 USD (${\sim}$\$450 MXN) \\
+
+Dominio para dashboard docente
+  & Anual (opcional)                  & \$0.00 MXN \\
+
+\midrule
+\multicolumn{2}{@{} >{\raggedright\arraybackslash}p{10cm}}%
+  {\textbf{Subtotal software y licencias:}} &
+  ${\sim}$\textbf{\$450.00 MXN (\$25.00 USD)} \\
+
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \subsection{Costos de Capital Humano}
@@ -928,26 +1156,51 @@ La arquitectura tecnológica de AUTECH fue seleccionada deliberadamente para max
 El componente de mayor valor en el proyecto es la aportación intelectual del equipo de desarrollo. A continuación, se presenta en la Tabla~\ref{tab:capital_humano} la valoración de mercado del trabajo de ingeniería dedicado al proyecto, el cual es aportado íntegramente por el equipo titular como parte de su proyecto de titulación institucional.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Valoración del Capital Humano del Proyecto AUTECH por Rol.}
-    \label{tab:capital_humano}
-    \begin{tabular}{l c c r}
-        \toprule
-        \textbf{Rol de Ingeniería} & \textbf{Horas/Semana} & \textbf{Duración} & \textbf{Valoración de Mercado*} \\
-        \midrule
-        Desarrollador Frontend (Flutter/Flame) & 20 h & 6 meses & $\sim \$36,000.00$ MXN \\
-        Desarrollador Backend (Supabase/API) & 15 h & 6 meses & $\sim \$27,000.00$ MXN \\
-        Desarrollador de Motor Algorítmico & 15 h & 6 meses & $\sim \$27,000.00$ MXN \\
-        Diseñador UX/UI & 10 h & 4 meses & $\sim \$12,000.00$ MXN \\
-        Tester / QA (Rol compartido) & 5 h & 3 meses & $\sim \$4,500.00$ MXN \\
-        \midrule
-        \textbf{SUBTOTAL CAPITAL HUMANO} & & & \textbf{$\sim$ \$106,500.00 MXN} \\
-        \bottomrule
-    \end{tabular}
-    \begin{flushleft}
-        \footnotesize *La valoración de mercado se basa en tarifas de ingeniería de software freelance senior en México (CDMX) para el periodo 2024--2025, estimadas en un promedio ponderado de $\$150.00$ MXN por hora. Esta aportación representa una donación de capital tecnológico al IPN y no implica desembolso institucional.
-    \end{flushleft}
+\centering
+\caption{Valoración del capital humano del proyecto AUTECH por rol.}
+\label{tab:capital_humano}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}X c c >{\raggedleft\arraybackslash}p{3.8cm} @{}}
+\toprule
+\textbf{Rol de Ingeniería} &
+\textbf{Horas / semana} &
+\textbf{Duración} &
+\textbf{Valoración de mercado\textsuperscript{*}} \\
+\midrule
+
+Desarrollador frontend (Flutter / Flame)
+  & 20 h & 6 meses & ${\sim}$\$36{,}000.00 MXN \\
+
+Desarrollador backend (Supabase / API)
+  & 15 h & 6 meses & ${\sim}$\$27{,}000.00 MXN \\
+
+Desarrollador de motor algorítmico
+  & 15 h & 6 meses & ${\sim}$\$27{,}000.00 MXN \\
+
+Diseñador UX/UI
+  & 10 h & 4 meses & ${\sim}$\$12{,}000.00 MXN \\
+
+Tester / QA (rol compartido)
+  &  5 h & 3 meses & ${\sim}$\$4{,}500.00 MXN \\
+
+\midrule
+\multicolumn{3}{@{} >{\raggedright\arraybackslash}p{9cm}}%
+  {\textbf{Subtotal capital humano:}} &
+  ${\sim}$\textbf{\$106{,}500.00 MXN} \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{3pt}
+\begin{minipage}{\textwidth}
+  \scriptsize
+  \textsuperscript{*}Valoración basada en tarifas freelance senior de ingeniería de software en México
+  (CDMX) para el periodo 2024--2025, estimadas en un promedio ponderado de \$150.00 MXN
+  por hora. Esta aportación representa una donación de capital tecnológico al IPN y no
+  implica desembolso institucional.
+\end{minipage}
 \end{table}
 
 \subsection{Costos Operativos Anuales (OPEX)}
@@ -956,24 +1209,53 @@ El componente de mayor valor en el proyecto es la aportación intelectual del eq
 Una vez desplegado el sistema, los costos de operación y mantenimiento son mínimos gracias al modelo de arquitectura elegido. En la Tabla~\ref{tab:costos_opex} se presentan los costos recurrentes proyectados para el primer año de operación en producción.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Costos Operativos Anuales (OPEX) Proyectados para AUTECH.}
-    \label{tab:costos_opex}
-    \begin{tabular}{l l r}
-        \toprule
-        \textbf{Concepto Operativo} & \textbf{Periodicidad} & \textbf{Costo Estimado} \\
-        \midrule
-        Supabase Cloud (Plan Base hasta 500 MB DB) & Mensual & $\$0.00$ MXN \\
-        GitHub Actions (Plan Gratuito 2,000 min/mes) & Mensual & $\$0.00$ MXN \\
-        Mantenimiento correctivo y parches & Continuo & $\$0.00$ MXN (Aportado) \\
-        Renovación de dominio Dashboard Docente & Anual & $\sim \$200.00$ MXN \\
-        Actualizaciones de dependencias Core & Semestral & $\$0.00$ MXN \\
-        Supabase Pro Plan (Contingencia escalabilidad) & Mensual & $\$25.00$ USD ($\sim \$450$ MXN) \\
-        \midrule
-        \textbf{COSTO OPERATIVO ANUAL ESTIMADO} & & \textbf{\$0.00 -- \$200.00 MXN / año} \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Costos operativos anuales (OPEX) proyectados para AUTECH.}
+\label{tab:costos_opex}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{2.4cm} >{\raggedleft\arraybackslash}p{4cm} @{}}
+\toprule
+\textbf{Concepto Operativo} &
+\textbf{Periodicidad} &
+\textbf{Costo Estimado} \\
+\midrule
+
+Supabase Cloud (plan base hasta 500 MB DB)
+  & Mensual    & \$0.00 MXN \\
+
+GitHub Actions (plan gratuito 2{,}000 min/mes)
+  & Mensual    & \$0.00 MXN \\
+
+Mantenimiento correctivo y parches
+  & Continuo   & \$0.00 MXN \textit{(aportado)} \\
+
+Renovación de dominio dashboard docente
+  & Anual      & ${\sim}$\$200.00 MXN \\
+
+Actualizaciones de dependencias core
+  & Semestral  & \$0.00 MXN \\
+
+Supabase Pro Plan (contingencia escalabilidad)
+  & Mensual    & \$25.00 USD (${\sim}$\$450 MXN) \\
+
+\midrule
+\multicolumn{2}{@{} >{\raggedright\arraybackslash}p{9cm}}%
+  {\textbf{Costo operativo anual estimado:}} &
+  \textbf{\$0.00 -- \$200.00 MXN / año} \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{3pt}
+\begin{minipage}{\textwidth}
+  \scriptsize
+  El escenario base proyecta costo operativo nulo gracias al uso de planes gratuitos
+  (Supabase Free Tier, GitHub Student). El rango superior de \$200.00 MXN corresponde
+  únicamente a la renovación anual del dominio. El costo de Supabase Pro se incluye
+  como contingencia de escalabilidad y no forma parte del presupuesto base del proyecto.
+\end{minipage}
 \end{table}
 
 \subsection{Resumen de Inversión Total y Valor Generado}
@@ -982,23 +1264,54 @@ Una vez desplegado el sistema, los costos de operación y mantenimiento son mín
 La Tabla~\ref{tab:resumen_costos} consolida todos los componentes de costo e ilustra la relación de alta eficiencia entre la inversión desembolsable real y el valor tecnológico neto generado para la institución.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Consolidado de Inversión Total del Proyecto AUTECH.}
-    \label{tab:resumen_costos}
-    \begin{tabular}{l r}
-        \toprule
-        \textbf{Categoría de Inversión Analizada} & \textbf{Monto Financiado / Valuado} \\
-        \midrule
-        Hardware (CAPEX mayormente absorbido por BYOD) & $\sim \$1,800.00$ MXN \\
-        Software y Licencias de Despliegue (CAPEX) & $\sim \$650.00$ MXN + $\$25.00$ USD \\
-        Capital Humano Especializado (Aportación donada al IPN) & $\sim \$106,500.00$ MXN \\
-        Operación anual base en producción (OPEX) & $\$0.00$ -- $\$200.00$ MXN / año \\
-        \midrule
-        \textbf{INVERSIÓN REAL DESEMBOLSABLE (Año 1):} & \textbf{$\sim$ \$2,450.00 MXN + \$25.00 USD} \\
-        \textbf{VALOR TECNOLÓGICO APORTADO AL IPN:} & \textbf{$\sim$ \$108,950.00 MXN} \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Consolidado de inversión total del proyecto AUTECH.}
+\label{tab:resumen_costos}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}X >{\raggedleft\arraybackslash}p{5.5cm} @{}}
+\toprule
+\textbf{Categoría de Inversión Analizada} &
+\textbf{Monto Financiado / Valuado} \\
+\midrule
+
+Hardware (CAPEX mayormente absorbido por BYOD)
+  & ${\sim}$\$1{,}800.00 MXN \\
+
+Software y licencias de despliegue (CAPEX)
+  & ${\sim}$\$650.00 MXN + \$25.00 USD \\
+
+Capital humano especializado (aportación donada al IPN)
+  & ${\sim}$\$106{,}500.00 MXN \\
+
+Operación anual base en producción (OPEX)
+  & \$0.00 -- \$200.00 MXN / año \\
+
+\midrule
+\multicolumn{2}{@{}l}{\cellcolor{gray!8}} \\[-1.8ex]
+
+\multicolumn{1}{@{} >{\raggedright\arraybackslash}X}%
+  {\cellcolor{gray!8}\textbf{Inversión real desembolsable (Año 1):}} &
+  \multicolumn{1}{>{\raggedleft\arraybackslash}p{5.5cm} @{}}%
+  {\cellcolor{gray!8}${\sim}$\textbf{\$2{,}450.00 MXN + \$25.00 USD}} \\
+
+\multicolumn{1}{@{} >{\raggedright\arraybackslash}X}%
+  {\cellcolor{gray!8}\textbf{Valor tecnológico aportado al IPN:}} &
+  \multicolumn{1}{>{\raggedleft\arraybackslash}p{5.5cm} @{}}%
+  {\cellcolor{gray!8}${\sim}$\textbf{\$108{,}950.00 MXN}} \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{3pt}
+\begin{minipage}{\textwidth}
+  \scriptsize
+  La inversión desembolsable real se limita a hardware accesorio y la cuenta de
+  Google Play Console. El capital humano (\$106{,}500.00 MXN) representa una
+  aportación tecnológica al IPN sin implicar desembolso institucional. El valor
+  tecnológico total incluye todas las categorías valuadas a precio de mercado.
+\end{minipage}
 \end{table}
 
 La inversión real desembolsable por parte del equipo de desarrollo asciende a aproximadamente $\$2,450.00$ MXN más el pago único de $\$25.00$ USD para la activación de la consola de Google Play. Este monto contrasta de forma drástica con el valor tecnológico de mercado de la solución, estimado en $\$108,950.00$ MXN, lo que representa un retorno de valor para la institución de aproximadamente 44 veces la inversión monetaria efectiva.
@@ -1088,27 +1401,54 @@ En estricto apego al principio de Minimización de Datos, AUTECH no recopila ni 
 AUTECH trata los datos personales recopilados únicamente para los fines académicos legítimos descritos detalladamente en la Tabla~\ref{tab:finalidades_datos}.
 
 \begin{table}[htbp]
-    \centering
-    \small
-    \caption{Matriz de Finalidades del Tratamiento de Datos Personales en AUTECH.}
-    \label{tab:finalidades_datos}
-    \begin{tabular}{p{5.5cm} l p{5.5cm}}
-        \toprule
-        \textbf{Finalidad Académica} & \textbf{Base Legal (LFPDPPP)} & \textbf{Datos Involucrados} \\
-        \midrule
-        Autenticación y gestión de cuenta de usuario & Consentimiento expreso (Art. 8) & Correo, \textit{nickname}, contraseña (\textit{hash}). \\
-        \addlinespace
-        Personalización de la experiencia didáctica y seguimiento de progreso & Consentimiento expreso (Art. 8) & Datos de progreso por autómata. \\
-        \addlinespace
-        Generación de métricas de aprovechamiento agregadas para el Dashboard Docente & Interés legítimo institucional (Art. 37) & Progreso estadístico anonimizado por grupo. \\
-        \addlinespace
-        Detección de áreas de oportunidad colectivas & Consentimiento expreso (Art. 8) & Rendimiento por módulo temático. \\
-        \addlinespace
-        Soporte técnico y resolución de excepciones & Ejecución de servicio (Art. 36) & Logs de error y comunicación de soporte. \\
-        \addlinespace
-        Mejora continua de los algoritmos de simulación & Interés legítimo institucional (Art. 37) & Datos de sesión anonimizados. \\
-        \bottomrule
-    \end{tabular}
+\centering
+\caption{Matriz de finalidades del tratamiento de datos personales en AUTECH.}
+\label{tab:finalidades_datos}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}X @{}}
+\toprule
+\textbf{Finalidad Académica} &
+\textbf{Base Legal (LFPDPPP)} &
+\textbf{Datos Involucrados} \\
+\midrule
+
+Autenticación y gestión de cuenta de usuario
+  & Consentimiento expreso (Art.~8)
+  & Correo, \textit{nickname}, contraseña (\textit{hash}). \\
+
+Personalización de la experiencia didáctica y seguimiento de progreso
+  & Consentimiento expreso (Art.~8)
+  & Datos de progreso por autómata. \\
+
+Generación de métricas de aprovechamiento agregadas para el dashboard docente
+  & Interés legítimo institucional (Art.~37)
+  & Progreso estadístico anonimizado por grupo. \\
+
+Detección de áreas de oportunidad colectivas
+  & Consentimiento expreso (Art.~8)
+  & Rendimiento por módulo temático. \\
+
+Soporte técnico y resolución de excepciones
+  & Ejecución de servicio (Art.~36)
+  & Logs de error y comunicación de soporte. \\
+
+Mejora continua de los algoritmos de simulación
+  & Interés legítimo institucional (Art.~37)
+  & Datos de sesión anonimizados. \\
+
+\bottomrule
+\end{tabularx}
+
+\vspace{3pt}
+\begin{minipage}{\textwidth}
+  \scriptsize
+  Base legal conforme a la \textit{Ley Federal de Protección de Datos Personales en
+  Posesión de los Particulares} (LFPDPPP, 2010). Ningún dato personal es
+  comercializado ni transferido a terceros fuera del ecosistema institucional IPN.
+  Los datos anonimizados no constituyen datos personales según el Art.~3, fracción II.
+\end{minipage}
 \end{table}
 
 La plataforma prohíbe explícitamente el uso de los datos personales para fines de publicidad, mercadotecnia, perfilamiento comercial o transferencia a terceros ajenos a la institución.
