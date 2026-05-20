@@ -2,90 +2,106 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Paradigma de Construcción de Prototipos.}}{7}{figure.caption.4}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Diagrama de un AFD en el editor JFLAP con tres estados (q0, q4, q1), donde q0 es el estado inicial, mostrando transiciones con los símbolos `a' y `b'.}}{20}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Interfaz de ejercicio web para construir un AFD que reconozca todas las cadenas que terminen en ``ab'', mostrando el lienzo de construcción con un estado inicial y una transición de autolazo.}}{21}{figure.caption.8}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Lista de tipos de problemas disponibles en una plataforma educativa de Teoría de la Computación.}}{22}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Simulación de un autómata finito en la herramienta FSAM, con cuatro estados (q0--q3), visualización del grafo de transiciones y panel de prueba de cadenas con resultados de aceptación y rechazo.}}{23}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Captura de la herramienta en línea RegExr, utilizada para crear, probar y explicar expresiones regulares, mostrando la interfaz con la expresión \texttt {([A-Z])\textbackslash n*/g} y panel de referencia.}}{24}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Interfaz de la herramienta Regex101, con campos para ingresar expresión regular y cadena de prueba, panel de información de coincidencias y referencia rápida de tokens.}}{24}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Captura de la aplicación Duolingo en móvil, mostrando la sección ``Habla de tus estudios'' en la Etapa~2, con actividades de aprendizaje gamificado e indicadores de progreso.}}{26}{figure.caption.13}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagrama Entidad-Relación del esquema físico PostgreSQL de AUTECH, mostrando las entidades \texttt {users}, \texttt {grupos}, \texttt {group\_members}, \texttt {ejercicios}, \texttt {role\_requests} y \texttt {achievements} con sus relaciones y atributos principales.}}{29}{figure.caption.12}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de Paquetes de la arquitectura global en capas de AUTECH.}}{31}{figure.caption.13}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagrama de Clases global bajo el patrón Service Layer e Inversión de Dependencias.}}{32}{figure.caption.14}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagrama de Casos de Uso del Módulo de Autenticación, Seguridad y Accesos.}}{33}{figure.caption.15}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagrama de Secuencia para el inicio de sesión unificado y validación de roles.}}{34}{figure.caption.16}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrama de Casos de Uso del Núcleo de Simulación, Algoritmos y Aprendizaje.}}{35}{figure.caption.17}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Diagrama de Secuencia del Motor Algorítmico para la transformación formal de autómatas.}}{36}{figure.caption.18}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagrama de Actividades UML para la ejecución del algoritmo de conversión formal.}}{37}{figure.caption.19}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Diagrama de Secuencia para la ejecución paso a paso de cadenas en el lienzo interactivo.}}{38}{figure.caption.20}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Diagrama de Actividades UML para el proceso de validación y simulación de cadenas.}}{39}{figure.caption.21}%
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Diagrama de Actividades UML para el procesamiento de cintas en la Máquina de Turing.}}{40}{figure.caption.22}%
-\contentsline {figure}{\numberline {3.12}{\ignorespaces Diagrama de Actividades UML para el algoritmo de extracción y generación de CFG.}}{41}{figure.caption.23}%
-\contentsline {figure}{\numberline {3.13}{\ignorespaces Diagrama de Casos de Uso del Módulo de Sincronización y Persistencia Offline.}}{42}{figure.caption.24}%
-\contentsline {figure}{\numberline {3.14}{\ignorespaces Diagrama de Secuencia del flujo de Sincronización Asíncrona con la capa remota.}}{43}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.15}{\ignorespaces Diagrama de Casos de Uso del Módulo de Experiencia de Usuario y Ludificación.}}{44}{figure.caption.26}%
-\contentsline {figure}{\numberline {3.16}{\ignorespaces Diagrama de Secuencia del Motor de Ludificación para la asignación y reclamo de insignias.}}{45}{figure.caption.27}%
-\contentsline {figure}{\numberline {3.17}{\ignorespaces Diagrama de Casos de Uso del Dashboard de Gestión Docente.}}{46}{figure.caption.28}%
-\contentsline {figure}{\numberline {3.18}{\ignorespaces Diagrama de Secuencia para la consulta reactiva y renderizado de métricas analíticas.}}{47}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.19}{\ignorespaces Diagrama de Casos de Uso del Módulo de Gestión Administrativa Global.}}{48}{figure.caption.30}%
-\contentsline {figure}{\numberline {3.20}{\ignorespaces Diagrama de Secuencia para el flujo de Aprobación/Rechazo de credenciales docentes.}}{49}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagrama Entidad-Relación del esquema físico PostgreSQL de AUTECH, mostrando las entidades \texttt {users}, \texttt {grupos}, \texttt {group\_members}, \texttt {ejercicios}, \texttt {role\_requests} y \texttt {achievements} con sus relaciones y atributos principales.}}{44}{figure.caption.21}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de Paquetes de la arquitectura global en capas de AUTECH.}}{46}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagrama de Clases global bajo el patrón Service Layer e Inversión de Dependencias.}}{47}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagrama de Casos de Uso del Módulo de Autenticación, Seguridad y Accesos.}}{48}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagrama de Secuencia para el inicio de sesión unificado y validación de roles.}}{49}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrama de Casos de Uso del Núcleo de Simulación, Algoritmos y Aprendizaje.}}{50}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Diagrama de Secuencia del Motor Algorítmico para la transformación formal de autómatas.}}{51}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagrama de Actividades UML para la ejecución del algoritmo de conversión formal.}}{52}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Diagrama de Secuencia para la ejecución paso a paso de cadenas en el lienzo interactivo.}}{53}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Diagrama de Actividades UML para el proceso de validación y simulación de cadenas.}}{54}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Diagrama de Actividades UML para el procesamiento de cintas en la Máquina de Turing.}}{55}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Diagrama de Actividades UML para el algoritmo de extracción y generación de CFG.}}{56}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Diagrama de Casos de Uso del Módulo de Sincronización y Persistencia Offline.}}{57}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Diagrama de Secuencia del flujo de Sincronización Asíncrona con la capa remota.}}{58}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Diagrama de Casos de Uso del Módulo de Experiencia de Usuario y Ludificación.}}{59}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Diagrama de Secuencia del Motor de Ludificación para la asignación y reclamo de insignias.}}{60}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Diagrama de Casos de Uso del Dashboard de Gestión Docente.}}{61}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Diagrama de Secuencia para la consulta reactiva y renderizado de métricas analíticas.}}{62}{figure.caption.38}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Diagrama de Casos de Uso del Módulo de Gestión Administrativa Global.}}{63}{figure.caption.39}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Diagrama de Secuencia para el flujo de Aprobación/Rechazo de credenciales docentes.}}{64}{figure.caption.40}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Mapa de navegación de AUTECH -- Parte 1}}{82}{figure.caption.49}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Flujo de navegación del rol Docente}}{83}{figure.caption.50}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Flujo de navegación del rol Administrador}}{84}{figure.caption.51}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Flujo de navegación del rol Alumno}}{85}{figure.caption.52}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Paletas de color para la pantalla de splash}}{86}{figure.caption.53}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Pantalla de splash en modo claro y oscuro}}{87}{figure.caption.54}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Onboarding -- Bienvenida con personaje Byte}}{88}{figure.caption.55}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Onboarding -- Progreso dentro del nivel}}{89}{figure.caption.56}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Pantalla de inicio de sesión -- modo claro y oscuro}}{90}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Pantalla de inicio de sesión con campos completos}}{91}{figure.caption.58}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Pantalla de recuperación de contraseña}}{91}{figure.caption.59}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Dashboard -- Perfil del alumno}}{92}{figure.caption.60}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Mapa de niveles de AUTECH}}{93}{figure.caption.61}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Panel de resumen del Nivel 1}}{94}{figure.caption.62}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Ejercicio de opción múltiple en AUTECH}}{95}{figure.caption.63}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces Retroalimentación de ejercicio de opción múltiple}}{96}{figure.caption.64}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Ejercicio de selección visual de estado inicial}}{97}{figure.caption.65}%
-\contentsline {figure}{\numberline {4.18}{\ignorespaces Ejercicio interactivo: arrastrar símbolos al autómata}}{98}{figure.caption.66}%
-\contentsline {figure}{\numberline {4.19}{\ignorespaces Resultado del ejercicio de completar el autómata}}{99}{figure.caption.67}%
-\contentsline {figure}{\numberline {4.20}{\ignorespaces Pantalla de herramientas de simulación}}{100}{figure.caption.68}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Menú de opciones del constructor de autómatas}}{101}{figure.caption.69}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Retroalimentación de error en AUTECH}}{102}{figure.caption.70}%
-\contentsline {figure}{\numberline {4.23}{\ignorespaces Secuencia: mensaje de Byte y ejercicio correcto}}{102}{figure.caption.71}%
-\contentsline {figure}{\numberline {4.24}{\ignorespaces Perfil del alumno con insignias acumuladas}}{103}{figure.caption.72}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Mapa de navegación de AUTECH -- Parte 1}}{97}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Flujo de navegación del rol Docente}}{98}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Flujo de navegación del rol Administrador}}{99}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Flujo de navegación del rol Alumno}}{100}{figure.caption.61}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Paletas de color para la pantalla de splash}}{101}{figure.caption.62}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Pantalla de splash en modo claro y oscuro}}{102}{figure.caption.63}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Onboarding -- Bienvenida con personaje Byte}}{103}{figure.caption.64}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Onboarding -- Progreso dentro del nivel}}{104}{figure.caption.65}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Pantalla de inicio de sesión -- modo claro y oscuro}}{105}{figure.caption.66}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Pantalla de inicio de sesión con campos completos}}{106}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Pantalla de recuperación de contraseña}}{106}{figure.caption.68}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Dashboard -- Perfil del alumno}}{107}{figure.caption.69}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Mapa de niveles de AUTECH}}{108}{figure.caption.70}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Panel de resumen del Nivel 1}}{109}{figure.caption.71}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Ejercicio de opción múltiple en AUTECH}}{110}{figure.caption.72}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Retroalimentación de ejercicio de opción múltiple}}{111}{figure.caption.73}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Ejercicio de selección visual de estado inicial}}{112}{figure.caption.74}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Ejercicio interactivo: arrastrar símbolos al autómata}}{113}{figure.caption.75}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Resultado del ejercicio de completar el autómata}}{114}{figure.caption.76}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Pantalla de herramientas de simulación}}{115}{figure.caption.77}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Menú de opciones del constructor de autómatas}}{116}{figure.caption.78}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Retroalimentación de error en AUTECH}}{117}{figure.caption.79}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Secuencia: mensaje de Byte y ejercicio correcto}}{117}{figure.caption.80}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Perfil del alumno con insignias acumuladas}}{118}{figure.caption.81}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Arquitectura del sistema AUTECH}}{108}{figure.caption.73}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagrama Entidad-Relación de AUTECH}}{111}{figure.caption.74}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Benchmark Supabase -- 100 peticiones, concurrencia 10}}{119}{figure.caption.82}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Panel de monitoreo de Supabase}}{120}{figure.caption.83}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Test de escritura fallido -- Error RLS 42501}}{121}{figure.caption.84}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Editor SQL de Supabase -- SELECT users}}{122}{figure.caption.85}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Segundo test de escritura -- violación RLS confirmada}}{123}{figure.caption.86}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces SELECT users tras actualización de nombre}}{124}{figure.caption.87}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Consulta SQL con nombre actualizado}}{125}{figure.caption.88}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Tabla users -- 4 registros persistidos tras eliminación}}{125}{figure.caption.89}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Lista de alumnos en AUTECH -- estado final}}{125}{figure.caption.90}%
-\contentsline {figure}{\numberline {5.12}{\ignorespaces \textit {Cold Start} vs.\ \textit {Warm State} en Render}}{126}{figure.caption.92}%
-\contentsline {figure}{\numberline {5.13}{\ignorespaces Pruebas de concurrencia -- API AUTECH}}{127}{figure.caption.94}%
-\contentsline {figure}{\numberline {5.14}{\ignorespaces Rendimiento API -- operaciones Regex y Automata}}{127}{figure.caption.95}%
-\contentsline {figure}{\numberline {5.15}{\ignorespaces Rendimiento API -- PDA y Máquina de Turing}}{128}{figure.caption.96}%
-\contentsline {figure}{\numberline {5.16}{\ignorespaces Resumen final del benchmark de la API AUTECH}}{129}{figure.caption.98}%
-\contentsline {figure}{\numberline {5.17}{\ignorespaces Reporte de pruebas -- 53 casos PASS}}{129}{figure.caption.99}%
-\contentsline {figure}{\numberline {5.18}{\ignorespaces Suite de casos límite -- REGEX válidos}}{129}{figure.caption.100}%
-\contentsline {figure}{\numberline {5.19}{\ignorespaces Suite de casos límite -- REGEX inválidos}}{130}{figure.caption.101}%
-\contentsline {figure}{\numberline {5.20}{\ignorespaces Suite de casos límite -- Automata $\rightarrow $ Regex}}{130}{figure.caption.102}%
-\contentsline {figure}{\numberline {5.21}{\ignorespaces Suite de casos límite -- PDA válidos}}{131}{figure.caption.103}%
-\contentsline {figure}{\numberline {5.22}{\ignorespaces Suite de casos límite -- PDA inválidos}}{131}{figure.caption.104}%
-\contentsline {figure}{\numberline {5.23}{\ignorespaces Suite de casos límite -- Turing válidos}}{132}{figure.caption.105}%
-\contentsline {figure}{\numberline {5.24}{\ignorespaces Suite de casos límite -- Turing inválidos}}{133}{figure.caption.107}%
-\contentsline {figure}{\numberline {5.25}{\ignorespaces Simulación en JFLAP -- AFD, número par de 1s}}{135}{figure.caption.109}%
-\contentsline {figure}{\numberline {5.26}{\ignorespaces Constructor AFD en AUTECH -- 2 estados}}{135}{figure.caption.110}%
-\contentsline {figure}{\numberline {5.27}{\ignorespaces Simulación en JFLAP -- AFND, subcadena 101}}{136}{figure.caption.111}%
-\contentsline {figure}{\numberline {5.28}{\ignorespaces Constructor AFD en AUTECH -- 4 estados}}{136}{figure.caption.112}%
-\contentsline {figure}{\numberline {5.29}{\ignorespaces Simulación en JFLAP -- APD, paréntesis balanceados}}{137}{figure.caption.113}%
-\contentsline {figure}{\numberline {5.30}{\ignorespaces Simulación PDA en AUTECH -- cadena \texttt {"()"}}}{138}{figure.caption.114}%
-\contentsline {figure}{\numberline {5.31}{\ignorespaces Constructor PDA en AUTECH -- vista Definir}}{138}{figure.caption.115}%
-\contentsline {figure}{\numberline {5.32}{\ignorespaces Simulación en JFLAP -- APD, igual número de 0s y 1s}}{139}{figure.caption.116}%
-\contentsline {figure}{\numberline {5.33}{\ignorespaces Constructor PDA en AUTECH -- 0s y 1s}}{140}{figure.caption.117}%
-\contentsline {figure}{\numberline {5.34}{\ignorespaces Simulación PDA en AUTECH -- cadena \texttt {"0101"}}}{140}{figure.caption.118}%
-\contentsline {figure}{\numberline {5.35}{\ignorespaces Simulación en JFLAP -- MT de 3 estados}}{141}{figure.caption.119}%
-\contentsline {figure}{\numberline {5.36}{\ignorespaces MT en AUTECH -- procesando \texttt {"1011"}, 10 pasos}}{142}{figure.caption.120}%
-\contentsline {figure}{\numberline {5.37}{\ignorespaces MT en AUTECH -- definición, 6 transiciones}}{142}{figure.caption.121}%
-\contentsline {figure}{\numberline {5.38}{\ignorespaces Simulación en JFLAP -- MT de 2 estados}}{143}{figure.caption.122}%
-\contentsline {figure}{\numberline {5.39}{\ignorespaces MT en AUTECH -- definición y simulación con cadena \texttt {"a"}}}{144}{figure.caption.123}%
-\contentsline {figure}{\numberline {5.40}{\ignorespaces Simulación MT en AUTECH -- cadena \texttt {"a"} aceptada}}{144}{figure.caption.124}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Arquitectura del sistema AUTECH}}{123}{figure.caption.82}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagrama Entidad-Relación de AUTECH}}{125}{figure.caption.83}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Benchmark Supabase -- 100 peticiones, concurrencia 10}}{133}{figure.caption.91}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Panel de monitoreo de Supabase}}{134}{figure.caption.92}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Test de escritura fallido -- Error RLS 42501}}{135}{figure.caption.93}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Editor SQL de Supabase -- SELECT users}}{136}{figure.caption.94}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Segundo test de escritura -- violación RLS confirmada}}{137}{figure.caption.95}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces SELECT users tras actualización de nombre}}{138}{figure.caption.96}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Consulta SQL con nombre actualizado}}{139}{figure.caption.97}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Tabla users -- 4 registros persistidos tras eliminación}}{139}{figure.caption.98}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Lista de alumnos en AUTECH -- estado final}}{139}{figure.caption.99}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces \textit {Cold Start} vs.\ \textit {Warm State} en Render}}{140}{figure.caption.101}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Pruebas de concurrencia -- API AUTECH}}{141}{figure.caption.103}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Rendimiento API -- operaciones Regex y Automata}}{141}{figure.caption.104}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Rendimiento API -- PDA y Máquina de Turing}}{142}{figure.caption.105}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Resumen final del benchmark de la API AUTECH}}{143}{figure.caption.107}%
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Reporte de pruebas -- 53 casos PASS}}{143}{figure.caption.108}%
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Suite de casos límite -- REGEX válidos}}{143}{figure.caption.109}%
+\contentsline {figure}{\numberline {5.19}{\ignorespaces Suite de casos límite -- REGEX inválidos}}{144}{figure.caption.110}%
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Suite de casos límite -- Automata $\rightarrow $ Regex}}{144}{figure.caption.111}%
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Suite de casos límite -- PDA válidos}}{145}{figure.caption.112}%
+\contentsline {figure}{\numberline {5.22}{\ignorespaces Suite de casos límite -- PDA inválidos}}{145}{figure.caption.113}%
+\contentsline {figure}{\numberline {5.23}{\ignorespaces Suite de casos límite -- Turing válidos}}{146}{figure.caption.114}%
+\contentsline {figure}{\numberline {5.24}{\ignorespaces Suite de casos límite -- Turing inválidos}}{147}{figure.caption.116}%
+\contentsline {figure}{\numberline {5.25}{\ignorespaces Simulación en JFLAP -- AFD, número par de 1s}}{149}{figure.caption.118}%
+\contentsline {figure}{\numberline {5.26}{\ignorespaces Constructor AFD en AUTECH -- 2 estados}}{149}{figure.caption.119}%
+\contentsline {figure}{\numberline {5.27}{\ignorespaces Simulación en JFLAP -- AFND, subcadena 101}}{150}{figure.caption.120}%
+\contentsline {figure}{\numberline {5.28}{\ignorespaces Constructor AFD en AUTECH -- 4 estados}}{150}{figure.caption.121}%
+\contentsline {figure}{\numberline {5.29}{\ignorespaces Simulación en JFLAP -- APD, paréntesis balanceados}}{151}{figure.caption.122}%
+\contentsline {figure}{\numberline {5.30}{\ignorespaces Simulación PDA en AUTECH -- cadena \texttt {"()"}}}{152}{figure.caption.123}%
+\contentsline {figure}{\numberline {5.31}{\ignorespaces Constructor PDA en AUTECH -- vista Definir}}{152}{figure.caption.124}%
+\contentsline {figure}{\numberline {5.32}{\ignorespaces Simulación en JFLAP -- APD, igual número de 0s y 1s}}{153}{figure.caption.125}%
+\contentsline {figure}{\numberline {5.33}{\ignorespaces Constructor PDA en AUTECH -- 0s y 1s}}{154}{figure.caption.126}%
+\contentsline {figure}{\numberline {5.34}{\ignorespaces Simulación PDA en AUTECH -- cadena \texttt {"0101"}}}{154}{figure.caption.127}%
+\contentsline {figure}{\numberline {5.35}{\ignorespaces Simulación en JFLAP -- MT de 3 estados}}{155}{figure.caption.128}%
+\contentsline {figure}{\numberline {5.36}{\ignorespaces MT en AUTECH -- procesando \texttt {"1011"}, 10 pasos}}{156}{figure.caption.129}%
+\contentsline {figure}{\numberline {5.37}{\ignorespaces MT en AUTECH -- definición, 6 transiciones}}{156}{figure.caption.130}%
+\contentsline {figure}{\numberline {5.38}{\ignorespaces Simulación en JFLAP -- MT de 2 estados}}{157}{figure.caption.131}%
+\contentsline {figure}{\numberline {5.39}{\ignorespaces MT en AUTECH -- definición y simulación con cadena \texttt {"a"}}}{158}{figure.caption.132}%
+\contentsline {figure}{\numberline {5.40}{\ignorespaces Simulación MT en AUTECH -- cadena \texttt {"a"} aceptada}}{158}{figure.caption.133}%
+\contentsline {figure}{\numberline {5.41}{\ignorespaces Color primario \texttt {primary}: Cian Tecnológico — ancla cromática de la interfaz.}}{177}{figure.caption.137}%
+\contentsline {figure}{\numberline {5.42}{\ignorespaces Color activo \texttt {nodeActive}: Amarillo Luminoso — máxima velocidad de localización visual.}}{177}{figure.caption.138}%
+\contentsline {figure}{\numberline {5.43}{\ignorespaces Fondo \texttt {background}: Blanco Frío Neutro — luminosidad HSL $>95\%$.}}{178}{figure.caption.139}%
+\contentsline {figure}{\numberline {5.44}{\ignorespaces Texto primario \texttt {textPrimary}: Gris Azulado Profundo — contraste WCAG 4.5:1--7:1.}}{178}{figure.caption.140}%
+\contentsline {figure}{\numberline {5.45}{\ignorespaces Estado normal \texttt {nodeNormal}: Azul Glacial — mínima activación emocional.}}{178}{figure.caption.141}%
+\contentsline {figure}{\numberline {5.46}{\ignorespaces Estado inicial \texttt {nodeInitial}: Verde Menta — semiótica universal de inicio.}}{179}{figure.caption.142}%
+\contentsline {figure}{\numberline {5.47}{\ignorespaces Estados de aceptación \texttt {nodeAccepting}: Crema Dorado — temperatura cálida = destino exitoso.}}{179}{figure.caption.143}%
+\contentsline {figure}{\numberline {5.48}{\ignorespaces \texttt {primaryDark}: Cian Profundo — variante de estado interactivo ($-20\%$ luminosidad).}}{180}{figure.caption.144}%
+\contentsline {figure}{\numberline {5.49}{\ignorespaces \texttt {textSecondary}: Gris Medio — canal visual secundario para información de contexto.}}{180}{figure.caption.145}%

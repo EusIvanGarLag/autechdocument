@@ -34,6 +34,7 @@
 \definecolor{grisTitulo} {RGB}{80,  80,  80}   % Subtítulos grises
 
 % ── Hipervínculos ─────────────────────────────────────────
+\PassOptionsToPackage{bookmarks=true,bookmarksnumbered=true}{hyperref}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks   = true,
@@ -45,8 +46,6 @@
     pdfauthor    = {Trabajo Terminal},
     pdfsubject   = {Ingeniería de Software},
     pdfkeywords  = {Flutter, Supabase, Autómatas, AUTECH, ESCOM, IPN},
-    bookmarks    = true,
-    bookmarksnumbered = true
 }
 
 % ── Gráficos y figuras ────────────────────────────────────
@@ -178,3 +177,8 @@
 
 \usepackage{afterpage}
 \usepackage{rotating}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{tikz}
+\tcbuselibrary{breakable}

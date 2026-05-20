@@ -1,0 +1,812 @@
+% ============================================================
+%  capitulos/anexos.tex  —  AUTECH · Trabajo Terminal ESCOM-IPN
+%
+%  INCLUIR en main.tex con:  \include{capitulos/anexos}
+%
+%  AGREGAR al final de preambulo.tex (una sola vez):
+%    \usepackage{algorithm}
+%    \usepackage[noend]{algpseudocode}
+%    \usepackage{tikz}
+%    \usetikzlibrary{calc}
+%    \tcbuselibrary{breakable}
+% ============================================================
+
+% ── NOTA: Agregar en preambulo.tex antes de compilar ─────────────────────────
+%   \usepackage{algorithm}
+%   \usepackage[noend]{algpseudocode}
+%   \usepackage{tikz}
+%   \tcbuselibrary{breakable}
+% ─────────────────────────────────────────────────────────────────────────────
+
+% ── Estilo profesional de algpseudocode ──────────────────────────────────────
+
+% Números de línea en azulTesis
+\algrenewcommand{\alglinenumber}[1]{%
+  \textcolor{azulTesis}{\footnotesize\ttfamily #1\enspace}%
+}
+% Palabras clave coloreadas
+\algrenewcommand\algorithmicfunction  {\textcolor{azulTesis}{\bfseries Función}}
+\algrenewcommand\algorithmicreturn    {\textcolor{azulTesis}{\bfseries retornar}}
+\algrenewcommand\algorithmicfor       {\textcolor{azulTesis}{\bfseries para}}
+\algrenewcommand\algorithmicdo        {\textcolor{azulTesis}{\bfseries hacer}}
+\algrenewcommand\algorithmicwhile     {\textcolor{azulTesis}{\bfseries mientras}}
+\algrenewcommand\algorithmicif        {\textcolor{azulTesis}{\bfseries si}}
+\algrenewcommand\algorithmicthen      {\textcolor{azulTesis}{\bfseries entonces}}
+\algrenewcommand\algorithmicelse      {\textcolor{azulTesis}{\bfseries si no}}
+\algrenewcommand\algorithmicrepeat    {\textcolor{azulTesis}{\bfseries repetir}}
+\algrenewcommand\algorithmicuntil     {\textcolor{azulTesis}{\bfseries hasta que}}
+\algrenewcommand\algorithmicforall    {\textcolor{azulTesis}{\bfseries para todo}}
+% Require / Ensure
+\renewcommand{\algorithmicrequire}    {\textcolor{azulTesis}{\bfseries Entrada:}}
+\renewcommand{\algorithmicensure}     {\textcolor{azulTesis}{\bfseries Salida:\;}}
+% Comentarios inline — sin \hfill (evita los signos ?)
+\algrenewcommand{\algorithmiccomment}[1]{%
+  \quad\textcolor{grisTitulo}{\small\textit{$\triangleright$\;#1}}%
+}
+
+% ── Contador de algoritmos por capítulo ──────────────────────────────────────
+\newcounter{algonum}[chapter]
+\renewcommand{\thealgonum}{\thechapter.\arabic{algonum}}
+
+% ── Caja profesional para algoritmos ─────────────────────────────────────────
+%   Argumento obligatorio: nombre del algoritmo
+\newtcolorbox{algobox}[2][]{%
+  enhanced, breakable,
+  % --- Marco ---
+  colback        = white,
+  colframe       = azulTesis,
+  boxrule        = 0pt,
+  leftrule       = 4pt,
+  bottomrule     = 1pt,
+  toprule        = 0pt,
+  rightrule      = 0pt,
+  arc            = 3pt,
+  outer arc      = 3pt,
+  % --- Espacio interior ---
+  left   = 6pt,  right  = 6pt,
+  top    = 14pt,  bottom = 6pt,
+  % --- Cabecera ---
+  attach boxed title to top left = {xshift = 4pt, yshift = -\tcboxedtitleheight/2},
+  boxed title style = {
+    enhanced,
+    colback  = azulTesis,
+    colframe = azulTesis,
+    arc      = 2pt,
+    boxrule  = 0pt,
+    left=8pt, right=8pt, top=6pt, bottom=4pt
+  },
+  title = {%
+    \refstepcounter{algonum}%
+    {\sffamily\bfseries\color{white}%
+     Algoritmo~\thealgonum\enspace}%
+    {\color{white!40!azulTesis}\textbar\enspace}%
+    {\sffamily\small\color{white!90!azulTesis} #2}%
+  },
+  % --- Separador Req/Ens vs cuerpo ---
+  segmentation style = {solid, azulFila, line width=0.6pt},
+  #1
+}
+
+% ── Swatch de color (requiere tikz + xcolor) ─────────────────────────────────
+%   #1=clave xcolor  #2=hex sin #  #3=color-texto  #4=label  #5=caption
+\newcommand{\colorswatch}[5]{%
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+      \fill[#1]         (0,0) rectangle (11,1.15);
+      \fill[#1!70!black](0,0) rectangle (0.35,1.15);
+      \draw[black!18, line width=0.5pt] (0,0) rectangle (11,1.15);
+      \node[font=\ttfamily\bfseries\normalsize, text=#3]
+            at (5.675,0.575) {\##2};
+    \end{tikzpicture}
+    \caption{#5}
+    \label{#4}
+  \end{figure}%
+}
+
+% ── Colores de la interfaz AUTECH ────────────────────────────────────────────
+\definecolor{autechPrimary}    {HTML}{00ADB5}
+\definecolor{autechPrimaryDark}{HTML}{007A82}
+\definecolor{autechBackground} {HTML}{F5F8FA}
+\definecolor{autechTextPri}    {HTML}{1A202C}
+\definecolor{autechNodeNorm}   {HTML}{EBF8FF}
+\definecolor{autechNodeInit}   {HTML}{E6FFFA}
+\definecolor{autechNodeAcc}    {HTML}{FFFAF0}
+\definecolor{autechNodeActive} {HTML}{FEFCBF}
+\definecolor{autechTextSec}    {HTML}{4A5568}
+
+% =============================================================================
+\chapter*{Anexos}
+\addcontentsline{toc}{chapter}{Anexos}
+% =============================================================================
+
+\section*{Anexo A \textemdash{} Análisis Teórico/Tópico}
+\addcontentsline{toc}{section}{Anexo A: Análisis Teórico/Tópico}
+
+La Teoría de la Computación estudia los modelos abstractos de cómputo, sus capacidades expresivas
+y sus límites fundamentales. Las ocho unidades de \textbf{AUTECH} recorren la \emph{Jerarquía de
+Chomsky} en orden ascendente de poder expresivo: desde las cadenas elementales hasta los problemas
+que ningún algoritmo puede resolver.
+
+% =============================================================================
+\subsection*{Unidad 1: Cadenas y Lenguajes — Fundamentos de la Teoría de Símbolos}
+% =============================================================================
+
+La base formal de la computación es la formalización algebraica de la comunicación entre el ser
+humano y la máquina mediante estructuras discretas y bien definidas \cite{hopcroft2007es}.
+
+\subsubsection*{Alfabeto, Cadenas y Operaciones Elementales}
+
+Un \textbf{alfabeto} $\Sigma$ es un conjunto finito y no vacío de símbolos. La restricción de
+finitud garantiza que el procesamiento sea realizable en tiempo y espacio acotados \cite{kelley2001}.
+Una \textbf{cadena} $w = a_1 a_2 \cdots a_n$ es una secuencia finita sobre $\Sigma$; su longitud
+$|w| = n$ cuenta el número de posiciones. La \textbf{cadena vacía} $\varepsilon$ tiene
+$|\varepsilon| = 0$ y es el elemento identidad de la concatenación \cite{eugene2008}:
+
+\begin{itemize}
+  \item \textbf{Concatenación} $uv$: yuxtaposición de $u$ y $v$; asociativa pero no conmutativa
+        \cite{sipser2012}.
+  \item \textbf{Potencia} $w^k$: $k$ repeticiones de $w$; $w^0 = \varepsilon$ por convenio.
+  \item \textbf{Reversa} $w^R$: imagen especular de $w$; base de los lenguajes de palíndromos
+        \cite{decastro2004}.
+\end{itemize}
+
+\subsubsection*{Lenguajes y Clausuras}
+
+Un \textbf{lenguaje} $L \subseteq \Sigma^*$ es cualquier conjunto de cadenas. La
+\textbf{clausura de Kleene} $\Sigma^* = \bigcup_{i \geq 0}\Sigma^i$ genera todas las cadenas
+posibles; la \textbf{clausura positiva} $\Sigma^+ = \Sigma^* \setminus \{\varepsilon\}$ excluye
+la vacía \cite{eugene2008}. La validación $w \in L$ es el precursor formal del analizador léxico
+en compiladores \cite{decastro2004}.
+
+\begin{algobox}{ProcesarCadenaGeneral — Operaciones algebraicas con validación de alfabeto}
+\begin{algorithmic}[1]
+  \Require Cadena $w$; alfabeto $\Sigma$;
+           operación $\mathit{op} \in \{\textsc{Long}, \textsc{Inv}, \textsc{Pot}, \textsc{Conc}\}$;
+           parámetros $k$ (potencia) o $v$ (concat)
+  \Ensure  Resultado de la operación, o \textsc{Error} si $w \not\subseteq \Sigma$
+  \State
+  \Function{ValidarAlfabeto}{$w,\,\Sigma$}
+    \For{cada símbolo $a_i \in w$}
+      \If{$a_i \notin \Sigma$}
+        \State \textbf{lanzar} Error$({\texttt{\textquotedbl{}símbolo inválido:\textquotedbl{}}} + a_i)$
+      \EndIf
+    \EndFor
+  \EndFunction
+  \State
+  \State \Call{ValidarAlfabeto}{$w, \Sigma$}
+  \State
+  \If{$\mathit{op} = \textsc{Long}$}
+    \State \Return $|w|$ \Comment{O(1)}
+  \ElsIf{$\mathit{op} = \textsc{Inv}$}
+    \State $r \gets \varepsilon$
+    \For{$i \gets |w|$ \textbf{downto} $1$}
+      \State $r \gets r \cdot w[i]$
+    \EndFor
+    \State \Return $r$ \Comment{O($n$)}
+  \ElsIf{$\mathit{op} = \textsc{Pot}$}
+    \State $r \gets \varepsilon$
+    \For{$j \gets 1$ \textbf{to} $k$}
+      \State $r \gets r \cdot w$
+    \EndFor
+    \State \Return $r$ \Comment{O($k \cdot n$)}
+  \ElsIf{$\mathit{op} = \textsc{Conc}$}
+    \State \Return $w \cdot v$ \Comment{O($n + |v|$)}
+  \EndIf
+\end{algorithmic}
+\end{algobox}
+
+\newpage
+% =============================================================================
+\subsection*{Unidad 2: Autómatas Finitos Deterministas (AFD)}
+% =============================================================================
+
+El AFD lee una cadena símbolo a símbolo y al concluir acepta o rechaza según el estado en que se
+encuentre \cite{sipser2012}. Es el modelo de cómputo más sencillo y su estudio sienta las bases
+para todos los modelos superiores.
+
+\subsubsection*{Definición Formal (5-tupla) y Función de Transición}
+
+Un AFD es una 5-tupla $M = (Q, \Sigma, \delta, q_0, F)$: estados $Q$, alfabeto $\Sigma$,
+transición total $\delta: Q \times \Sigma \to Q$, estado inicial $q_0 \in Q$, estados de
+aceptación $F \subseteq Q$ \cite{hopcroft2007es}. El término \emph{determinista} garantiza que
+para cada par $(q, a)$ existe exactamente una transición, sin ambigüedad \cite{kelley2001}.
+
+La \textbf{función extendida} $\hat\delta: Q \times \Sigma^* \to Q$ generaliza $\delta$ a cadenas
+completas mediante $\hat\delta(q,\varepsilon)=q$ y $\hat\delta(q, wa) = \delta(\hat\delta(q,w), a)$.
+Una cadena $w$ es aceptada si $\hat\delta(q_0, w) \in F$. Los AFD reconocen exactamente la clase
+de los \textbf{Lenguajes Regulares}, cerrada bajo unión, intersección y complemento \cite{hopcroft2007}.
+
+\begin{algobox}{ProcesarCadenaAFD — Simulación paso a paso con traza de estados}
+\begin{algorithmic}[1]
+  \Require AFD $M = (Q,\,\Sigma,\,\delta,\,q_0,\,F)$;\; cadena $w = a_1 a_2 \cdots a_n$
+  \Ensure  \textsc{Aceptada}/\textsc{Rechazada} y traza completa de estados visitados
+  \State
+  \State $q \gets q_0$;\quad traza $\gets \langle q_0 \rangle$
+  \For{$i \gets 1$ \textbf{to} $n$}
+    \If{$a_i \notin \Sigma$}
+      \State \Return \textsc{Error}(\textquotedbl{}símbolo fuera del alfabeto\textquotedbl{})
+    \EndIf
+    \State $q \gets \delta(q,\; a_i)$ \Comment{transición determinista — O(1)}
+    \State traza.agregar$(q)$
+    \If{$q$ es estado trampa} \Comment{optimización: terminar anticipadamente}
+      \State \Return \textsc{Rechazada}, traza
+    \EndIf
+  \EndFor
+  \State
+  \If{$q \in F$}
+    \State \Return \textsc{Aceptada}, traza
+  \Else
+    \State \Return \textsc{Rechazada}, traza
+  \EndIf
+  \State \Comment{Complejidad: O($n$) tiempo;\; O($|Q|\cdot|\Sigma|$) espacio para $\delta$}
+\end{algorithmic}
+\end{algobox}
+
+% =============================================================================
+\subsection*{Unidad 3: Autómatas Finitos No Deterministas (AFN)}
+% =============================================================================
+
+El AFN amplía el AFD permitiendo múltiples transiciones ante el mismo símbolo, e incluso
+transiciones sin consumir símbolo alguno ($\varepsilon$-transiciones). El sistema explora todas las
+posibilidades en paralelo y acepta si \emph{al menos un hilo} concluye en un estado de aceptación
+\cite{sipser2012}.
+
+\subsubsection*{Definición Formal y $\varepsilon$-Cerradura}
+
+Un AFN es $(Q,\Sigma,\delta_N,q_0,F)$ con $\delta_N: Q \times (\Sigma\cup\{\varepsilon\}) \to
+\mathcal{P}(Q)$ \cite{eugene2008}. La $\varepsilon$\textbf{-cerradura} $\textsc{EClosure}(S)$ es
+el conjunto de todos los estados alcanzables desde $S$ únicamente mediante flechas $\varepsilon$:
+
+\[
+  \textsc{EClosure}(S) \;=\; \bigl\{\, q \;\big|\; \exists\, p \in S,\; p \xrightarrow{\,\varepsilon^*\,} q \,\bigr\}
+\]
+
+\subsubsection*{Equivalencia AFN–AFD y Minimización}
+
+El \textbf{algoritmo de construcción de subconjuntos} transforma cualquier AFN en un AFD
+equivalente: cada estado del AFD representa un subconjunto de estados del AFN, con hasta $2^{|Q|}$
+estados en el peor caso \cite{hopcroft2007es}. El AFD mínimo resultante (único salvo isomorfismo,
+por el Teorema de Myhill-Nerode) permite comparar estructuralmente la solución del alumno con la
+solución canónica \cite{kelley2001}.
+
+\begin{algobox}{SimulazAFN — Simulación con $\varepsilon$-cerradura y estados activos paralelos}
+\begin{algorithmic}[1]
+  \Require AFN $N = (Q,\,\Sigma,\,\delta_N,\,q_0,\,F)$;\; cadena $w = a_1 a_2 \cdots a_n$
+  \Ensure  \textsc{Aceptado}/\textsc{Rechazado} y evolución del conjunto de estados activos
+  \State
+  \Function{EClosure}{$S$} \Comment{BFS sobre $\varepsilon$-transiciones — O($|Q|+|\delta_N|$)}
+    \State $E \gets S$;\quad pila $\gets \text{copiar}(S)$
+    \While{pila $\neq \emptyset$}
+      \State $q \gets$ pila.desapilar()
+      \For{cada $p \in \delta_N(q,\; \varepsilon)$}
+        \If{$p \notin E$}
+          \State $E \gets E \cup \{p\}$;\quad pila.apilar($p$)
+        \EndIf
+      \EndFor
+    \EndWhile
+    \State \Return $E$
+  \EndFunction
+  \State
+  \State $S \gets \Call{EClosure}{\{q_0\}}$ \Comment{Inicialización}
+  \State traza $\gets \langle(0,\,S)\rangle$
+  \For{$i \gets 1$ \textbf{to} $n$}
+    \State $S' \gets \displaystyle\bigcup_{q \in S}\delta_N(q,\; a_i)$ \Comment{Mover con $a_i$}
+    \State $S  \gets \Call{EClosure}{S'}$ \Comment{Cerrar bajo $\varepsilon$}
+    \State traza.agregar$(i,\, S)$
+    \If{$S = \emptyset$}
+      \State \textbf{salir} \Comment{Todos los hilos muertos}
+    \EndIf
+  \EndFor
+  \State
+  \If{$S \cap F \neq \emptyset$}
+    \State \Return \textsc{Aceptado}, traza
+  \Else
+    \State \Return \textsc{Rechazado}, traza
+  \EndIf
+\end{algorithmic}
+\end{algobox}
+
+% =============================================================================
+\subsection*{Unidad 4: Expresiones Regulares y Gramáticas Regulares}
+% =============================================================================
+
+Las Expresiones Regulares (ER) son la representación \emph{declarativa} de los Lenguajes
+Regulares: donde los autómatas describen el comportamiento mediante estados, las ER describen
+la estructura mediante patrones algebraicos \cite{sipser2012}.
+
+\subsubsection*{Operadores, Teorema de Kleene y Algoritmo de Thompson}
+
+Tres operadores generan todas las ER sobre $\Sigma$ \cite{kelley2001}: \textbf{unión}
+($r_1 \mid r_2$), \textbf{concatenación} ($r_1 \cdot r_2$) y \textbf{clausura de Kleene} ($r^*$).
+El \textbf{Teorema de Kleene} establece la equivalencia exacta entre ER, AFD y AFN. El
+\textbf{Algoritmo de Thompson} convierte una ER en un AFN-$\varepsilon$ de forma inductiva y
+sistemática en $O(|r|)$ estados y transiciones \cite{hopcroft2007es}.
+
+\subsubsection*{Gramáticas Regulares y Lema de Bombeo}
+
+Las \textbf{gramáticas lineales por la derecha} ($A \to aB$ ó $A \to a$) generan exactamente los
+Lenguajes Regulares y definen la estructura de los \emph{tokens} en el análisis léxico
+\cite{decastro2004}. El \textbf{Lema de Bombeo} es la herramienta formal para demostrar que
+ciertos lenguajes \emph{no} son regulares: si $L$ es regular, $\exists\,p$ tal que toda
+$s \in L$ con $|s| \geq p$ se descompone $s = xyz$ con $|xy| \leq p$, $|y| \geq 1$ y
+$xy^iz \in L$, $\forall\, i \geq 0$ \cite{sipser2012}.
+
+\newpage
+\begin{algobox}{Thompson — Construcción del AFN-$\varepsilon$ por inducción estructural}
+\begin{algorithmic}[1]
+  \Require Expresión regular $r$ sobre $\Sigma$
+  \Ensure  AFN-$\varepsilon$ $N$ con estado inicial $q_i$ y único estado final $q_f$
+  \State
+  \Function{Thompson}{$r$}
+    \If{$r = \varepsilon$}
+      \State Crear $q_i,\,q_f$;\; añadir $q_i \xrightarrow{\varepsilon} q_f$
+      \State \Return $(q_i,\, q_f)$
+    \ElsIf{$r = a \in \Sigma$}
+      \State Crear $q_i,\,q_f$;\; añadir $q_i \xrightarrow{a} q_f$
+      \State \Return $(q_i,\, q_f)$
+    \ElsIf{$r = r_1 \mid r_2$} \Comment{Unión: bifurcación $\varepsilon$}
+      \State $(i_1,f_1) \gets \Call{Thompson}{r_1}$;\;
+             $(i_2,f_2) \gets \Call{Thompson}{r_2}$
+      \State Crear $q_i,\,q_f$;\; añadir:
+             $q_i\!\to\!i_1,\; q_i\!\to\!i_2,\; f_1\!\to\!q_f,\; f_2\!\to\!q_f$
+      \State \Return $(q_i,\, q_f)$
+    \ElsIf{$r = r_1 \cdot r_2$} \Comment{Concatenación: fusión de estados frontera}
+      \State $(i_1,f_1) \gets \Call{Thompson}{r_1}$;\;
+             $(i_2,f_2) \gets \Call{Thompson}{r_2}$
+      \State Fusionar $f_1 \equiv i_2$
+      \State \Return $(i_1,\, f_2)$
+    \ElsIf{$r = r_1^*$} \Comment{Kleene: bucle $\varepsilon$ y aceptación de $\varepsilon$}
+      \State $(i_1,f_1) \gets \Call{Thompson}{r_1}$
+      \State Crear $q_i,\,q_f$;\; añadir:
+             $q_i\!\to\!i_1,\; f_1\!\to\!i_1,\; f_1\!\to\!q_f,\; q_i\!\to\!q_f$
+      \State \Return $(q_i,\, q_f)$
+    \EndIf
+  \EndFunction
+  \State
+  \State \Return \Call{Thompson}{$r$}
+  \State \Comment{Complejidad: O($|r|$) estados y transiciones}
+\end{algorithmic}
+\end{algobox}
+
+% =============================================================================
+\subsection*{Unidad 5: Gramáticas Independientes del Contexto (GIC)}
+% =============================================================================
+
+Las GIC (Tipo~2 en la Jerarquía de Chomsky) describen la mayoría de los lenguajes de programación
+modernos. Son suficientemente expresivas para capturar la recursión y la jerarquía sintáctica, pero
+suficientemente restringidas para que su reconocimiento sea tratable \cite{sipser2012}.
+
+\subsubsection*{Definición Formal (4-tupla), Derivaciones y Ambigüedad}
+
+Una GIC es $(V,\Sigma,R,S)$: variables $V$, terminales $\Sigma$, reglas $R$ de la forma
+$A \to \alpha$ con $A \in V$, $\alpha \in (V \cup \Sigma)^*$, símbolo inicial $S \in V$
+\cite{hopcroft2007es}. Una derivación \emph{leftmost} sustituye siempre la variable más a la
+izquierda; el \textbf{árbol de derivación} visualiza la estructura jerárquica de la cadena
+\cite{kelley2001}. Una GIC es \textbf{ambigua} si alguna cadena tiene dos árboles distintos,
+lo cual es indeseable en compiladores pues implica interpretaciones múltiples \cite{sipser2012}.
+
+\subsubsection*{Formas Normales}
+
+La \textbf{FNC (Chomsky)} ($A \to BC$ ó $A \to a$) es la base del algoritmo CYK con complejidad
+$O(n^3)$; la \textbf{FNG (Greibach)} ($A \to a\alpha$) facilita la construcción directa de
+autómatas de pila \cite{hopcroft2007es}.
+
+\begin{algobox}{CYK — Reconocimiento en GIC mediante programación dinámica (FNC requerida)}
+\begin{algorithmic}[1]
+  \Require GIC $G = (V,\,\Sigma,\,R,\,S)$ en \textbf{FNC};\; cadena $w = a_1 \cdots a_n$
+  \Ensure  \textsc{Sí} si $w \in L(G)$, \textsc{No} en otro caso
+  \State \Comment{$T[i][j]$ = conjunto de variables que generan $w[i\,{..}\,j]$}
+  \State Inicializar tabla $T[1..n][1..n]$ con conjuntos vacíos
+  \For{$i \gets 1$ \textbf{to} $n$} \Comment{Caso base: subcadenas de longitud 1}
+    \For{cada regla $A \to a_i \in R$}
+      \State $T[i][i] \gets T[i][i] \cup \{A\}$
+    \EndFor
+  \EndFor
+  \For{$\ell \gets 2$ \textbf{to} $n$} \Comment{Longitud de subcadena creciente}
+    \For{$i \gets 1$ \textbf{to} $n - \ell + 1$}
+      \State $j \gets i + \ell - 1$
+      \For{$k \gets i$ \textbf{to} $j-1$} \Comment{Punto de partición}
+        \For{cada regla $A \to BC \in R$}
+          \If{$B \in T[i][k]$ \textbf{ y } $C \in T[k+1][j]$}
+            \State $T[i][j] \gets T[i][j] \cup \{A\}$
+          \EndIf
+        \EndFor
+      \EndFor
+    \EndFor
+  \EndFor
+  \State
+  \If{$S \in T[1][n]$}
+    \State \Return \textsc{Sí} \Comment{Reconstruir árbol con traza de decisiones}
+  \Else
+    \State \Return \textsc{No}
+  \EndIf
+  \State \Comment{Complejidad: O($n^3 \cdot |R|$) tiempo;\; O($n^2 \cdot |V|$) espacio}
+\end{algorithmic}
+\end{algobox}
+
+% =============================================================================
+\subsection*{Unidad 6: Autómatas de Pila (APD)}
+% =============================================================================
+
+El APD extiende el AFD con una \textbf{pila} (\emph{stack}) de capacidad ilimitada, permitiendo
+reconocer lenguajes con conteo o balanceo ilimitado imposibles para los modelos finitos, como los
+paréntesis equilibrados o $\{0^n1^n \mid n \geq 0\}$ \cite{sipser2012}.
+
+\subsubsection*{Definición Formal (7-tupla) y Modos de Aceptación}
+
+Un APD es $(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F)$ donde $\Gamma$ es el alfabeto de pila y
+$Z_0 \in \Gamma$ su símbolo inicial \cite{hopcroft2007es}:
+\[
+  \delta: Q \times (\Sigma \cup \{\varepsilon\}) \times \Gamma \;\longrightarrow\;
+  \mathcal{P}\!\left(Q \times \Gamma^*\right)
+\]
+El APD acepta por \textbf{estado final} ($q \in F$ al terminar) o por \textbf{pila vacía}
+(pila completamente vaciada); ambos criterios son equivalentes \cite{hopcroft2007es}. Los APD no
+deterministas reconocen exactamente las GIC; los deterministas son adecuados para el análisis
+sintáctico de los lenguajes de programación reales \cite{eugene2008}.
+
+\begin{algobox}{SimulazAPD — Simulación por conjunto de configuraciones activas}
+\begin{algorithmic}[1]
+  \Require APD $M = (Q,\,\Sigma,\,\Gamma,\,\delta,\,q_0,\,Z_0,\,F)$;\;
+           cadena $w = a_1\cdots a_n$;\;
+           modo $\in \{\text{EstadoFinal},\,\text{PilaVacía}\}$
+  \Ensure  \textsc{Aceptada} o \textsc{Rechazada}
+  \State \Comment{Configuración: tripleta $(q,\; \text{sufijo no leído},\; \text{contenido pila})$}
+  \State $\mathcal{C} \gets \{(q_0,\; w,\; Z_0)\}$
+  \While{$\mathcal{C} \neq \emptyset$}
+    \State $\mathcal{C}' \gets \emptyset$
+    \For{cada $(q,\; a_i{\cdots}a_n,\; \gamma) \in \mathcal{C}$}
+      \State \Comment{Transiciones consumiendo $a_i$}
+      \For{cada $(q',\beta) \in \delta(q,\; a_i,\; \text{tope}(\gamma))$}
+        \State $\mathcal{C}' \gets \mathcal{C}' \cup \{(q',\; a_{i+1}{\cdots}a_n,\; \beta\cdot\text{resto}(\gamma))\}$
+      \EndFor
+      \State \Comment{Transiciones $\varepsilon$: no consumen entrada}
+      \For{cada $(q',\beta) \in \delta(q,\; \varepsilon,\; \text{tope}(\gamma))$}
+        \State $\mathcal{C}' \gets \mathcal{C}' \cup \{(q',\; a_i{\cdots}a_n,\; \beta\cdot\text{resto}(\gamma))\}$
+      \EndFor
+    \EndFor
+    \State $\mathcal{C} \gets \mathcal{C}'$
+  \EndWhile
+  \State
+  \State $\mathcal{C}_f \gets$ configuraciones con entrada completamente leída
+  \If{modo $=$ EstadoFinal \textbf{ y } $\exists(q,\varepsilon,\gamma)\in\mathcal{C}_f: q\in F$}
+    \State \Return \textsc{Aceptada}
+  \ElsIf{modo $=$ PilaVacía \textbf{ y } $\exists(q,\varepsilon,\varepsilon)\in\mathcal{C}_f$}
+    \State \Return \textsc{Aceptada}
+  \Else
+    \State \Return \textsc{Rechazada}
+  \EndIf
+\end{algorithmic}
+\end{algobox}
+
+% =============================================================================
+\subsection*{Unidad 7: Máquinas de Turing (MT)}
+% =============================================================================
+
+Propuesta por Alan Turing en 1936, la MT es el modelo matemático definitivo de la computación.
+Su memoria de cinta ilimitada le permite simular cualquier proceso algorítmico concebible y
+establece los límites absolutos de lo que puede ser calculado \cite{sipser2012}.
+
+\subsubsection*{Modelo de Cinta y Definición Formal (7-tupla)}
+
+La cinta está dividida en celdas; la cabeza lectora-escritora lee el símbolo actual, lo
+reemplaza y se desplaza una posición (L ó R). El \textbf{símbolo blanco} $B \in \Gamma$ marca
+las celdas no escritas \cite{kelley2001}. La 7-tupla $M = (Q,\Sigma,\Gamma,\delta,q_0,B,F)$
+con función de transición \emph{parcial}:
+\[
+  \delta: Q \times \Gamma \;\longrightarrow\; Q \times \Gamma \times \{L,\,R\}
+\]
+Si $\delta(q,a)$ no está definida, la MT se \textbf{detiene} (\emph{halts}): puede aceptar
+entrando en $q_f \in F$ o rechazar implícitamente sin definir transición \cite{hopcroft2007es}.
+Notablemente, también puede entrar en \emph{bucle infinito}, distinción crítica en decidibilidad
+\cite{eugene2008}. La \textbf{Tesis de Church-Turing} eleva la MT a definición formal de
+«algoritmo»: cualquier proceso computable por cualquier dispositivo físico puede ser simulado
+por una MT \cite{sipser2012}.
+
+\newpage
+\begin{algobox}{SimulazMaquinaTuring — Simulación completa con detección de bucle por configuración}
+\begin{algorithmic}[1]
+  \Require MT $M = (Q,\,\Sigma,\,\Gamma,\,\delta,\,q_0,\,B,\,F)$;\;
+           cadena $w$;\; límite de pasos $L_{\max}$
+  \Ensure  Estado final de la cinta, estado $q$ y diagnóstico de terminación
+  \State
+  \Function{Leer}{cinta, pos}
+    \State \Return cinta$[\text{pos}]$ si pos $\in$ cinta, \textbf{si no} $B$
+  \EndFunction
+  \State
+  \State cinta $\gets w$;\; pos $\gets 0$;\; $q \gets q_0$;\; pasos $\gets 0$
+  \State historia $\gets \emptyset$ \Comment{Conjunto de configuraciones vistas}
+  \While{$q \notin F$ \textbf{ y } pasos $< L_{\max}$}
+    \State $a \gets \Call{Leer}{\text{cinta},\, \text{pos}}$
+    \State cfg $\gets (q,\, \text{pos},\, \text{hash(cinta)})$
+    \If{cfg $\in$ historia}
+      \State \Return \textbf{Bucle infinito detectado} \Comment{Comportamiento no decidible}
+    \EndIf
+    \State historia.agregar(cfg)
+    \If{$(q,\, a) \notin \mathrm{dom}(\delta)$}
+      \State \Return \textbf{Halt implícito — Rechazo}, cinta, $q$
+    \EndIf
+    \State $(q',\, b,\, D) \gets \delta(q,\, a)$
+    \State cinta$[\text{pos}] \gets b$;\quad $q \gets q'$
+    \State pos $\gets$ pos$+1$ si $D = R$, \textbf{si no} pos$-1$
+    \State pasos $\gets$ pasos $+ 1$
+  \EndWhile
+  \State
+  \If{$q \in F$}
+    \State \Return \textbf{Aceptada}, cinta, $q$, pasos
+  \Else
+    \State \Return \textbf{Límite alcanzado — posible no terminación}, cinta, $q$
+  \EndIf
+\end{algorithmic}
+\end{algobox}
+
+\newpage
+% =============================================================================
+\subsection*{Unidad 8: Decidibilidad y Computabilidad}
+% =============================================================================
+
+La decidibilidad traza la frontera entre los problemas que un algoritmo puede resolver y aquellos
+que están más allá de toda posibilidad computacional. La expresabilidad matemática de un problema
+no garantiza su computabilidad \cite{sipser2012}.
+
+\subsubsection*{Jerarquía de Lenguajes y Problema de la Parada}
+
+Dentro de los lenguajes de Tipo~0 \cite{hopcroft2007es}:
+\begin{itemize}
+  \item \textbf{Decidibles (recursivos)}: existe una MT decisora que siempre se detiene y
+        responde correctamente. Son el modelo ideal del «algoritmo confiable».
+  \item \textbf{Turing-reconocibles (recursivamente enumerables)}: la MT acepta las cadenas del
+        lenguaje pero puede entrar en bucle ante las que no pertenecen \cite{cooper2003}.
+  \item \textbf{co-Turing-reconocibles}: un lenguaje es decidible si y solo si es Turing-reconocible
+        y co-Turing-reconocible simultáneamente \cite{kelley2001}.
+\end{itemize}
+
+El \textbf{Problema de la Parada} pregunta: ¿puede un programa determinar si cualquier otro
+programa termina? Turing demostró mediante \textbf{diagonalización} que la respuesta es
+\emph{no}: tal programa llevaría a una contradicción autorreferencial \cite{sipser2012}. La
+\textbf{reducibilidad} permite probar indecidibilidad de nuevos problemas transformándolos en
+el Problema de la Parada \cite{decastro2004}.
+
+\subsubsection*{Complejidad: P vs NP}
+
+Entre los problemas decidibles, la complejidad es crucial: \textbf{P} contiene los problemas
+solubles en tiempo polinomial; \textbf{NP} los verificables en tiempo polinomial. La pregunta
+P $=$ NP es uno de los siete Problemas del Milenio; su resolución afirmativa colapsaría la
+criptografía moderna \cite{eugene2008}.
+
+\newpage
+\begin{algobox}{LimpiarGramatica — Eliminación de símbolos inútiles (dos fases)}
+\begin{algorithmic}[1]
+  \Require GIC $G = (V,\,\Sigma,\,R,\,S)$
+  \Ensure  Gramática equivalente $G'$ sin símbolos improductivos ni inaccesibles
+  \State
+  \Function{Productivos}{$G$} \Comment{Fase 1 — punto fijo ascendente}
+    \State $P \gets \{A \in V \;\mid\; \exists\, A\!\to\!w \in R,\; w \in \Sigma^*\}$
+    \Repeat
+      \For{cada regla $A \to \alpha \in R$}
+        \If{todas las variables en $\alpha$ pertenecen a $P$}
+          \State $P \gets P \cup \{A\}$
+        \EndIf
+      \EndFor
+    \Until{$P$ no cambia}
+    \State \Return $P$
+  \EndFunction
+  \State
+  \Function{Accesibles}{$G$} \Comment{Fase 2 — BFS desde símbolo inicial}
+    \State $\mathcal{A} \gets \{S\}$;\quad cola $\gets [S]$
+    \While{cola $\neq \emptyset$}
+      \State $X \gets$ cola.desencolar()
+      \For{cada regla $X \to \alpha \in R$}
+        \For{cada variable $B$ en $\alpha$}
+          \If{$B \notin \mathcal{A}$}
+            \State $\mathcal{A} \gets \mathcal{A} \cup \{B\}$;\quad cola.encolar($B$)
+          \EndIf
+        \EndFor
+      \EndFor
+    \EndWhile
+    \State \Return $\mathcal{A}$
+  \EndFunction
+  \State
+  \State $P \gets \Call{Productivos}{G}$
+  \State $G_1 \gets$ remover de $G$ variables $\notin P$ y reglas que las contengan
+  \State $\mathcal{A} \gets \Call{Accesibles}{G_1}$
+  \State $V' \gets V \cap P \cap \mathcal{A}$;\quad
+         $R' \gets \{r \in R \;\mid\; \mathrm{vars}(r) \subseteq V'\}$
+  \State \Return $G' = (V',\,\Sigma,\,R',\,S)$
+  \State \Comment{Complejidad: O($|V|^2 \cdot |R|$) en el peor caso}
+\end{algorithmic}
+\end{algobox}
+
+\newpage
+% =============================================================================
+\bigskip
+\section*{Anexo B \textemdash{} Análisis de Colorimetría}
+\addcontentsline{toc}{section}{Anexo B: Análisis de Colorimetría}
+% =============================================================================
+
+La paleta cromática de \textbf{AUTECH} no es una elección estética arbitraria: cada color responde
+a fundamentos convergentes de psicología perceptual, ergonomía visual y didáctica de sistemas
+formales. Las decisiones se articulan en tres ejes: reducción de la carga cognitiva, codificación
+mnemotécnica de los elementos del simulador, y accesibilidad universal.
+
+% =============================================================================
+\subsection*{\texorpdfstring{I.\;}{I.} Fundamentos Psicopedagógicos y Ergonomía Visual}
+% =============================================================================
+
+\subsubsection*{Gestión de la Carga Cognitiva}
+
+La carga cognitiva es el factor más determinante en el diseño de interfaces para el aprendizaje de
+sistemas formales complejos \cite{lidwell2010}. En AUTECH, donde el estudiante razona
+simultáneamente sobre estados $Q$, transiciones $\delta$, alfabetos $\Sigma$ y $\Gamma$, y
+configuraciones de cinta, la reducción de fricción mental adquiere carácter crítico.
+
+La paleta de cianes con \texttt{\#00ADB5} como color primario (Figura~\ref{fig:col1}) no es
+casual: los tonos azul-cian producen respuestas fisiológicas medibles — reducción de la frecuencia
+cardíaca y disminución de la presión arterial — que propician la concentración sostenida necesaria
+para el razonamiento simbólico denso \cite{heller2004}. Los elementos de máxima prioridad emplean
+el amarillo \texttt{\#FEFCBF} (Figura~\ref{fig:col2}), procesado con mayor velocidad fisiológica
+por el sistema visual humano.
+
+\colorswatch{autechPrimary}   {00ADB5}{black!10!white}{fig:col1}%
+  {Color primario \texttt{primary}: Cian Tecnológico — ancla cromática de la interfaz.}
+
+\colorswatch{autechNodeActive}{FEFCBF}{black}{fig:col2}%
+  {Color activo \texttt{nodeActive}: Amarillo Luminoso — máxima velocidad de localización visual.}
+
+\subsubsection*{Reducción del Estrés Lumínico}
+
+El contraste extremo negro puro–blanco puro genera halos de irradiación retiniana que, tras
+20--30~min de exposición, distorsionan los símbolos de tamaño reducido \cite{holtzschue2017}.
+AUTECH mitiga este efecto con:
+\begin{itemize}
+  \item \textbf{Fondo} \texttt{\#F5F8FA} (Figura~\ref{fig:col3}): «blanco ergonómico» con leve
+        temperatura fría, reduce la luminosidad absoluta sin sacrificar legibilidad
+        \cite{holtzschue2017}.
+  \item \textbf{Texto primario} \texttt{\#1A202C} (Figura~\ref{fig:col4}): gris azulado con
+        contraste WCAG de 4.5:1–7:1, elimina la irradiación simultánea en notación matemática
+        densa \cite{lidwell2010}.
+\end{itemize}
+
+\colorswatch{autechBackground}{F5F8FA}{black}{fig:col3}%
+  {Fondo \texttt{background}: Blanco Frío Neutro — luminosidad HSL $>95\%$.}
+
+\colorswatch{autechTextPri}   {1A202C}{white}{fig:col4}%
+  {Texto primario \texttt{textPrimary}: Gris Azulado Profundo — contraste WCAG 4.5:1--7:1.}
+
+La consistencia cromática —mismo color para el mismo tipo de elemento— construye un modelo mental
+estable que reduce la necesidad de releer etiquetas textuales \cite{tidwell2020}. La estratificación
+en tres planos (fondo, tarjetas, elementos interactivos) reduce en 23\% el tiempo de localización
+de controles en usuarios novatos \cite{malamed2015}.
+
+% =============================================================================
+\subsection*{\texorpdfstring{II.\;}{II.} Mnemotecnia Visual y Leyes de la Gestalt}
+% =============================================================================
+
+\subsubsection*{Ley de Similitud — Codificación Cromática de Estados}
+
+La Ley de Similitud de Koffka \cite{koffka2013} establece que el sistema perceptual agrupa
+automáticamente los elementos que comparten propiedades visuales \emph{antes} de que intervenga el
+procesamiento consciente. AUTECH explota este mecanismo con un vocabulario cromático implícito que
+el estudiante internaliza en 3 a 5 exposiciones repetidas \cite{heller2004}:
+
+\begin{itemize}
+  \item \textbf{Estado normal} \texttt{\#EBF8FF} (Figura~\ref{fig:col5}):
+        azul glacial — neutralidad y espera pasiva.
+  \item \textbf{Estado inicial} $q_0$ \texttt{\#E6FFFA} (Figura~\ref{fig:col6}):
+        verde menta — punto de arranque del proceso.
+  \item \textbf{Estados de aceptación} $F$ \texttt{\#FFFAF0} (Figura~\ref{fig:col7}):
+        crema dorado — culminación y logro.
+  \item \textbf{Estado activo} \texttt{\#FEFCBF}:
+        amarillo — ejecución en curso, máxima prioridad perceptual.
+\end{itemize}
+
+\colorswatch{autechNodeNorm}{EBF8FF}{black}{fig:col5}%
+  {Estado normal \texttt{nodeNormal}: Azul Glacial — mínima activación emocional.}
+
+\colorswatch{autechNodeInit}{E6FFFA}{black}{fig:col6}%
+  {Estado inicial \texttt{nodeInitial}: Verde Menta — semiótica universal de inicio.}
+
+\colorswatch{autechNodeAcc} {FFFAF0}{black}{fig:col7}%
+  {Estados de aceptación \texttt{nodeAccepting}: Crema Dorado — temperatura cálida = destino exitoso.}
+
+\subsubsection*{Ley de Figura y Fondo}
+
+La distinción figura-fondo entre \texttt{\#E6FFFA} y \texttt{\#EBF8FF} opera sobre el
+\emph{canal cromático} del sistema visual: detecta diferencias de matiz incluso con diferencias
+mínimas de luminosidad, garantizando la identificabilidad de $q_0$ en pantallas de baja calidad
+\cite{koffka2013}. Las diferencias de croma son más estables perceptualmente que las de
+luminosidad \cite{holtzschue2017}.
+
+\subsubsection*{Ley de Pregnancia}
+
+La paleta de seis colores funcionales más dos tonos de texto respeta la capacidad de la memoria
+de trabajo visual. Interfaces con más de siete colores funcionales superan dicha capacidad y
+obligan al usuario a releer etiquetas textuales, anulando el beneficio pedagógico de la
+codificación cromática \cite{lidwell2010}.
+
+% =============================================================================
+\subsection*{\texorpdfstring{III.\; Justificación Detallada de la Paleta \texttt{AppColors}}{III. Justificación Detallada de la Paleta AppColors}}
+% =============================================================================
+
+\subsubsection*{Identidad de Marca}
+
+\paragraph{\texorpdfstring{\texttt{primary}}{primary} \#00ADB5 — Cian Tecnológico.}
+Se ubica en la intersección semántica entre el azul (precisión, confianza) y el verde (innovación,
+resolución de problemas), apropiada para una herramienta de ingeniería computacional
+\cite{heller2004}. Su longitud de onda intermedia requiere menor ajuste del cristalino, produciendo
+menor fatiga que los colores primarios puros \cite{malamed2015}. Cuenta con la mayor universalidad
+cultural positiva en estudios transculturales, sin connotaciones de peligro (rojo) ni urgencia
+(naranja) \cite{holtzschue2017}.
+
+\paragraph{\texorpdfstring{\texttt{primaryDark}}{primaryDark} \#007A82 — Cian Profundo (Figura~\ref{fig:col8}).}
+Los estados interactivos (\emph{hover}, \emph{pressed}) deben comunicarse mediante variaciones
+del mismo matiz —nunca cambiando de matiz— para preservar la coherencia del modelo mental del
+usuario \cite{tidwell2020}. El \texttt{\#007A82} aplica una reducción de luminosidad de
+$\approx 20\%$ sobre el primario: suficiente para percibirse como respuesta táctil sin romper
+la continuidad cromática.
+
+\colorswatch{autechPrimaryDark}{007A82}{white}{fig:col8}%
+  {\texttt{primaryDark}: Cian Profundo — variante de estado interactivo ($-20\%$ luminosidad).}
+
+\subsubsection*{Arquitectura de Superficies y Sistema de Texto}
+
+\paragraph{\texorpdfstring{\texttt{background}}{background} \#F5F8FA.}
+Su contraste con el blanco puro \texttt{\#FFFFFF} —reservado para tarjetas de contenido— genera
+un «foco limpio» que el cerebro segrega automáticamente, diferenciando contenedores de información
+del espacio de navegación sin requerir bordes explícitos \cite{malamed2015}.
+
+\paragraph{\texorpdfstring{\texttt{textPrimary}}{textPrimary} \#1A202C.}
+La sustitución del negro puro elimina la «irradiación simultánea», fenómeno donde los bordes
+negro-blanco parecen vibrar y aumentan la fatiga ocular en lectura de expresiones matemáticas
+densas \cite{heller2004}. La componente azulada armoniza con el sistema cian \cite{holtzschue2017}.
+
+\paragraph{\texorpdfstring{\texttt{textSecondary}}{textSecondary} \#4A5568 (Figura~\ref{fig:col9}).}
+La jerarquía tipográfica cromática de dos niveles de gris permite escanear la interfaz extrayendo
+información prioritaria antes de procesar detalles contextuales \cite{tidwell2020}.
+
+\colorswatch{autechTextSec}{4A5568}{white}{fig:col9}%
+  {\texttt{textSecondary}: Gris Medio — canal visual secundario para información de contexto.}
+
+\subsubsection*{Sistema Pedagógico de Codificación de Estados}
+
+\paragraph{\texorpdfstring{\texttt{nodeActive}}{nodeActive} \#FEFCBF — Justificación fisiológica.}
+El amarillo aproxima el pico de sensibilidad de los conos M y L de la retina, siendo el color
+localizado con mayor velocidad en cualquier escena \cite{holtzschue2017}. Experimentos de
+simulación educativa reportan una reducción promedio del 34\% en errores de seguimiento en
+simulaciones de más de diez pasos \cite{malamed2015}, beneficio especialmente pronunciado en el
+aprendizaje del no determinismo.
+
+\paragraph{\texorpdfstring{\texttt{nodeAccepting}}{nodeAccepting} \#FFFAF0 — Justificación semántica.}
+El contraste de temperatura cálida frente a los estados fríos es el mecanismo perceptual más
+potente para distinguir categorías en una escena compleja \cite{lidwell2010}. El uso de verde para
+este rol habría generado conflicto semántico con el verde del estado inicial $q_0$.
+
+% =============================================================================
+\subsection*{\texorpdfstring{IV.\;}{IV.} Coherencia del Sistema Cromático Global}
+% =============================================================================
+
+\subsubsection*{Estructura Tripartita de Temperatura}
+
+La paleta articula tres registros cromáticos coherentes \cite{holtzschue2017}:
+\begin{itemize}
+  \item \textbf{Fríos} (cian, azul glacial, verde menta): identidad de marca, navegación y
+        estados pasivos del simulador.
+  \item \textbf{Neutro-fríos} (\texttt{\#FFFFFF}, \texttt{\#F5F8FA}, grises azulados):
+        superficies, texto y separadores estructurales.
+  \item \textbf{Cálidos} (crema \texttt{\#FFFAF0}, amarillo \texttt{\#FEFCBF}): estados
+        pedagógicamente críticos — aceptación y ejecución activa \cite{heller2004}.
+\end{itemize}
+Esta arquitectura reserva el contraste de temperatura cromática — el mecanismo perceptual de mayor
+potencia — para señalar precisamente los momentos de mayor importancia didáctica.
+
+\subsubsection*{Accesibilidad y Diseño Universal}
+
+El sistema no depende exclusivamente del color para transmitir información, dado que el
+$\approx 8\%$ de la población masculina presenta alguna deficiencia en la visión del color
+\cite{lidwell2010}. AUTECH refuerza la codificación con:
+\textbf{forma} (los estados de aceptación usan doble círculo),
+\textbf{posición} (el estado inicial lleva flecha de entrada explícita) y
+\textbf{etiquetado textual} permanente.
+Esta \emph{redundancia de canales} mejora la velocidad de comprensión para \emph{todos} los
+usuarios al activar simultáneamente múltiples vías de procesamiento perceptual \cite{tidwell2020}.
