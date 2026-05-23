@@ -10,26 +10,26 @@
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Interfaz de la herramienta Regex101, con campos para ingresar expresión regular y cadena de prueba, panel de información de coincidencias y referencia rápida de tokens.}}{24}{figure.caption.12}%
 \contentsline {figure}{\numberline {2.7}{\ignorespaces Captura de la aplicación Duolingo en móvil, mostrando la sección ``Habla de tus estudios'' en la Etapa~2, con actividades de aprendizaje gamificado e indicadores de progreso.}}{26}{figure.caption.13}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagrama Entidad-Relación del esquema físico PostgreSQL de AUTECH, mostrando las entidades \texttt {users}, \texttt {grupos}, \texttt {group\_members}, \texttt {ejercicios}, \texttt {role\_requests} y \texttt {achievements} con sus relaciones y atributos principales.}}{42}{figure.caption.21}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de Paquetes de la arquitectura global en capas de AUTECH.}}{44}{figure.caption.22}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagrama de Clases global bajo el patrón Service Layer e Inversión de Dependencias.}}{45}{figure.caption.23}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagrama de Casos de Uso del Módulo de Autenticación, Seguridad y Accesos.}}{46}{figure.caption.24}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagrama de Secuencia para el inicio de sesión unificado y validación de roles.}}{47}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrama de Casos de Uso del Núcleo de Simulación, Algoritmos y Aprendizaje.}}{48}{figure.caption.26}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Diagrama de Secuencia del Motor Algorítmico para la transformación formal de autómatas.}}{49}{figure.caption.27}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagrama de Actividades UML para la ejecución del algoritmo de conversión formal.}}{50}{figure.caption.28}%
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Diagrama de Secuencia para la ejecución paso a paso de cadenas en el lienzo interactivo.}}{51}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Diagrama de Actividades UML para el proceso de validación y simulación de cadenas.}}{52}{figure.caption.30}%
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Diagrama de Actividades UML para el procesamiento de cintas en la Máquina de Turing.}}{53}{figure.caption.31}%
-\contentsline {figure}{\numberline {3.12}{\ignorespaces Diagrama de Actividades UML para el algoritmo de extracción y generación de CFG.}}{54}{figure.caption.32}%
-\contentsline {figure}{\numberline {3.13}{\ignorespaces Diagrama de Casos de Uso del Módulo de Sincronización y Persistencia Offline.}}{55}{figure.caption.33}%
-\contentsline {figure}{\numberline {3.14}{\ignorespaces Diagrama de Secuencia del flujo de Sincronización Asíncrona con la capa remota.}}{56}{figure.caption.34}%
-\contentsline {figure}{\numberline {3.15}{\ignorespaces Diagrama de Casos de Uso del Módulo de Experiencia de Usuario y Ludificación.}}{57}{figure.caption.35}%
-\contentsline {figure}{\numberline {3.16}{\ignorespaces Diagrama de Secuencia del Motor de Ludificación para la asignación y reclamo de insignias.}}{58}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.17}{\ignorespaces Diagrama de Casos de Uso del Dashboard de Gestión Docente.}}{59}{figure.caption.37}%
-\contentsline {figure}{\numberline {3.18}{\ignorespaces Diagrama de Secuencia para la consulta reactiva y renderizado de métricas analíticas.}}{60}{figure.caption.38}%
-\contentsline {figure}{\numberline {3.19}{\ignorespaces Diagrama de Casos de Uso del Módulo de Gestión Administrativa Global.}}{61}{figure.caption.39}%
-\contentsline {figure}{\numberline {3.20}{\ignorespaces Diagrama de Secuencia para el flujo de Aprobación/Rechazo de credenciales docentes.}}{62}{figure.caption.40}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagrama Entidad-Relación del esquema físico PostgreSQL de AUTECH, mostrando las entidades \texttt {users}, \texttt {grupos}, \texttt {group\_members}, \texttt {ejercicios}, \texttt {role\_requests} y \texttt {achievements} con sus relaciones y atributos principales.}}{43}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagrama de Paquetes de la arquitectura global en capas de AUTECH.}}{45}{figure.caption.21}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagrama de Clases global bajo el patrón Service Layer e Inversión de Dependencias.}}{46}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Diagrama de Casos de Uso del Módulo de Autenticación, Seguridad y Accesos.}}{47}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagrama de Secuencia para el inicio de sesión unificado y validación de roles.}}{48}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagrama de Casos de Uso del Núcleo de Simulación, Algoritmos y Aprendizaje.}}{49}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Diagrama de Secuencia del Motor Algorítmico para la transformación formal de autómatas.}}{50}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagrama de Actividades UML para la ejecución del algoritmo de conversión formal.}}{51}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Diagrama de Secuencia para la ejecución paso a paso de cadenas en el lienzo interactivo.}}{52}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Diagrama de Actividades UML para el proceso de validación y simulación de cadenas.}}{53}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Diagrama de Actividades UML para el procesamiento de cintas en la Máquina de Turing.}}{54}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Diagrama de Actividades UML para el algoritmo de extracción y generación de CFG.}}{55}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Diagrama de Casos de Uso del Módulo de Sincronización y Persistencia Offline.}}{56}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Diagrama de Secuencia del flujo de Sincronización Asíncrona con la capa remota.}}{57}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Diagrama de Casos de Uso del Módulo de Experiencia de Usuario y Ludificación.}}{58}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Diagrama de Secuencia del Motor de Ludificación para la asignación y reclamo de insignias.}}{59}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Diagrama de Casos de Uso del Dashboard de Gestión Docente.}}{60}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Diagrama de Secuencia para la consulta reactiva y renderizado de métricas analíticas.}}{61}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Diagrama de Casos de Uso del Módulo de Gestión Administrativa Global.}}{62}{figure.caption.38}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Diagrama de Secuencia para el flujo de Aprobación/Rechazo de credenciales docentes.}}{63}{figure.caption.39}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Mapa de navegación de AUTECH -- Parte 1}}{95}{figure.caption.58}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Flujo de navegación del rol Docente}}{96}{figure.caption.59}%

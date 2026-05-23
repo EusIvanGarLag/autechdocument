@@ -5,30 +5,29 @@
 \contentsline {table}{\numberline {2.1}{\ignorespaces Mapeo de carga horaria vs.\ cobertura de AUTECH.}}{17}{table.caption.6}%
 \contentsline {table}{\numberline {2.2}{\ignorespaces Comparativa de herramientas educativas para Teoría de la Computación (JFLAP, Automata Tutor v3, FSAM, Regex101, RegExr y AUTECH) en los criterios de plataforma, enfoque pedagógico, diseño moderno, ludificación y disponibilidad offline.}}{27}{table.caption.14}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Requerimientos Funcionales del Sistema AUTECH.}}{34}{table.caption.15}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Requerimientos Funcionales del Sistema AUTECH (Continuación).}}{35}{table.caption.16}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Especificación de Requerimientos No Funcionales del Ecosistema AUTECH.}}{35}{table.caption.17}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Reglas de Negocio del Sistema AUTECH.}}{36}{table.caption.18}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 1).}}{38}{table.caption.19}%
-\contentsline {table}{\numberline {3.6}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 2).}}{39}{table.caption.20}%
-\contentsline {table}{\numberline {3.7}{\ignorespaces Matriz de Evaluación y Priorización de Riesgos de AUTECH.}}{64}{table.caption.41}%
-\contentsline {table}{\numberline {3.8}{\ignorespaces Mapa de calor y distribución de riesgos del proyecto AUTECH.}}{65}{table.caption.42}%
-\contentsline {table}{\numberline {3.9}{\ignorespaces Análisis del Valor Monetario Esperado (EMV) de los Riesgos Críticos.}}{66}{table.caption.43}%
-\contentsline {table}{\numberline {3.10}{\ignorespaces Desglose de costos de software, infraestructura y licencias de AUTECH.}}{72}{table.caption.44}%
-\contentsline {table}{\numberline {3.11}{\ignorespaces Análisis de Licencias y Conformidad Open Source de los Componentes.}}{74}{table.caption.45}%
-\contentsline {table}{\numberline {3.12}{\ignorespaces Desglose de costos de software, infraestructura y licencias de AUTECH.}}{75}{table.caption.46}%
-\contentsline {table}{\numberline {3.13}{\ignorespaces Desglose de costos de software y licencias de AUTECH.}}{76}{table.caption.47}%
-\contentsline {table}{\numberline {3.14}{\ignorespaces Valoración del capital humano del proyecto AUTECH por rol.}}{76}{table.caption.48}%
-\contentsline {table}{\numberline {3.15}{\ignorespaces Costos operativos anuales (OPEX) proyectados para AUTECH.}}{77}{table.caption.49}%
-\contentsline {table}{\numberline {3.16}{\ignorespaces Consolidado de inversión total del proyecto AUTECH.}}{77}{table.caption.50}%
-\contentsline {table}{\numberline {3.17}{\ignorespaces Ficha de Identificación del Responsable del Tratamiento de Datos de AUTECH.}}{79}{table.caption.51}%
-\contentsline {table}{\numberline {3.18}{\ignorespaces Matriz de finalidades del tratamiento de datos personales en AUTECH.}}{81}{table.caption.52}%
-\contentsline {table}{\numberline {3.19}{\ignorespaces Mecanismos de Ejercicio de Derechos ARCO en el Ecosistema AUTECH.}}{83}{table.caption.53}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Catálogo Unificado de Requerimientos Funcionales del Sistema AUTECH.}}{35}{table.caption.15}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Especificación de Requerimientos No Funcionales del Ecosistema AUTECH.}}{36}{table.caption.16}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Reglas de Negocio del Sistema AUTECH.}}{37}{table.caption.17}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 1).}}{39}{table.caption.18}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Catálogo Consolidado de Casos de Uso del Ecosistema AUTECH (Parte 2).}}{40}{table.caption.19}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Matriz de Evaluación y Priorización de Riesgos de AUTECH.}}{65}{table.caption.40}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Mapa de calor y distribución de riesgos del proyecto AUTECH.}}{66}{table.caption.41}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Análisis del Valor Monetario Esperado (EMV) de los Riesgos Críticos.}}{67}{table.caption.42}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Desglose de costos de software, infraestructura y licencias de AUTECH.}}{73}{table.caption.43}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces Análisis de Licencias y Conformidad Open Source de los Componentes.}}{75}{table.caption.44}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces Desglose de costos de software, infraestructura y licencias de AUTECH.}}{76}{table.caption.45}%
+\contentsline {table}{\numberline {3.12}{\ignorespaces Desglose de costos de software y licencias de AUTECH.}}{77}{table.caption.46}%
+\contentsline {table}{\numberline {3.13}{\ignorespaces Valoración del capital humano del proyecto AUTECH por rol.}}{77}{table.caption.47}%
+\contentsline {table}{\numberline {3.14}{\ignorespaces Costos operativos anuales (OPEX) proyectados para AUTECH.}}{78}{table.caption.48}%
+\contentsline {table}{\numberline {3.15}{\ignorespaces Consolidado de inversión total del proyecto AUTECH.}}{78}{table.caption.49}%
+\contentsline {table}{\numberline {3.16}{\ignorespaces Ficha de Identificación del Responsable del Tratamiento de Datos de AUTECH.}}{80}{table.caption.50}%
+\contentsline {table}{\numberline {3.17}{\ignorespaces Matriz de finalidades del tratamiento de datos personales en AUTECH.}}{82}{table.caption.51}%
+\contentsline {table}{\numberline {3.18}{\ignorespaces Mecanismos de Ejercicio de Derechos ARCO en el Ecosistema AUTECH.}}{84}{table.caption.52}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Matriz de necesidades del usuario de AUTECH}}{86}{table.caption.54}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Mapa de empatía del estudiante de AUTECH}}{87}{table.caption.55}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces \textit {Customer Journey Map} del estudiante de AUTECH}}{88}{table.caption.56}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Taxonomía de reactivos de evaluación de AUTECH}}{90}{table.caption.57}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Matriz de necesidades del usuario de AUTECH}}{87}{table.caption.53}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Mapa de empatía del estudiante de AUTECH}}{88}{table.caption.54}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces \textit {Customer Journey Map} del estudiante de AUTECH}}{89}{table.caption.55}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Taxonomía de reactivos de evaluación de AUTECH}}{91}{table.caption.56}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {5.1}{\ignorespaces Modelo relacional de datos de AUTECH}}{126}{table.caption.84}%
 \contentsline {table}{\numberline {5.2}{\ignorespaces Esquema de columnas de la tabla \texttt {users}}}{127}{table.caption.85}%
