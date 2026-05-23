@@ -12,126 +12,90 @@ La especificación de requisitos se fundamenta en la norma IEEE Std 830-1998, as
 \subsection{Requerimientos Funcionales}
 \label{subsec:req_funcionales}
 
-Los requerimientos funcionales (RF) definen el comportamiento interno del sistema, las transformaciones de datos y los servicios directos que se proveen a los distintos perfiles de usuario. Para garantizar la cohesión del diseño, se han classified en cuatro módulos arquitectónicos, como se definen en la Tabla~\ref{tab:rf_sistema} y la Tabla~\ref{tab:rf_sistema_p2}.
+Los requerimientos funcionales (RF) definen el comportamiento interno del sistema, las transformaciones de datos y los servicios directos que se proveen a los distintos perfiles de usuario. Para garantizar la cohesión del diseño, se han classified en cuatro módulos arquitectónicos, como se definen en la Tabla~\ref{tab:rf_consolidada}.
 
-\begin{table}[htbp]
-\centering
-\caption{Requerimientos Funcionales del Sistema AUTECH.}
-\label{tab:rf_sistema}
+\begin{table}[h]
+\caption{Catálogo Unificado de Requerimientos Funcionales del Sistema AUTECH.}
+\label{tab:rf_consolidada}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.1}
 \scriptsize
-\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X @{}}
+\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}X @{}}
 \toprule
-\textbf{ID} & \textbf{Requerimiento} & \textbf{Especificación Técnica} \\
+\textbf{ID} & \textbf{Requerimiento} & \textbf{Especificación Técnica y Alcance} \\
 \midrule
 
-\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE GESTIÓN Y SEGURIDAD}} \\
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO I: Gestión, seguridad y accesos}} \\
 \midrule
 
-RF-01 & Gestión Multi-Rol &
-Control de acceso multiplataforma para tres perfiles: \textbf{Administrador} (gestión global), \textbf{Docente} (académico) y \textbf{Alumno} (simulación) \cite{pressman2020}. \\
+RF-01 & Gestión multi-rol &
+Control de acceso multiplataforma para tres perfiles verificados mediante \textit{claims}: Administrador, Docente y Alumno \cite{pressman2020}. \\
 
-RF-02 & Aprovisionamiento Docente &
-Gestionar solicitudes de registro docente; aprovisionar cuenta y enviar credenciales temporales por correo tras validación del Administrador. \\
+RF-02 & Aprovisionamiento docente &
+Gestionar solicitudes de registro de profesores; generar cuentas institucionales y enviar credenciales temporales por correo electrónico. \\
 
-RF-03 & Grupos Académicos &
-Panel (desktop/móvil) para crear, modificar o eliminar grupos y generar códigos de invitación para enrolamiento de alumnos \cite{escom2016}. \\
-
-\midrule
-\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE SIMULACIÓN Y MOTOR ALGORÍTMICO}} \\
-\midrule
-
-RF-04 & Editor AFD/AFND &
-Canvas interactivo móvil para construcción y edición de Autómatas Finitos Deterministas (AFD) y No Deterministas (AFND) \cite{ipn2020}. \\
-
-RF-05 & Editor de Pila &
-Herramientas de diseño para Autómatas de Pila (AP) con declaración del alfabeto $\Gamma$ y gestión de transiciones no deterministas \cite{hopcroft2007}. \\
-
-RF-06 & Editor MT &
-Simulador de Máquina de Turing con cinta infinita visual y cabezal bidireccional orientado al reconocimiento de lenguajes \cite{sipser2012}. \\
-
-RF-07 & Validador Multinivel &
-Validación algorítmica en tres modalidades: \textbf{(1)} paso a paso, \textbf{(2)} clausuras $\epsilon$ y \textbf{(3)} evaluación masiva (\textit{Bulk Test}) \cite{sinchi2018}. \\
-
-RF-08 & Transformación Algorítmica &
-Conversiones automatizadas: AFND$\to$AFD, minimización de estados y conversión bidireccional Expresión Regular $\leftrightarrow$ grafo \cite{kelley2001}. \\
+RF-03 & Grupos académicos &
+Panel analítico para crear, modificar o eliminar grupos escolares y generar códigos alfanuméricos de enrolamiento para alumnos. \\
 
 \midrule
-\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DIDÁCTICO Y DE LUDIFICACIÓN}} \\
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO II: Simulación y motor algorítmico (núcleo)}} \\
 \midrule
 
-RF-09 & Retos y Ejercicios &
-Crear, asignar y calificar retos de simulación vinculados a unidades temáticas con retroalimentación inmediata al Alumno. \\
+RF-04 & Editor AFD / AFND &
+Canvas interactivo móvil para construcción, edición y renderizado de grafos de Autómatas Finitos Deterministas y No Deterministas \cite{supabase2024}. \\
 
-RF-10 & Sistema de Progresión &
-Sistema de puntos XP, rachas de actividad e insignias desbloqueables para motivar la participación continua del Alumno. \\
+RF-05 & Editor de autómatas de pila &
+Lienzo interactivo para el diseño de Autómatas de Pila (AP) con declaración del alfabeto $\Gamma$ y gestión de transiciones de empuje/extracción. \\
 
-RF-11 & Analíticas de Desempeño &
-Reportes visuales de desempeño individual y grupal para el Docente, con exportación en PDF y Excel. \\
+RF-06 & Editor de Máquina de Turing &
+Simulador de MT con cinta semi-infinita visual y cabezal de lectura/escritura síncrono bidireccional. \\
 
-RF-12 & Notificaciones Push &
-Notificaciones multiplataforma para recordatorios de retos pendientes, logros obtenidos y actualizaciones de contenido. \\
+RF-07 & Validador algorítmico &
+Evaluación de cadenas en tres modalidades: simulación animada paso a paso a \textbf{60 FPS}, cálculo de $\epsilon$-clausuras y pruebas masivas (\textit{Bulk Test}). \\
+
+RF-08 & Transformación formal &
+Conversiones automatizadas asíncronas: AFND$\,{\rightarrow}\,$AFD, minimización de estados y equivalencia Expresión Regular $\leftrightarrow$ Grafo. \\
 
 \midrule
-\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE INTEROPERABILIDAD Y UX}} \\
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO III: Didáctica y ludificación}} \\
 \midrule
 
-RF-13 & Modo Offline &
-Operación autónoma sin conectividad mediante caché local (Hive); sincronización automática con la nube al restablecer conexión. \\
+RF-09 & Retos y ejercicios didácticos &
+Creación y asignación de retos de simulación vinculados a unidades de aprendizaje con retroalimentación visual inmediata al alumno. \\
 
-RF-14 & Sincronización en la Nube &
-Persistencia de simulaciones, progreso y configuraciones en Supabase (PostgreSQL) con integridad transaccional y control por RLS. \\
+RF-10 & Evaluaciones teóricas &
+Módulo de reactivos de opción múltiple orientados a la validación de fundamentos teóricos de la asignatura de Ciencias de la Computación. \\
 
-RF-15 & Multiplataforma &
-Disponibilidad y consistencia visual en Android, iOS y Web desde una única base de código Flutter. \\
+RF-11 & Sistema de progresión lúdica &
+Orquestación del avance mediante bloqueo/desbloqueo de ``mundos'' temáticos (Jerarquía de Chomsky), acumulación de XP y contadores de racha. \\
+
+RF-12 & Analíticas de desempeño &
+Reportes estadísticos semaforizados del avance grupal (aciertos, errores frecuentes y completitud temporal) con exportación en CSV y PDF. \\
+
+RF-13 & Notificaciones push &
+Alertas automatizadas multiplataforma para recordar retos pendientes, insignias obtenidas y actualizaciones de la academia. \\
+
+\midrule
+\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO IV: Interoperabilidad y experiencia de usuario (UX)}} \\
+\midrule
+
+RF-14 & Arquitectura \textit{offline-first} &
+Operación autónoma sin conexión mediante persistencia en caché local (Hive NoSQL) con mitigación de latencia de red. \\
+
+RF-15 & Sincronización en la nube &
+Persistencia relacional atómica de grafos y progreso en Supabase (PostgreSQL) bajo políticas de seguridad a nivel de fila (RLS) \cite{supabase2024}. \\
+
+RF-16 & Interoperabilidad JFLAP &
+Importación y exportación bidireccional de grafos mediante \textit{parser} que traduce archivos XML estándar (\texttt{.jff}) a formato JSON de AUTECH. \\
+
+RF-17 & Asistente de inducción &
+Secuencia de instrucciones interactivas superpuestas (\textit{onboarding}) desplegadas automáticamente al detectar el primer inicio de sesión. \\
 
 \bottomrule
 \end{tabularx}
 \end{table}
-\begin{table}[htbp]
-\centering
-\caption{Requerimientos Funcionales del Sistema AUTECH (Continuación).}
-\label{tab:rf_sistema_p2}
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.1}
-\scriptsize
-\begin{tabularx}{\textwidth}{@{} l >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X @{}}
-\toprule
-\textbf{ID} & \textbf{Requerimiento} & \textbf{Especificación Técnica} \\
-\midrule
 
-\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DIDÁCTICO Y DE LUDIFICACIÓN}} \\
-\midrule
 
-RF-09 & Evaluaciones Teóricas &
-Crear y asignar reactivos de opción múltiple multiplataforma orientados a la validación de fundamentos teóricos de la asignatura \cite{felder2016}. \\
-
-RF-10 & Analítica Docente &
-Procesar métricas de uso y generar visualizaciones estadísticas semaforizadas del avance grupal e individual (aciertos, errores frecuentes y completitud temporal) accesibles para el profesor \cite{munoz2012}. \\
-
-RF-11 & Ecosistema de Ludificación &
-Orquestar el progreso mediante bloqueo/desbloqueo de ``mundos'' basados en la Jerarquía de Chomsky, calculando puntos XP y contadores de racha de estudio en la app móvil \cite{deterding2011}. \\
-
-RF-12 & Integración Multimedia &
-Integrar y reproducir material audiovisual de refuerzo desde fuentes externas de forma adaptativa en la interfaz móvil \cite{crompton2018}. \\
-
-\midrule
-\multicolumn{3}{@{}l}{\cellcolor{gray!15}\textbf{MÓDULO DE INTEROPERABILIDAD Y UX}} \\
-\midrule
-
-RF-13 & Interoperabilidad de Estructuras &
-Soportar importación y exportación bidireccional de grafos en esquemas XML estándar: \texttt{.jff} (JFLAP) y \texttt{.fsam}, a través del gestor de archivos nativo de cada entorno \cite{rodger2006}. \\
-
-RF-14 & Asistente de Inducción &
-Desplegar una secuencia de instrucciones superpuestas e interactivas al detectar el primer inicio de sesión en la app móvil, con opción de omisión por el usuario \cite{materialdesign2023}. \\
-
-RF-15 & Modo de Práctica Autónoma &
-Habilitar acceso irrestricto a módulos de simulación y lecciones teóricas para cuentas de Alumno no vinculadas a un código de grupo docente \cite{nielsen1994}. \\
-
-\bottomrule
-\end{tabularx}
-\end{table}
 
 \newpage
 \subsection{Requerimientos No Funcionales (RNF)}
