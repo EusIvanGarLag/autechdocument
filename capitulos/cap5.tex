@@ -79,6 +79,7 @@ acciones que se hacen desde la aplicación AUTECH:
     \label{fig:arquitectura}
 \end{figure}
 
+\newpage
 Como se muestra en la Figura~\ref{fig:arquitectura}, la organización en capas
 permite una separación clara de responsabilidades dentro de la aplicación.
 
@@ -500,7 +501,7 @@ los límites de respuesta del sistema ante consultas concurrentes.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.55\textwidth]{imagenes/image26.png}
+    \includegraphics[width=0.65\textwidth]{imagenes/bench100.png}
     \caption[Benchmark Supabase -- 100 peticiones, concurrencia 10]{Resultado del benchmark de
         infraestructura (Supabase) con 100 peticiones y concurrencia 10: tasa de éxito del 83\%,
         latencia media de 0.450~s y desviación estándar de 0.175~s.}
@@ -509,7 +510,7 @@ los límites de respuesta del sistema ante consultas concurrentes.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.55\textwidth]{imagenes/image27.png}
+    \includegraphics[width=0.65\textwidth]{imagenes/supabase23.png}
     \caption[Panel de monitoreo de Supabase]{Panel de monitoreo de Supabase mostrando 23
         solicitudes totales en los últimos 60 minutos.}
     \label{fig:monitoreo}
@@ -530,7 +531,7 @@ de 5.02 segundos. Todas las peticiones fueron rechazadas con el error de Postgre
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.40\textwidth]{imagenes/image28.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/ceroE.png}
     \caption[Test de escritura fallido -- Error RLS 42501]{Resultado fallido del test de escritura
         en Supabase: 0 éxitos en 50 intentos en 5.02~s, con error de política de seguridad de
         nivel de fila (RLS, código 42501).}
@@ -539,7 +540,7 @@ de 5.02 segundos. Todas las peticiones fueron rechazadas con el error de Postgre
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image29.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/select.png}
     \caption[Editor SQL de Supabase -- SELECT users]{Editor SQL de Supabase ejecutando
         \texttt{SELECT * FROM users}, mostrando 5 registros con campos \texttt{id},
         \texttt{name}, \texttt{email}, \texttt{role} y \texttt{boleta}.}
@@ -557,7 +558,7 @@ de 5.02 segundos. Todas las peticiones fueron rechazadas con el error de Postgre
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image30.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/rls.png}
     \caption[Segundo test de escritura -- violación RLS confirmada]{Segundo intento del test de
         escritura real en Supabase con resultado 0/50 en 6.34~s, confirmando la política RLS.}
     \label{fig:rls_falla2}
@@ -565,7 +566,7 @@ de 5.02 segundos. Todas las peticiones fueron rechazadas con el error de Postgre
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image31.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/supabaseN.png}
     \caption[SELECT users tras actualización de nombre]{Resultado de \texttt{SELECT * FROM users}
         en Supabase tras modificar un usuario, mostrando el nombre actualizado a
         ``Cambio De Nombre''.}
@@ -574,7 +575,7 @@ de 5.02 segundos. Todas las peticiones fueron rechazadas con el error de Postgre
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image32.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/SC.png}
     \caption[Consulta SQL con nombre actualizado]{Consulta SQL en Supabase mostrando 4 registros
         con el campo \texttt{name} del usuario Ivan cambiado a ``Cambio De Nombre''.}
     \label{fig:update_4reg}
@@ -588,7 +589,7 @@ restricciones de llave foránea (FK), evitando la existencia de registros huérf
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image33.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/CN.png}
     \caption[Tabla users -- 4 registros persistidos tras eliminación]{Vista actualizada de la tabla
         \texttt{users} en Supabase con 4 registros, confirmando la persistencia del cambio.}
     \label{fig:delete_ok}
@@ -596,7 +597,7 @@ restricciones de llave foránea (FK), evitando la existencia de registros huérf
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image34.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/nombres.png}
     \caption[Lista de alumnos en AUTECH -- estado final]{Estado final de la lista de alumnos en
         AUTECH con un único usuario (Diego Velazco) y el botón para agregar un nuevo alumno.}
     \label{fig:lista_alumnos}
@@ -641,7 +642,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image35.png}
+    \includegraphics[width=1\textwidth]{imagenes/cold.png}
     \caption[\textit{Cold Start} vs.\ \textit{Warm State} en Render]{Resultado de prueba de
         \textit{cold start} vs.\ \textit{warm start}: primera petición (cold) en 1.07~s, segunda
         (warm) en 0.79~s, con diferencia de carga de 0.28~s.}
@@ -672,7 +673,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image36.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/apicin.png}
     \caption[Pruebas de concurrencia -- API AUTECH]{Pruebas de concurrencia ejecutadas sobre la
         API AUTECH con 50 peticiones y concurrencia 10.}
     \label{fig:concurrencia}
@@ -680,7 +681,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image37.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/resapi.png}
     \caption[Rendimiento API -- operaciones Regex y Automata]{Prueba de rendimiento de la API
         AUTECH: tiempos promedio entre 1.27~s y 1.63~s para operaciones de Regex y Automata.}
     \label{fig:rendimiento_api}
@@ -688,7 +689,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image38.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/resmt.png}
     \caption[Rendimiento API -- PDA y Máquina de Turing]{Continuación de la prueba de rendimiento,
         con resultados para operaciones de PDA y Máquina de Turing: tiempos de 2.0~s a 3.18~s.}
     \label{fig:rendimiento_api2}
@@ -723,7 +724,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image39.png}
+    \includegraphics[width=0.55\textwidth]{imagenes/100exitos.png}
     \caption[Resumen final del benchmark de la API AUTECH]{Resumen final del benchmark: todos los
         \textit{endpoints} con 100\% de éxito, latencias P95 entre 1.238~s y 8.711~s.}
     \label{fig:benchmark_api}
@@ -734,7 +735,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image40.png}
+    \includegraphics[width=0.75\textwidth]{imagenes/100exitos.png}
     \caption[Reporte de pruebas -- 53 casos PASS]{Reporte de pruebas de casos límite de la API
         AUTECH: 53 pruebas ejecutadas, 53 PASS, 0 advertencias y 0 fallos.}
     \label{fig:reporte_pruebas}
@@ -742,7 +743,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image41.png}
+    \includegraphics[width=0.45\textwidth]{imagenes/pass1.png}
     \caption[Suite de casos límite -- REGEX válidos]{Suite de casos límite, sección REGEX válidos:
         todos respondieron HTTP~200.}
     \label{fig:regex_validos}
@@ -750,7 +751,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image42.png}
+    \includegraphics[width=0.45\textwidth]{imagenes/pass2.png}
     \caption[Suite de casos límite -- REGEX inválidos]{Suite de casos límite, sección REGEX
         inválidos: todos devolvieron HTTP~400 o HTTP~422.}
     \label{fig:regex_invalidos}
@@ -758,7 +759,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image43.png}
+    \includegraphics[width=0.55\textwidth]{imagenes/pass2.png}
     \caption[Suite de casos límite -- Automata $\rightarrow$ Regex]{Pruebas de conversión
         Automata$\rightarrow$Regex con casos borde (estados vacíos, aceptación vacía).}
     \label{fig:automata_regex}
@@ -766,7 +767,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{imagenes/image44.png}
+    \includegraphics[width=0.60\textwidth]{imagenes/pass3.png}
     \caption[Suite de casos límite -- PDA válidos]{Suite de casos límite, sección PDA válidos:
         validación, simulación y conversión PDA$\rightarrow$CFG, todas con HTTP~200.}
     \label{fig:pda_validos}
@@ -774,7 +775,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.60\textwidth]{imagenes/image45.png}
+    \includegraphics[width=0.55\textwidth]{imagenes/pass4.png}
     \caption[Suite de casos límite -- PDA inválidos]{Suite de casos límite, sección PDA inválidos:
         \texttt{start\_state} inexistente, campos vacíos y símbolo de pila desconocido,
         todos manejados correctamente.}
@@ -783,7 +784,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{imagenes/image46.png}
+    \includegraphics[width=0.60\textwidth]{imagenes/pass5.png}
     \caption[Suite de casos límite -- Turing válidos]{Suite de casos límite, sección Turing
         válidos: simulación básica, cinta vacía (REJECTED sin crash), todos con HTTP~200.}
     \label{fig:turing_validos}
@@ -814,7 +815,7 @@ aprovisionamiento inicial de recursos.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.70\textwidth]{imagenes/image47.png}
+    \includegraphics[width=0.70\textwidth]{imagenes/turlimit.png}
     \caption[Suite de casos límite -- Turing inválidos]{Suite de casos límite, sección Turing
         inválidos: \textit{loop} infinito controlado, \texttt{head\_pos} negativo, estado inicial
         inexistente y transiciones vacías, todas manejadas correctamente.}
@@ -866,7 +867,7 @@ $q_1$: $0 \rightarrow q_1$, $1 \rightarrow q_0$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.60\textwidth]{imagenes/image48.png}
+    \includegraphics[width=0.50\textwidth]{imagenes/par.png}
     \caption[Simulación en JFLAP -- AFD, número par de 1s]{Simulación en JFLAP de un AFD
         mostrando la configuración aceptante para una cadena de entrada.}
     \label{fig:jflap_afd1}
@@ -874,7 +875,7 @@ $q_1$: $0 \rightarrow q_1$, $1 \rightarrow q_0$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.50\textwidth]{imagenes/image49.png}
+    \includegraphics[width=0.70\textwidth]{imagenes/parau.png}
     \caption[Constructor AFD en AUTECH -- 2 estados]{Constructor de expresiones regulares en
         AUTECH mostrando un AFD de dos estados ($q_0$, $q_1$), simulando la cadena \texttt{"1111"}
         con resultado ACEPTADA.}
@@ -895,7 +896,7 @@ $q_3$: $0,1 \rightarrow q_3$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/image50.png}
+    \includegraphics[width=0.50\textwidth]{imagenes/sub.png}
     \caption[Simulación en JFLAP -- AFND, subcadena 101]{Simulación en JFLAP de un AFND con
         cuatro estados, mostrando la configuración aceptante para la cadena \texttt{"001011"}.}
     \label{fig:jflap_afnd}
@@ -903,7 +904,7 @@ $q_3$: $0,1 \rightarrow q_3$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.60\textwidth]{imagenes/image51.png}
+    \includegraphics[width=0.40\textwidth]{imagenes/subau.png}
     \caption[Constructor AFD en AUTECH -- 4 estados]{Constructor de autómatas en AUTECH: AFD de
         cuatro estados con 8 transiciones simulando \texttt{"1010101"} con resultado ACEPTADA.}
     \label{fig:autech_afd4}
@@ -923,7 +924,7 @@ $\rightarrow q_1$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/image52.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/equi.png}
     \caption[Simulación en JFLAP -- APD, paréntesis balanceados]{Simulación en JFLAP de un APD
         con dos estados, mostrando la configuración aceptante para paréntesis balanceados.}
     \label{fig:jflap_pda1}
@@ -932,7 +933,7 @@ $\rightarrow q_1$.
 \newpage
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.48\textwidth]{imagenes/image53.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/equiau2.png}
     \caption[Simulación PDA en AUTECH -- cadena \texttt{"()"}]{Módulo de simulación del PDA en
         AUTECH procesando \texttt{"()"} con resultado CADENA ACEPTADA en el estado $q_1$,
         mostrando el historial de 5 pasos de transición.}
@@ -941,7 +942,7 @@ $\rightarrow q_1$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/image54.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/equiau.png}
     \caption[Constructor PDA en AUTECH -- vista Definir]{Constructor de Autómata de Pila (PDA)
         en AUTECH, vista Definir, mostrando las transiciones del APD de paréntesis.}
     \label{fig:autech_pda_def}
@@ -954,7 +955,7 @@ $\rightarrow q_1$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.80\textwidth]{imagenes/image55.png}
+    \includegraphics[width=0.80\textwidth]{imagenes/igual.png}
     \caption[Simulación en JFLAP -- APD, igual número de 0s y 1s]{Simulación en JFLAP de un APD
         de dos estados con transición $\varepsilon$, Z/Z mostrando la configuración aceptante
         para la cadena \texttt{"0101"}.}
@@ -963,7 +964,7 @@ $\rightarrow q_1$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/image56.png}
+    \includegraphics[width=0.75\textwidth]{imagenes/igualau.png}
     \caption[Constructor PDA en AUTECH -- 0s y 1s]{Constructor de PDA en AUTECH con un APD de
         dos estados y múltiples transiciones de pila para cadenas de 0s y 1s.}
     \label{fig:autech_pda2}
@@ -971,7 +972,7 @@ $\rightarrow q_1$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.58\textwidth]{imagenes/image57.png}
+    \includegraphics[width=0.70\textwidth]{imagenes/igualau2.png}
     \caption[Simulación PDA en AUTECH -- cadena \texttt{"0101"}]{Módulo de simulación del PDA en
         AUTECH procesando \texttt{"0101"} con resultado CADENA ACEPTADA en $q_1$, con historial
         completo de 7 transiciones.}
@@ -994,7 +995,7 @@ $\sqcup \rightarrow 1$, R, $q_\text{accept}$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/image58.png}
+    \includegraphics[width=0.85\textwidth]{imagenes/turing1.png}
     \caption[Simulación en JFLAP -- MT de 3 estados]{Simulación en JFLAP de una Máquina de Turing
         con tres estados mostrando la configuración aceptante para una cadena binaria.}
     \label{fig:jflap_mt1}
@@ -1002,7 +1003,7 @@ $\sqcup \rightarrow 1$, R, $q_\text{accept}$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/image59.png}
+    \includegraphics[width=0.75\textwidth]{imagenes/turing1au.png}
     \caption[MT en AUTECH -- procesando \texttt{"1011"}, 10 pasos]{Módulo de simulación de
         Máquina de Turing en AUTECH procesando \texttt{"1011"} con resultado ¡Cadena aceptada!
         en el estado $q_a$, tras 10 pasos de ejecución.}
@@ -1011,7 +1012,7 @@ $\sqcup \rightarrow 1$, R, $q_\text{accept}$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/image60.png}
+    \includegraphics[width=0.75\textwidth]{imagenes/turing1autdef.png}
     \caption[MT en AUTECH -- definición, 6 transiciones]{Módulo de definición de Máquina de Turing
         en AUTECH con estados $q_0$, $q_1$ y $q_a$ (aceptación), mostrando 6 transiciones en modo
         tabla.}
@@ -1029,7 +1030,7 @@ $\sqcup \rightarrow \sqcup$, R, $q_\text{accept}$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.55\textwidth]{imagenes/image61.png}
+    \includegraphics[width=0.95\textwidth]{imagenes/turing2.png}
     \caption[Simulación en JFLAP -- MT de 2 estados]{Simulación en JFLAP de una Máquina de Turing
         de dos estados mostrando la configuración aceptante para una cadena binaria.}
     \label{fig:jflap_mt2}
@@ -1037,7 +1038,7 @@ $\sqcup \rightarrow \sqcup$, R, $q_\text{accept}$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/image62.png}
+    \includegraphics[width=0.75\textwidth]{imagenes/turing2audef.png}
     \caption[MT en AUTECH -- definición y simulación con cadena \texttt{"a"}]{Módulo de definición
         de MT en AUTECH con dos estados, tres transiciones simples y cinta inicial \texttt{"a"}.
         La simulación confirma la aceptación en 4 pasos.}
@@ -1046,13 +1047,14 @@ $\sqcup \rightarrow \sqcup$, R, $q_\text{accept}$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{imagenes/image63.png}
+    \includegraphics[width=0.75\textwidth]{imagenes/turing2au.png}
     \caption[Simulación MT en AUTECH -- cadena \texttt{"a"} aceptada]{Simulación de Máquina de
         Turing en AUTECH procesando la cadena \texttt{"a"} con resultado ¡Cadena aceptada! en el
         estado $q_a$, completada en 4 pasos con historial de transiciones.}
     \label{fig:autech_mt2_sim}
 \end{figure}
 
+\newpage
 % ============================================================
 \section{Conclusiones del Capítulo: Ciclo 0}
 \label{sec:conclusiones_ciclo0}
