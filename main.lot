@@ -20,25 +20,26 @@
 \contentsline {table}{\numberline {3.13}{\ignorespaces Valoración del capital humano del proyecto AUTECH por rol.}}{77}{table.caption.47}%
 \contentsline {table}{\numberline {3.14}{\ignorespaces Costos operativos anuales (OPEX) proyectados para AUTECH.}}{78}{table.caption.48}%
 \contentsline {table}{\numberline {3.15}{\ignorespaces Consolidado de inversión total del proyecto AUTECH.}}{78}{table.caption.49}%
-\contentsline {table}{\numberline {3.16}{\ignorespaces Ficha de Identificación del Responsable del Tratamiento de Datos de AUTECH.}}{80}{table.caption.50}%
+\contentsline {table}{\numberline {3.16}{\ignorespaces Ficha de Identificación del Responsable del Tratamiento de Datos de AUTECH.}}{81}{table.caption.50}%
 \contentsline {table}{\numberline {3.17}{\ignorespaces Matriz de finalidades del tratamiento de datos personales en AUTECH.}}{82}{table.caption.51}%
 \contentsline {table}{\numberline {3.18}{\ignorespaces Mecanismos de Ejercicio de Derechos ARCO en el Ecosistema AUTECH.}}{84}{table.caption.52}%
+\contentsline {table}{\numberline {3.19}{\ignorespaces Matriz de compatibilidad y rendimiento de AUTECH en hardware móvil.}}{88}{table.caption.53}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Matriz de necesidades del usuario de AUTECH}}{87}{table.caption.53}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Mapa de empatía del estudiante de AUTECH}}{88}{table.caption.54}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces \textit {Customer Journey Map} del estudiante de AUTECH}}{89}{table.caption.55}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Taxonomía de reactivos de evaluación de AUTECH}}{91}{table.caption.56}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Matriz de necesidades del usuario de AUTECH}}{91}{table.caption.54}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Mapa de empatía del estudiante de AUTECH}}{92}{table.caption.55}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces \textit {Customer Journey Map} del estudiante de AUTECH}}{93}{table.caption.56}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Taxonomía de reactivos de evaluación de AUTECH}}{95}{table.caption.57}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Modelo relacional de datos de AUTECH}}{126}{table.caption.84}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Esquema de columnas de la tabla \texttt {users}}}{127}{table.caption.85}%
-\contentsline {table}{\numberline {5.3}{\ignorespaces Esquema de columnas de la tabla \texttt {grupos}}}{128}{table.caption.86}%
-\contentsline {table}{\numberline {5.4}{\ignorespaces Esquema de columnas de la tabla \texttt {ejercicios}}}{128}{table.caption.87}%
-\contentsline {table}{\numberline {5.5}{\ignorespaces Esquema del subdocumento \texttt {Pregunta}}}{129}{table.caption.88}%
-\contentsline {table}{\numberline {5.6}{\ignorespaces Columnas de la tabla \texttt {role\_requests}}}{129}{table.caption.89}%
-\contentsline {table}{\numberline {5.7}{\ignorespaces Clases principales del motor de grafos}}{131}{table.caption.90}%
-\contentsline {table}{\numberline {5.8}{\ignorespaces Tiempos de respuesta: Cold Start vs. Warm State}}{136}{table.caption.100}%
-\contentsline {table}{\numberline {5.9}{\ignorespaces Resultados de rendimiento por operación evaluada}}{137}{table.caption.102}%
-\contentsline {table}{\numberline {5.10}{\ignorespaces Pruebas de errores HTTP -- casos límite}}{139}{table.caption.106}%
-\contentsline {table}{\numberline {5.11}{\ignorespaces Resultados de pruebas por módulo}}{144}{table.caption.115}%
-\contentsline {table}{\numberline {5.12}{\ignorespaces Resumen de pruebas por dimensión}}{145}{table.caption.117}%
-\contentsline {table}{\numberline {5.13}{\ignorespaces Comparativa algorítmica y funcional: AUTECH vs.\ herramientas de referencia}}{163}{table.caption.134}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Modelo relacional de datos de AUTECH}}{131}{table.caption.84}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Esquema de columnas de la tabla \texttt {users}}}{132}{table.caption.85}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Esquema de columnas de la tabla \texttt {grupos}}}{133}{table.caption.86}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Esquema de columnas de la tabla \texttt {ejercicios}}}{133}{table.caption.87}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Esquema del subdocumento \texttt {Pregunta}}}{134}{table.caption.88}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Columnas de la tabla \texttt {role\_requests}}}{134}{table.caption.89}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Clases principales del motor de grafos}}{136}{table.caption.90}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Tiempos de respuesta: Cold Start vs. Warm State}}{141}{table.caption.100}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Resultados de rendimiento por operación evaluada}}{142}{table.caption.102}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Pruebas de errores HTTP -- casos límite}}{144}{table.caption.106}%
+\contentsline {table}{\numberline {5.11}{\ignorespaces Resultados de pruebas por módulo}}{149}{table.caption.115}%
+\contentsline {table}{\numberline {5.12}{\ignorespaces Resumen de pruebas por dimensión}}{150}{table.caption.117}%
+\contentsline {table}{\numberline {5.13}{\ignorespaces Comparativa algorítmica y funcional: AUTECH vs.\ herramientas de referencia}}{168}{table.caption.134}%

@@ -901,7 +901,7 @@ El equipo de desarrollo está integrado por tres desarrolladores con conocimient
 \subsection{Factibilidad Económica}
 \label{subsec:factibilidad_economica}
 
-La factibilidad económica de AUTECH se analiza bajo un modelo de Inversión Tecnológica Institucional de alto retorno, absorbiendo internamente la valuación comercial estimada del software (valuada entre los $\$120,000.00$ y $\$180,000.00$ MXN para un equipo externo senior en la CDMX) mediante el modelo BYOD (\textit{Bring Your Own Device}) y el uso de tecnologías de código abierto.
+La factibilidad económica de AUTECH se analiza bajo un modelo de Inversión Tecnológica Institucional de alto retorno, absorbiendo internamente la valuación comercial estimada del hardware (valuada entre los $\$120,000.00$ y $\$180,000.00$ MXN para un equipo externo senior en la CDMX) mediante el modelo BYOD (\textit{Bring Your Own Device}) y el uso de tecnologías de código abierto.
 
 El desglose completo de los costos proyectados para el despliegue e infraestructura del primer año se presenta detalladamente en la Tabla~\ref{tab:costos_despliegue}.
 
@@ -1014,7 +1014,7 @@ Los costos se clasifican en tres categorías: (1) Costos de Inversión Inicial (
 \subsection{Costos de Hardware (CAPEX)}
 \label{subsec:costos_hardware}
 
-El proyecto opera bajo un modelo BYOD (\textit{Bring Your Own Device}), aprovechando los equipos de cómputo y dispositivos móviles propios del equipo de desarrollo para las fases de programación, diseño y pruebas. Esto elimina prácticamente la necesidad de inversión en hardware institucional, como se detalla en la Tabla~\ref{tab:costos_hardware}.
+El proyecto opera bajo un modelo BYOD (\textit{Bring Your Own Device}), aprovechando los equipos de cómputo y dispositivos móviles propios del equipo de desarrollo para las fases de programación, diseño y pruebas. Esto elimina prácticamente la necesidad de inversión en hardware institucional, como se detalla en la Tabla~\ref{tab:costos_despliegue}.
 
 \begin{table}[htbp]
 \centering
@@ -1040,13 +1040,13 @@ Dominio web institucional para dashboard docente
   & OPEX anual          & ${\sim}$\$200.00 MXN / año \\
 
 Herramientas de desarrollo (Flutter, Dart, GitHub)
-  & CAPEX               & \$0.00 MXN \textit{(open source)} \\
+  & CAPEX                & \$0.00 MXN \textit{(open source)} \\
 
 Librerías core (Flame Engine, Hive NoSQL, SDKs)
-  & CAPEX               & \$0.00 MXN \textit{(open source)} \\
+  & CAPEX                & \$0.00 MXN \textit{(open source)} \\
 
 Dispositivos de prueba y compilación
-  & CAPEX               & \$0.00 MXN \textit{(equipos propios)} \\
+  & CAPEX                & \$0.00 MXN \textit{(equipos propios)} \\
 
 \midrule
 \multicolumn{2}{@{} >{\raggedright\arraybackslash}p{10cm}}%
@@ -1056,6 +1056,7 @@ Dispositivos de prueba y compilación
 \bottomrule
 \end{tabularx}
 \end{table}
+
 \subsection{Costos de Software y Licencias (CAPEX)}
 \label{subsec:costos_software}
 
@@ -1117,7 +1118,7 @@ Dominio para dashboard docente
 \subsection{Costos de Capital Humano}
 \label{subsec:costos_capital_humano}
 
-El componente de mayor valor en el proyecto es la aportación intelectual del equipo de desarrollo. A continuación, se presenta en la Tabla~\ref{tab:capital_humano} la valoración de mercado del trabajo de ingeniería dedicado al proyecto, el cual es aportado íntegramente por el equipo titular como parte de su proyecto de titulación institucional.
+El componente de mayor valor en el proyecto es la aportación intelectual del equipo de desarrollo. A continuación, se presenta en la Tabla~\ref{tab:capital_humano} la valoración de mercado del trabajo de ingeniería dedicado al proyecto, el cual es aportado íntegramente por el equipo titular como parte de su proyecto de titulación institucional, proyectado de forma homologada a un periodo operativo anual de 12 meses.
 
 \begin{table}[htbp]
 \centering
@@ -1135,24 +1136,24 @@ El componente de mayor valor en el proyecto es la aportación intelectual del eq
 \midrule
 
 Desarrollador frontend (Flutter / Flame)
-  & 20 h & 6 meses & ${\sim}$\$36{,}000.00 MXN \\
+  & 20 h & 12 meses & ${\sim}$\$144{,}000.00 MXN \\
 
 Desarrollador backend (Supabase / API)
-  & 15 h & 6 meses & ${\sim}$\$27{,}000.00 MXN \\
+  & 15 h & 12 meses & ${\sim}$\$108{,}000.00 MXN \\
 
 Desarrollador de motor algorítmico
-  & 15 h & 6 meses & ${\sim}$\$27{,}000.00 MXN \\
+  & 15 h & 12 meses & ${\sim}$\$108{,}000.00 MXN \\
 
 Diseñador UX/UI
-  & 10 h & 4 meses & ${\sim}$\$12{,}000.00 MXN \\
+  & 10 h & 12 meses & ${\sim}$\$72{,}000.00 MXN \\
 
 Tester / QA (rol compartido)
-  &  5 h & 3 meses & ${\sim}$\$4{,}500.00 MXN \\
+  &  5 h & 12 meses & ${\sim}$\$36{,}000.00 MXN \\
 
 \midrule
 \multicolumn{3}{@{} >{\raggedright\arraybackslash}p{9cm}}%
   {\textbf{Subtotal capital humano:}} &
-  ${\sim}$\textbf{\$106{,}500.00 MXN} \\
+  ${\sim}$\textbf{\$468{,}000.00 MXN} \\
 
 \bottomrule
 \end{tabularx}
@@ -1160,10 +1161,7 @@ Tester / QA (rol compartido)
 \vspace{3pt}
 \begin{minipage}{\textwidth}
   \scriptsize
-  \textsuperscript{*}Valoración basada en tarifas freelance senior de ingeniería de software en México
-  (CDMX) para el periodo 2024--2025, estimadas en un promedio ponderado de \$150.00 MXN
-  por hora. Esta aportación representa una donación de capital tecnológico al IPN y no
-  implica desembolso institucional.
+  \textsuperscript{*}Valoración computada a un año calendario (base de 4 semanas mensuales / 48 semanas totales de desarrollo activo) con tarifas freelance senior de ingeniería de software en México (CDMX) para el periodo 2024--2025, estimadas en un promedio ponderado de \$150.00 MXN por hora. Esta aportación representa una donación de capital tecnológico al IPN y no implica desembolso institucional.
 \end{minipage}
 \end{table}
 
@@ -1225,7 +1223,7 @@ Supabase Pro Plan (contingencia escalabilidad)
 \subsection{Resumen de Inversión Total y Valor Generado}
 \label{subsec:resumen_inversion}
 
-La Tabla~\ref{tab:resumen_costos} consolida todos los componentes de costo e ilustra la relación de alta eficiencia entre la inversión desembolsable real y el valor tecnológico neto generado para la institución.
+La Tabla~\ref{tab:resumen_costos} consolida todos los componentes de costo e ilustra la relación de alta eficiencia entre la inversión desembolsable real y el valor tecnológico neto generado para la institución durante un ciclo completo de doce meses.
 
 \begin{table}[htbp]
 \centering
@@ -1247,7 +1245,7 @@ Software y licencias de despliegue (CAPEX)
   & ${\sim}$\$650.00 MXN + \$25.00 USD \\
 
 Capital humano especializado (aportación donada al IPN)
-  & ${\sim}$\$106{,}500.00 MXN \\
+  & ${\sim}$\$468{,}000.00 MXN \\
 
 Operación anual base en producción (OPEX)
   & \$0.00 -- \$200.00 MXN / año \\
@@ -1263,7 +1261,7 @@ Operación anual base en producción (OPEX)
 \multicolumn{1}{@{} >{\raggedright\arraybackslash}X}%
   {\cellcolor{gray!8}\textbf{Valor tecnológico aportado al IPN:}} &
   \multicolumn{1}{>{\raggedleft\arraybackslash}p{5.5cm} @{}}%
-  {\cellcolor{gray!8}${\sim}$\textbf{\$108{,}950.00 MXN}} \\
+  {\cellcolor{gray!8}${\sim}$\textbf{\$470{,}450.00 MXN}} \\
 
 \bottomrule
 \end{tabularx}
@@ -1272,14 +1270,13 @@ Operación anual base en producción (OPEX)
 \begin{minipage}{\textwidth}
   \scriptsize
   La inversión desembolsable real se limita a hardware accesorio y la cuenta de
-  Google Play Console. El capital humano (\$106{,}500.00 MXN) representa una
+  Google Play Console. El capital humano (\$468{,}000.00 MXN) representa una
   aportación tecnológica al IPN sin implicar desembolso institucional. El valor
   tecnológico total incluye todas las categorías valuadas a precio de mercado.
 \end{minipage}
 \end{table}
 
-La inversión real desembolsable por parte del equipo de desarrollo asciende a aproximadamente $\$2,450.00$ MXN más el pago único de $\$25.00$ USD para la activación de la consola de Google Play. Este monto contrasta de forma drástica con el valor tecnológico de mercado de la solución, estimado en $\$108,950.00$ MXN, lo que representa un retorno de valor para la institución de aproximadamente 44 veces la inversión monetaria efectiva.
-
+La inversión real desembolsable por parte del equipo de desarrollo asciende a aproximadamente $\$2,450.00$ MXN más el pago único de $\$25.00$ USD para la activación de la consola de Google Play. Este monto contrasta de forma drástica con el valor tecnológico de mercado de la solución, estimado en $\$470{,}450.00$ MXN, lo que representa un retorno de valor para la institución de aproximadamente 192 veces la inversión monetaria efectiva.
 \subsection{Escenarios de Escalabilidad y Contingencia de Costos}
 \label{subsec:escenarios_escalabilidad}
 
@@ -1487,3 +1484,110 @@ El siguiente extracto normativo se presenta de forma obligatoria y condensada al
 \end{quote}
 
 Al utilizar la plataforma AUTECH, el usuario consiente de forma plena y consciente el tratamiento y la transferencia controlada de sus datos personales bajo las finalidades y restricciones académicas estrictamente delimitadas en este cuerpo normativo.
+
+\subsection{Aviso de Privacidad Simplificado (Onboarding)}
+\label{subsec:privacidad_simplificado}
+
+El siguiente extracto normativo se presenta de forma obligatoria y condensada al estudiante previo al procesamiento de su registro en la interfaz móvil, conforme a los requisitos estipulados en el Artículo 16 de la LFPDPPP:
+
+\begin{quote}
+    \small \textit{\textbf{AVISO DE PRIVACIDAD SIMPLIFICADO AUTECH:} El Instituto Politécnico Nacional, a través del proyecto de titulación AUTECH (ESCOM), es responsable del tratamiento de sus datos de identidad y progreso didáctico. Se manifiesta explícitamente que \textbf{AUTECH no es una aplicación de enseñanza pura ni busca suplir las cátedras formales o la materia impartida en la institución, operando únicamente como un material didáctico y tecnológico de soporte para las clases}. Sus datos se procesan con fines exclusivos de: (1) gestionar su acceso al sistema, (2) personalizar las simulaciones del lienzo interactivo, y (3) proveer métricas de aprovechamiento agregadas a su docente titular. No compartimos información con terceros con fines lucrativos o comerciales. El uso del lienzo requiere dispositivos móviles con un hardware mínimo de 3 GB de memoria RAM para evitar degradación de rendimiento. Puede ejercer sus derechos ARCO de forma directa desde el menú de Perfil en la Aplicación o mediante el correo egarcial1900@alumno.ipn.mx. El Aviso de Privacidad completo puede ser consultado en la sección de Configuración de este software.}
+\end{quote}
+
+Al utilizar la plataforma AUTECH, el usuario consiente de forma plena y consciente el tratamiento y la transferencia controlada de sus datos personales bajo las finalidades y restricciones académicas estrictamente delimitadas en este cuerpo normativo.
+
+\section{Alcance y Limitaciones del Sistema}
+\label{sec:alcance_limitaciones}
+
+Para establecer las fronteras operativas del ecosistema AUTECH y guiar las suites de pruebas integrales, se delimitaron las capacidades del sistema con base en la infraestructura física (Hardware) y los componentes lógicos (Software) empleados durante el ciclo anual de desarrollo. 
+
+\subsection{Alcance y Limitaciones Basados en Hardware}
+\label{subsec:alcance_limitaciones_hardware}
+
+Esta dimensión define las capacidades y restricciones del sistema impuestas por los dispositivos físicos de cómputo, dispositivos móviles de pruebas y la infraestructura de red disponible bajo el modelo BYOD.
+
+\subsubsection{Qué SÍ cubre el sistema (Alcance)}
+\begin{itemize}
+    \item \textbf{Compatibilidad Multidispositivo Android:} La aplicación móvil está optimizada para ejecutarse en dispositivos con procesadores basados en arquitectura ARMv7 y ARM64, cubriendo desde gamas medias-bajas hasta gamas altas.
+    \item \textbf{Adaptabilidad de Canvas Móvil:} El lienzo interactivo ajusta automáticamente su densidad de pixeles y coordenadas de renderizado a diferentes resoluciones de pantalla (desde pantallas de 5.5 pulgadas hasta tabletas de 10 pulgadas) mediante el uso de vectores proporcionales.
+    \item \textbf{Diseño Responsivo en Escritorio (Dashboard):} La interfaz web para el docente está diseñada para desplegarse correctamente en monitores externos con resolución estándar HD ($1280 \times 720$) y Full HD ($1920 \times 1080$), optimizando el espacio del tablero analítico.
+    \item \textbf{Soporte de Entrada Híbrida:} El motor gráfico reconoce eventos táctiles multipunto en dispositivos móviles (gestos de arrastre, pinza para \textit{zoom} y pulsación larga) y eventos de mouse/teclado en la plataforma desktop del docente.
+\end{itemize}
+
+\subsubsection{Qué NO cubre el sistema (Limitaciones)}
+\begin{itemize}
+    \item \textbf{Restricción de Densidad Topológica por Memoria Volátil:} El lienzo gráfico limita la construcción a un máximo de 100 elementos activos simultáneos (estados y transiciones). Exceder este límite en hardware de gama baja (menos de 3 GB de memoria RAM) provocaría la recolección agresiva de basura por parte del sistema operativo, degradando la tasa de refresco por debajo de los 30 FPS.
+    \item \textbf{Límite Físico de la Cinta de Turing:} Informáticamente, la cinta infinita de la Máquina de Turing está acotada a un vector dinámico indexado de un máximo de 10,000 celdas en memoria RAM. El sistema detiene el cabezal e inyecta un deslinde didáctico antes de saturar el desbordamiento de memoria (\textit{OutOfMemoryError}) del teléfono.
+    \item \textbf{Dependencia de Arquitectura x86/x64 para el Docente:} El Dashboard web y su entorno de ejecución local están restringidos a arquitecturas de escritorio convencionales. No se contempla soporte nativo ni optimización para procesamiento en tabletas o dispositivos móviles para el rol de profesor.
+    \item \textbf{Incompatibilidad con Periféricos Externos de Entrada de Datos:} El sistema no soporta la lectura de archivos de autómatas a través de conexiones físicas directas (como memorias USB OTG) en la aplicación móvil, delegando la transferencia estrictamente al almacenamiento interno del dispositivo o a la nube.
+\end{itemize}
+
+\subsubsection{Clasificación de Compatibilidad y Línea Base de Dispositivos Móviles}
+\label{subsubsec:linea_base_hardware}
+
+Para garantizar una experiencia de usuario fluida y libre de interrupciones lógicas durante las simulaciones matemáticas, se determinó empíricamente la matriz de compatibilidad de hardware móvil detallada en la Tabla~\ref{tab:matriz_hardware_movil}. Esta segmentación define los umbrales de hardware donde el motor gráfico de Flutter y Flame opera con estabilidad de fotogramas frente a aquellos escenarios que degradan la aplicación.
+
+\begin{table}[htbp]
+\centering
+\caption{Matriz de compatibilidad y rendimiento de AUTECH en hardware móvil.}
+\label{tab:matriz_hardware_movil}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\scriptsize
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{2.4cm} >{\raggedright\arraybackslash}X >{\raggedleft\arraybackslash}p{3cm} @{}}
+\toprule
+\textbf{Categoría de Perfil} &
+\textbf{Especificación Mínima} &
+\textbf{Comportamiento Operativo Esperado} &
+\textbf{Estado de Soporte} \\
+\midrule
+
+\textbf{Gama Alta / Flagship} \newline (A partir de 2023)
+  & $\ge$ 8 GB RAM \newline SoC Octa-Core \newline (Snapdragon G8 / equiv.)
+  & Rendimiento óptimo sostenido a 60 FPS. Renderizado fluido en animaciones complejas de la Máquina de Turing y cálculo inmediato de transiciones no deterministas en hilos paralelos.
+  & \textcolor{green!70!black}{\textbf{Soporte Pleno \newline (Recomendado)}} \\
+\midrule
+
+\textbf{Gama Media Estándar} \newline (A partir de 2021)
+  & 4 GB a 6 GB RAM \newline SoC Octa-Core \newline (Snapdragon G6 / Helio G90)
+  & Operación estable entre 45 y 60 FPS. Caídas menores y transitorias de fotogramas únicamente durante la ejecución de algoritmos de conversión masiva (\textit{Bulk Tests}) en el Isolate.
+  & \textcolor{blue!70!black}{\textbf{Soporte Nominal \newline (Apto)}} \\
+\midrule
+
+\textbf{Gama Baja / Entrada} \newline (Dispositivos legacy)
+  & 3 GB RAM \newline SoC Quad-Core \newline (Snapdragon 400 / Helio P22)
+  & Operación restringida a un promedio de 30 FPS. Latencia perceptible al arrastrar estados en el Canvas táctil y ralentización en simulaciones con cintas extensas.
+  & \textcolor{orange!80!black}{\textbf{Soporte Restringido \newline (Mínimo funcional)}} \\
+\midrule
+
+\textbf{Gama Ultra-Baja / Android Go} \newline (Hardware obsoleto)
+  & $\le$ 2 GB RAM \newline SoC Quad-Core antiguo \newline (MediaTek MT6739)
+  & Degradación crítica del rendimiento por debajo de los 15 FPS. El sistema operativo detiene la aplicación de forma abrupta mediante excepciones \textit{OutOfMemoryError} debido al tamaño del árbol de widgets en memoria.
+  & \textcolor{red!70!black}{\textbf{No Compatible \newline (Bloqueado)}} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Como se observa en la Tabla~\ref{tab:matriz_hardware_movil}, la barrera crítica de hardware para la ejecución de AUTECH radica en la memoria RAM disponible. Los dispositivos con menos de 3 GB de RAM quedan explícitamente excluidos del canal de distribución debido a las demandas del motor gráfico al manejar estructuras de grafos interactivos dinámicos.
+
+\subsection{Alcance y Limitaciones Basados en Software}
+\label{subsec:alcance_limitaciones_software}
+
+Esta dimensión delimita las fronteras del software respecto al sistema operativo, el motor de base de datos relacional y NoSQL, y el procesamiento matemático de los algoritmos formales.
+
+\subsubsection{Qué SÍ cubre el sistema (Alcance)}
+\begin{itemize}
+    \item \textbf{Soporte de Sistema Operativo Android Base:} La aplicación móvil es compatible a partir de Android 8.0 (API level 26, Oreo) en adelante, garantizando una cobertura de más del $90\%$ del mercado de dispositivos activos en la comunidad estudiantil.
+    \item \textbf{Procesamiento Asíncrono en Paralelo (Isolates):} Los algoritmos de conversión formal (AFND $\rightarrow$ AFD, minimización de estados y parsing de Expresiones Regulares) se ejecutan en \textit{Isolates} independientes de Dart, liberando al hilo principal de la interfaz de usuario de congelamientos lógicos.
+    \item \textbf{Persistencia Híbrida Tolerante a Fallos de Red:} Implementación del patrón \textit{Offline-First}. El software escribe de forma atómica en cajas binarias de Hive NoSQL localmente, y sincroniza las tramas JSON mediante transacciones seguras hacia Supabase Cloud al detectqc conectividad a internet.
+    \item \textbf{Interoperabilidad mediante Estándar XML JFLAP:} El sistema incluye un \textit{parser} que traduce estructuras jerárquicas de archivos con extensión \texttt{.jff} (provenientes del software JFLAP) a cadenas JSON nativas legibles por el lienzo de AUTECH.
+    \item \textbf{Seguridad y Privacidad por Rol (RLS):} La persistencia en la nube está blindada mediante políticas de seguridad a nivel de fila (\textit{Row Level Security}) en PostgreSQL, impidiendo que un estudiante acceda a datos de progreso de otros usuarios.
+\end{itemize}
+
+\subsubsection{Qué NO cubre el sistema (Limitaciones)}
+\begin{itemize}
+    \item \textbf{Restricción de Cuota en Capa Gratuita (BaaS):} Bajo el escenario financiero base de \$0.00 MXN, el software está limitado estrictamente a los umbrales del plan gratuito de Supabase (500 MB de almacenamiento relacional y 50,000 peticiones mensuales a la API). Romper estas cuotas congelaría la sincronización en la nube hasta el siguiente ciclo de facturación.
+    \item \textbf{Exclusión de Autómatas Tipo 1 (Linealmente Acotados):} El motor matemático no procesa Autómatas Linealmente Acotados (LBA) ni Gramáticas Sensibles al Contexto, debido a que el plan de estudios vigente de la ESCOM-IPN prioriza la transición directa de Autómatas de Pila a la Máquina de Turing Universal.
+    \item \textbf{Ausencia de Compilación o Derivación de Gramáticas Tipo 0:} El sistema valida cadenas únicamente mediante transiciones de estados (reconocedores); \textbf{no implementa} un motor de producción o derivación sintáctica pura basada en reglas de sustitución de gramáticas no restringidas.
+    \item \textbf{Procesamiento de Pruebas Masivas Restringido al Cliente:} Las evaluaciones de cadenas en lote (\textit{Bulk Tests}) se ejecutan utilizando el procesador del dispositivo móvil del alumno. El software no incluye servicios en la nube (Cloud Functions o microservicios) para cómputo distribuido o masivo en servidores remotos.
+\end{itemize}
